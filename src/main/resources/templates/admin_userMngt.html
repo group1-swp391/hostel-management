@@ -5,7 +5,7 @@
     <title>User Management - Admin</title>
 </head>
 <body>
-<form action="/searchName" method="get">
+<form action="searchName" method="get">
   <input type="text" name="userName" placeholder="Enter userName..." th:value="${userName}"/>
   <button type="submit">Search</button>
 </form>
@@ -14,7 +14,7 @@
     <th>user Name</th>
   </tr>
   <tr>
-    <td th:value="${}"></td>
+    <td th:value="${userName}"></td>
   </tr>
 </table>
 </body>

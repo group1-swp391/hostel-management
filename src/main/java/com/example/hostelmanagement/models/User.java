@@ -28,7 +28,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "roleID")
-    private String roleID;
+    private int roleID;
     @Column(name = "documentID")
     private String documentID;
     @Column(name = "documentFrontSide")
@@ -114,11 +114,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRoleID() {
+    public int getRoleID() {
         return roleID;
     }
 
-    public void setRoleID(String roleID) {
+    public void setRoleID(int roleID) {
         this.roleID = roleID;
     }
 

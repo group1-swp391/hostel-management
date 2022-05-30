@@ -18,24 +18,37 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @RequestMapping(value = "showInfo")
-    public String showInfo(@NotNull HttpSession session) {
+    @GetMapping(value = "showInfo")
+    public String showInfo(HttpSession session) {
         if (session.getAttribute("LOGIN_USER")==null) {
             return "login";
         }
         return "userinfo";
     }
 
+    @GetMapping(value = "login")
+    public String login() {
+        return "login";
+    }
+
     @PostMapping(value = "login")
-    public String login(@RequestParam("userName") String userName, @RequestParam("password") String password, HttpSession session, ModelMap mm) {
+    public String login(@RequestParam(name = "userName",required = false) String userName, @RequestParam(name = "password",required = false) String password, HttpSession session, ModelMap mm) {
         User user = userRepository.getUserByUserNameAndPassword(userName, password);
         if(user!=null) {
             session.setAttribute("LOGIN_USER", user);
+            if (user.getRoleID()==2) {
+                return "admin_userMngt";
+            }
             return "index";
         } else {
             mm.put("message", "Invalid account");
             return "login";
         }
+    }
+    @RequestMapping(value = "logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "index";
     }
     @RequestMapping(value = "register")
     public String register(@RequestParam("hostelId") String hostelId, ModelMap mm) {
@@ -51,8 +64,8 @@ public class UserController {
         mm.put("message", user.getUserName());
         return "welcome";
     }
-    @GetMapping(value = "{userName}")
-    public String searchName(@RequestParam("userName") String userName, ModelMap mm) {
+    @GetMapping(value = "searchName")
+    public String searchName(@RequestParam(name = "userName",required = false) String userName, ModelMap mm) {
         try {
             mm.put("userName", userName);
             List<User> users = userRepository.getAllByAName(userName);
