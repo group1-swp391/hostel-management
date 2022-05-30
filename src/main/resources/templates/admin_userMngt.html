@@ -9,12 +9,25 @@
   <input type="text" name="userName" placeholder="Enter userName..." th:value="${userName}"/>
   <button type="submit">Search</button>
 </form>
-<table>
+<p th:text="${message}"></p>
+<table border="1">
   <tr>
-    <th>user Name</th>
+      <th>Full Name</th>
+    <th>User Name</th>
+      <th>Gender</th>
+      <th>Date of Birth</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Role ID</th>
   </tr>
-  <tr>
-    <td th:value="${userName}"></td>
+  <tr th:each="user: ${users}">
+      <td th:text="${user.fullName}"></td>
+    <td th:text="${user.userName}"></td>
+      <td th:text="${user.gender}"></td>
+      <td th:text="${user.dateOfBirth}"></td>
+      <td th:text="${user.phone}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.roleID}"></td>
   </tr>
 </table>
 </body>

@@ -69,8 +69,14 @@ public class UserController {
         try {
             mm.put("userName", userName);
             List<User> users = userRepository.getAllByAName(userName);
+            if (users.isEmpty()) {
+                mm.put("message", "No result");
+            }else {
+                mm.put("message","Total result: "+users.size());
+                mm.put("users", users);
+            }
         } catch (Exception e) {
-
+            System.out.println("error");
         } finally {
             return "admin_userMngt";
         }
