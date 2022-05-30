@@ -1,6 +1,7 @@
 package com.example.hostelmanagement.models;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -22,21 +23,41 @@ public class User {
     private String email;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "address")
-    private String address;
     @Column(name = "userName")
     private String userName;
     @Column(name = "password")
     private String password;
     @Column(name = "roleID")
     private String roleID;
+    @Column(name = "documentID")
+    private String documentID;
+    @Column(name = "documentFrontSide")
+    private byte[] documentFrontSide;
+    @Column(name = "documentBackSide")
+    private byte[] documentBackSide;
     @Column(name = "userStatus")
-    private byte userStatus;
+    private boolean userStatus;
 
     public User() {
     }
 
-    public boolean getGender() {
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public boolean isGender() {
         return gender;
     }
 
@@ -76,13 +97,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public String getUserName() {
         return userName;
@@ -90,30 +104,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public byte getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(byte userStatus) {
-        this.userStatus = userStatus;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getPassword() {
@@ -132,11 +122,35 @@ public class User {
         this.roleID = roleID;
     }
 
-    public byte getStatus() {
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public byte[] getDocumentFrontSide() {
+        return documentFrontSide;
+    }
+
+    public void setDocumentFrontSide(byte[] documentFrontSide) {
+        this.documentFrontSide = documentFrontSide;
+    }
+
+    public byte[] getDocumentBackSide() {
+        return documentBackSide;
+    }
+
+    public void setDocumentBackSide(byte[] documentBackSide) {
+        this.documentBackSide = documentBackSide;
+    }
+
+    public boolean isUserStatus() {
         return userStatus;
     }
 
-    public void setStatus(byte userStatus) {
+    public void setUserStatus(boolean userStatus) {
         this.userStatus = userStatus;
     }
 
@@ -145,15 +159,16 @@ public class User {
         return "User{" +
                 "userId='" + userId + '\'' +
                 ", fullName='" + fullName + '\'' +
-                ", gender='" + gender + '\'' +
+                ", gender=" + gender +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", REGTIME=" + REGTIME +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
                 ", userName='" + userName + '\'' +
-//                ", password='" + password + '\'' +
                 ", roleID='" + roleID + '\'' +
+                ", documentID='" + documentID + '\'' +
+                ", documentFrontSide=" + Arrays.toString(documentFrontSide) +
+                ", documentBackSide=" + Arrays.toString(documentBackSide) +
                 ", userStatus=" + userStatus +
                 '}';
     }

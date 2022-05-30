@@ -2,41 +2,47 @@ package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.models.User;
 import com.example.hostelmanagement.repositories.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
 @Controller
-@RequestMapping(value = "api/v1/User")
+@RequestMapping(value = "api/v1/User/")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @RequestMapping(value = "/login")
-    public String login() {
-        return "login";
+    @RequestMapping(value = "showInfo")
+    public String showInfo(@NotNull HttpSession session) {
+        if (session.getAttribute("LOGIN_USER")==null) {
+            return "login";
+        }
+        return "userinfo";
     }
 
-    @PostMapping(value = "/login")
-    public String login(@ModelAttribute(value = "user") User user, ModelMap mm) {
-        if (user.getUserName().equals("long")&&user.getPassword().equals("123")) {
-            mm.put("message", user.getUserName());
-            return "welcome";
-        }else {
+    @PostMapping(value = "login")
+    public String login(@RequestParam("userName") String userName, @RequestParam("password") String password, HttpSession session, ModelMap mm) {
+        User user = userRepository.getUserByUserNameAndPassword(userName, password);
+        if(user!=null) {
+            session.setAttribute("LOGIN_USER", user);
+            return "index";
+        } else {
             mm.put("message", "Invalid account");
             return "login";
         }
     }
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "register")
     public String register(@RequestParam("hostelId") String hostelId, ModelMap mm) {
         mm.put("hostelId", hostelId);
         return "register";
     }
-    @PostMapping(value = "/register")
+    @PostMapping(value = "register")
     public String register(@ModelAttribute(value = "user") User user, ModelMap mm) {
         if (!user.getUserName().equals("long")) {
             mm.put("error", "Register failed");
@@ -45,7 +51,7 @@ public class UserController {
         mm.put("message", user.getUserName());
         return "welcome";
     }
-    @GetMapping(value = "/searchName/{userName}")
+    @GetMapping(value = "{userName}")
     public String searchName(@RequestParam("userName") String userName, ModelMap mm) {
         try {
             mm.put("userName", userName);

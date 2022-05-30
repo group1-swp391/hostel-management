@@ -13,5 +13,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM tbl_Users AS u Where u.userName LIKE %:userName%")
     public List<User> getAllByAName(@Param("userName") String userName);
 
-
+    @Query(nativeQuery = true, value = "SELECT * FROM tbl_Users AS u Where u.userName = :userName AND u.password = :password AND u.userStatus = 1")
+    public User getUserByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 }

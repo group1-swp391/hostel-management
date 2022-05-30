@@ -5,6 +5,6 @@
     <title>Welcome - Hostel</title>
 </head>
 <body>
-    <h1>Welcome <p th:text="${message}"></p></h1>
+    <h1>Welcome <th:block th:text="${#session.getAttribute('LOGIN_USER').getUserName()}"></th:block></h1>
 </body>
 </html>
