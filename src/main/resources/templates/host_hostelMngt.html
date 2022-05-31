@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hostel - Host</title>
+</head>
+<body>
+<form action="hostel" method="get">
+    Hostel Name <input type="text" name="hostelName" placeholder="Enter your hostelName" th:value="${hostelName}">
+    <button type="submit">Search</button>
+</form>
+    <p th:text="${message}"></p>
+    <table border="1">
+        <tr>
+            <th>Hostel ID</th>
+            <th>Hostel Name</th>
+            <th>Address</th>
+            <th>Quantity</th>
+            <th>Operation</th>
+        </tr>
+        <form action="insertHostel" method="post">
+            <td><input type="text" value="hostelId" readonly></td>
+            <td><input type="text" name="newHostelName" placeholder="New hostel name..."></td>
+            <td><input type="text" name="newAddress" placeholder="New address..."></td>
+            <td><input type="text" name="newQuantity" placeholder="New quantity..."></td>
+            <td>
+                <button type="submit">Insert</button></td>
+        </form>
+        <tr th:each="hostel: ${hostels}">
+            <td th:text="${hostel.hostelID}"></td>
+            <td th:text="${hostel.hostelName}"></td>
+            <td th:text="${hostel.address}"></td>
+            <td th:text="${hostel.room_quality}"></td>
+        </tr>
+    </table>
+</body>
+</html>

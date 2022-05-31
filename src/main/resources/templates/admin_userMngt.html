@@ -5,6 +5,7 @@
     <title>User Management - Admin</title>
 </head>
 <body>
+<a href="/api/v1/hostel/">Host Manager</a>
 <form action="searchName" method="get">
   <input type="text" name="userName" placeholder="Enter userName..." th:value="${userName}"/>
   <button type="submit">Search</button>
@@ -29,6 +30,7 @@
       <td th:text="${user.email}"></td>
       <td th:text="${user.roleID}"></td>
   </tr>
+  <a th:href="@{login.html?id=${userID}}"></a>
 </table>
 </body>
 </html>
