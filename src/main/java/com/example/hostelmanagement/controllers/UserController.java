@@ -36,8 +36,11 @@ public class UserController {
         User user = userRepository.getUserByUserNameAndPassword(userName, password);
         if(user!=null) {
             session.setAttribute("LOGIN_USER", user);
-            if (user.getRoleID()==2) {
+            if (user.getRoleID()==1) {
                 return "admin_userMngt";
+            }
+            if (user.getRoleID()==2) {
+                return "host_hostelMngt";
             }
             return "index";
         } else {

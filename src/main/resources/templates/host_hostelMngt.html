@@ -5,7 +5,8 @@
     <title>Hostel - Host</title>
 </head>
 <body>
-<form action="hostel" method="get">
+<p><a href="/api/v1/User/logout">Logout</a></p>
+<form action="/api/v1/hostel/hostelSearch" method="get">
     Hostel Name <input type="text" name="hostelName" placeholder="Enter your hostelName" th:value="${hostelName}">
     <button type="submit">Search</button>
 </form>
@@ -17,21 +18,28 @@
             <th>Address</th>
             <th>Quantity</th>
             <th>Operation</th>
+            <th>Delete</th>
         </tr>
         <form action="insertHostel" method="post">
             <td><input type="text" value="hostelId" readonly></td>
             <td><input type="text" name="newHostelName" placeholder="New hostel name..."></td>
             <td><input type="text" name="newAddress" placeholder="New address..."></td>
             <td><input type="text" name="newQuantity" placeholder="New quantity..."></td>
-            <td>
-                <button type="submit">Insert</button></td>
+            <td><button type="submit">Insert</button></td>
+            <td><button type="reset">Reset</button></td>
         </form>
-        <tr th:each="hostel: ${hostels}">
-            <td th:text="${hostel.hostelID}"></td>
-            <td th:text="${hostel.hostelName}"></td>
-            <td th:text="${hostel.address}"></td>
-            <td th:text="${hostel.room_quality}"></td>
-        </tr>
+
+            <tr th:each="hostel: ${hostels}">
+                <form method="get">
+                    <td><input type="text" name="hostelID"  th:value="${hostel.hostelID}" readonly></td>
+                    <td><input type="text" name="hostelName"  th:value="${hostel.hostelName}"></td>
+                    <td><input type="text" name="address"  th:value="${hostel.address}"></td>
+                    <td><input type="text" name="room_quality"  th:value="${hostel.room_quality}"></td>
+                    <td><button formaction="/api/v1/hostel/update" type="submit" name="update" value="Update">Update</button></td>
+                    <td><button formaction="/api/v1/hostel/delete" type="submit" name="delete" value="Delete">Delete</button></td>
+                </form>
+            </tr>
+
     </table>
 </body>
 </html>

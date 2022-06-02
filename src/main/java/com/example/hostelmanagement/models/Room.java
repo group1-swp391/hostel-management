@@ -25,6 +25,9 @@ public class Room {
     @Basic
     @Column(name = "image")
     private byte[] image;
+    @Basic
+    @Column(name = "hostelID")
+    private Integer hostelId;
 
     public int getRoomId() {
         return roomId;
@@ -74,19 +77,28 @@ public class Room {
         this.image = image;
     }
 
+    public Integer getHostelId() {
+        return hostelId;
+    }
+
+    public void setHostelId(Integer hostelId) {
+        this.hostelId = hostelId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Room that = (Room) o;
+        Room room = (Room) o;
 
-        if (roomId != that.roomId) return false;
-        if (roomNumber != that.roomNumber) return false;
-        if (typeId != that.typeId) return false;
-        if (roomStatus != that.roomStatus) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (!Arrays.equals(image, that.image)) return false;
+        if (roomId != room.roomId) return false;
+        if (roomNumber != room.roomNumber) return false;
+        if (typeId != room.typeId) return false;
+        if (roomStatus != room.roomStatus) return false;
+        if (userId != null ? !userId.equals(room.userId) : room.userId != null) return false;
+        if (!Arrays.equals(image, room.image)) return false;
+        if (hostelId != null ? !hostelId.equals(room.hostelId) : room.hostelId != null) return false;
 
         return true;
     }
@@ -99,6 +111,7 @@ public class Room {
         result = 31 * result + typeId;
         result = 31 * result + (roomStatus ? 1 : 0);
         result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + (hostelId != null ? hostelId.hashCode() : 0);
         return result;
     }
 }
