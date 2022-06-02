@@ -1,6 +1,6 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.models.QRCode;
+import com.example.hostelmanagement.entities.QRCode;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;

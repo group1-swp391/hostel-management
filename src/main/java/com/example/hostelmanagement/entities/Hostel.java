@@ -1,4 +1,4 @@
-package com.example.hostelmanagement.models;
+package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
 

@@ -1,7 +1,7 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.models.Hostel;
-import com.example.hostelmanagement.models.User;
+import com.example.hostelmanagement.entities.Hostel;
+import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.HostelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class HostelContoller {
         return "host_hostelMngt";
     }
 
-    @PostMapping(value = "insertHostel")
+    @PostMapping(value = "insert")
     public String insertHostel(ModelMap mm, HttpSession session,@RequestParam("newAddress") String newAddress,@RequestParam("newHostelName") String newHostelName, @RequestParam("newQuantity") int newQuantity){
         User loginUser = (User) session.getAttribute("LOGIN_USER");
         hostelRepository.save(new Hostel(loginUser.getUserId(), newAddress, newHostelName, newQuantity, true));
@@ -58,8 +58,9 @@ public class HostelContoller {
         }
     }
 
-    @GetMapping(value = "hostelSearch")
-    public String getAllHostels(@RequestParam("hostelName") String hostelName, HttpSession session, ModelMap mm) {
+    @GetMapping(value = "search")
+    public String getAllHostels(@RequestParam(value = "hostelName", required = false) String hostelName, HttpSession session, ModelMap mm) {
+
         mm.put("hostelName", hostelName);
         User loginUser = (User) session.getAttribute("LOGIN_USER");
         mm.put("hostels", hostelRepository.findAllByOwnerHostelID(hostelName, loginUser.getUserId()));

@@ -1,8 +1,7 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.models.User;
+import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.UserRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -1,8 +1,8 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.models.Hostel;
-import com.example.hostelmanagement.models.User;
-import com.example.hostelmanagement.repositories.HostelRepository;
+import com.example.hostelmanagement.entities.Room;
+import com.example.hostelmanagement.entities.User;
+import com.example.hostelmanagement.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,55 +17,54 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "api/v1/Room/")
 public class RoomController {
     @Autowired
-    private HostelRepository hostelRepository;
+    private RoomRepository roomRepository;
 
     @GetMapping(value = "/")
     public String hostIndex() {
-        return "host_hostelMngt";
+        return "host_roomMngt";
     }
 
-    @PostMapping(value = "insertHostel")
-    public String insertHostel(ModelMap mm, HttpSession session,@RequestParam("newAddress") String newAddress,@RequestParam("newHostelName") String newHostelName, @RequestParam("newQuantity") int newQuantity){
-        User loginUser = (User) session.getAttribute("LOGIN_USER");
-        hostelRepository.save(new Hostel(loginUser.getUserId(), newAddress, newHostelName, newQuantity, true));
-        mm.put("message", "Insert new hostel successfully!");
-        return "host_hostelMngt";
-    }
+//    @PostMapping(value = "insert")
+//    public String insertRoom(ModelMap mm, HttpSession session, @RequestParam("newRoomNumber") int newRoomNumber, @RequestParam("newUserID") int newUserID, @RequestParam("newTypeID") int newTypeID){
+//        User loginUser = (User) session.getAttribute("LOGIN_USER");
+//        roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeID, true));
+//        mm.put("message", "Insert new hostel successfully!");
+//        return "host_roomMngt";
+//    }
+//
+//    @GetMapping(value = "delete")
+//    public String deleteRoom(ModelMap mm, @RequestParam(value = "RoomId") int roomId) {
+//        try {
+//            Room room = roomRepository.findById(roomId).get();
+//            room.setRoomStatus(false);
+//            roomRepository.save(room);
+//            mm.put("message","Delete room successfully");
+//        } catch (Exception e) {
+//            mm.put("message", "Delete room failed");
+//        } finally {
+//            return "host_roomMngt";
+//        }
+//    }
+//    @GetMapping(value = "update")
+//    public String updateRoom(ModelMap mm, @RequestParam(value = "hostelID") int hostelID, @RequestParam("hostelName") String hostelName, @RequestParam("address") String address, @RequestParam("room_quality") int room_quality) {
+//        try {
+//            Hostel hostel = roomRepository.findById(hostelID).get();
+//            hostel.setHostelName(hostelName);
+//            hostel.setAddress(address);
+//            hostel.setRoom_quality(room_quality);
+//            roomRepository.save(hostel);
+//            mm.put("message","Update hostel successfully");
+//        } catch (Exception e) {
+//            mm.put("message", "Update hostel failed");
+//        } finally {
+//            return "host_roomMngt";
+//        }
+//    }
 
-    @GetMapping(value = "delete")
-    public String deleteHostel(ModelMap mm, @RequestParam(value = "hostelID") int hostelID) {
-        try {
-            Hostel hostel = hostelRepository.findById(hostelID).get();
-            hostel.setHostelStatus(false);
-            hostelRepository.save(hostel);
-            mm.put("message","Delete hostel successfully");
-        } catch (Exception e) {
-            mm.put("message", "Delete hostel failed");
-        } finally {
-            return "host_hostelMngt";
-        }
-    }
-    @GetMapping(value = "update")
-    public String updateHostel(ModelMap mm, @RequestParam(value = "hostelID") int hostelID, @RequestParam("hostelName") String hostelName, @RequestParam("address") String address, @RequestParam("room_quality") int room_quality) {
-        try {
-            Hostel hostel = hostelRepository.findById(hostelID).get();
-            hostel.setHostelName(hostelName);
-            hostel.setAddress(address);
-            hostel.setRoom_quality(room_quality);
-            hostelRepository.save(hostel);
-            mm.put("message","Update hostel successfully");
-        } catch (Exception e) {
-            mm.put("message", "Update hostel failed");
-        } finally {
-            return "host_hostelMngt";
-        }
-    }
-
-    @GetMapping(value = "hostelSearch")
-    public String getAllHostels(@RequestParam("hostelName") String hostelName, HttpSession session, ModelMap mm) {
-        mm.put("hostelName", hostelName);
-        User loginUser = (User) session.getAttribute("LOGIN_USER");
-        mm.put("hostels", hostelRepository.findAllByOwnerHostelID(hostelName, loginUser.getUserId()));
-        return "host_hostelMngt";
+    @GetMapping(value = "search")
+    public String getAllRooms(@RequestParam("roomNumber") int roomNumber, HttpSession session, ModelMap mm) {
+        mm.put("roomNumber", roomNumber);
+        mm.put("hostels", roomRepository.findAllByRoomNumber(roomNumber));
+        return "host_roomMngt";
     }
 }

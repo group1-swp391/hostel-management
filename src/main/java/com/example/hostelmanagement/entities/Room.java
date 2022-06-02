@@ -1,7 +1,6 @@
-package com.example.hostelmanagement.models;
+package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "tbl_Room", schema = "dbo", catalog = "Hostel_Management")
@@ -15,7 +14,7 @@ public class Room {
     private int roomNumber;
     @Basic
     @Column(name = "UserID")
-    private Integer userId;
+    private int userId;
     @Basic
     @Column(name = "typeID")
     private int typeId;
@@ -27,7 +26,7 @@ public class Room {
     private byte[] image;
     @Basic
     @Column(name = "hostelID")
-    private Integer hostelId;
+    private int hostelId;
 
     public int getRoomId() {
         return roomId;
@@ -45,7 +44,7 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
@@ -77,7 +76,7 @@ public class Room {
         this.image = image;
     }
 
-    public Integer getHostelId() {
+    public int getHostelId() {
         return hostelId;
     }
 
@@ -85,33 +84,25 @@ public class Room {
         this.hostelId = hostelId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Room room = (Room) o;
-
-        if (roomId != room.roomId) return false;
-        if (roomNumber != room.roomNumber) return false;
-        if (typeId != room.typeId) return false;
-        if (roomStatus != room.roomStatus) return false;
-        if (userId != null ? !userId.equals(room.userId) : room.userId != null) return false;
-        if (!Arrays.equals(image, room.image)) return false;
-        if (hostelId != null ? !hostelId.equals(room.hostelId) : room.hostelId != null) return false;
-
-        return true;
+    public Room() {
     }
 
-    @Override
-    public int hashCode() {
-        int result = roomId;
-        result = 31 * result + roomNumber;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + typeId;
-        result = 31 * result + (roomStatus ? 1 : 0);
-        result = 31 * result + Arrays.hashCode(image);
-        result = 31 * result + (hostelId != null ? hostelId.hashCode() : 0);
-        return result;
+    public Room(int roomId, int roomNumber, int userId, int typeId, boolean roomStatus, byte[] image, int hostelId) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.userId = userId;
+        this.typeId = typeId;
+        this.roomStatus = roomStatus;
+        this.image = image;
+        this.hostelId = hostelId;
+    }
+
+    public Room(int roomNumber, int userId, int typeId, boolean roomStatus, byte[] image, int hostelId) {
+        this.roomNumber = roomNumber;
+        this.userId = userId;
+        this.typeId = typeId;
+        this.roomStatus = roomStatus;
+        this.image = image;
+        this.hostelId = hostelId;
     }
 }
