@@ -1,4 +1,4 @@
-package com.example.hostelmanagement.controllers;
+package com.example.hostelmanagement.controllers.HostelOwner;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

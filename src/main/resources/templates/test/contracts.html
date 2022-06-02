@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contract</title>
+</head>
+<body>
+<p th:text="${message}"></p>
+<p>Your contract</p>
+<table>
+    <thead>
+    <tr>
+        <th th:text="contractID">contractID</th>
+        <th th:text="startDate">startDate</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ct: ${contracts}">
+        <td th:text="${ct.contractId}"></td>
+        <td th:text="${ct.startDate}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

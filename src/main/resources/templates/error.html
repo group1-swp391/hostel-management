@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+    <h1>ERROR! </h1>
+    <h1 th:text="'Error! ' + ${message}"></h1>
+
+    <p>Login</p>
+    <a th:href='@{/api/v1/User/login}'>Here</a>
+
+</body>
+</html>
