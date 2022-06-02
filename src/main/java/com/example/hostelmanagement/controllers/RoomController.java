@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping(value = "api/v1/hostel/")
+@RequestMapping(value = "api/v1/Room/")
 public class RoomController {
     @Autowired
     private HostelRepository hostelRepository;
