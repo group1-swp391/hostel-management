@@ -6,25 +6,26 @@
 </head>
 <body>
     <h1>Register</h1>
-    <form action="/register" method="post">
-        Hostel Id: <input type="text" name="hostelId" value="1234" readonly><br>
+    <form action="/api/v1/User/register" method="post" enctype="multipart/form-data">
         <h2>Personal Information</h2>
         Full Name: <input type="text" name="fullName" placeholder="Enter your full name..."><br>
         Gender:
-        <input type="radio" id="male" name="gender" value="1">
+        <input type="radio" id="male" name="gender" value="Male">
         <label for="male">Male</label>
-        <input type="radio" id="female" name="gender" value="0">
+        <input type="radio" id="female" name="gender" value="Female">
         <label for="female">Female</label><br>
         Date of Birth: <input type="date" name="dateOfBirth"><br>
-        Register Time: <input type="text" name="REGTIME" th:value="${#dates.format(#dates.createNow(),'MM/dd/yyyy')}" readonly><br>
+<!--        Register Time: <input type="text" name="REGTIME" th:value="${#dates.format(#dates.createNow(),'MM/dd/yyyy')}" readonly><br>-->
         Email: <input type="email" name="email" placeholder="Enter your email..."><br>
         Phone: <input type="text" name="phone" placeholder="Enter your phone..."><br>
-        Address: <input type="text" name="address" placeholder="Enter your address...">
+        Document ID: <input type="text" name="documentId" placeholder="Enter your document ID..."><br>
+        Document Front Side <input type="file" name="documentFrontSide"><br>
+        Document Back Side <input type="file" name="documentBackSide"><br>
+        Role Id: <input type="number" name="roleId"><br>
         <h2>Account user</h2>
-        User Id: <input type="text" name="userId" value="user1" readonly>
         UserName: <input type="text" name="userName"><br>
         Password: <input type="password" name="password"><br>
-        <input type="hidden" name="userStatus" value="1">
+        Password: <input type="password" name="confirmPassword"><br>
         <button type="submit">Register</button>
         <p th:text="${error}"></p>
     </form>

@@ -1,14 +1,21 @@
 package com.example.hostelmanagement.controllers;
 
+import com.example.hostelmanagement.entities.Room;
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -25,6 +32,10 @@ public class UserController {
         return "userinfo";
     }
 
+    private byte[] getByteImage(Part image) throws IOException {
+        return image.getInputStream().readAllBytes();
+    }
+
     @GetMapping(value = "login")
     public String login() {
         return "login";
@@ -35,10 +46,10 @@ public class UserController {
         User user = userRepository.getUserByUserNameAndPassword(userName, password);
         if(user!=null) {
             session.setAttribute("LOGIN_USER", user);
-            if (user.getRoleID()==1) {
+            if (user.getRoleId()==1) {
                 return "admin_userMngt";
             }
-            if (user.getRoleID()==2) {
+            if (user.getRoleId()==2) {
                 return "host_hostelMngt";
             }
             return "index";
@@ -53,20 +64,35 @@ public class UserController {
         return "index";
     }
     @RequestMapping(value = "register")
-    public String register(@RequestParam("hostelId") String hostelId, ModelMap mm) {
-        mm.put("hostelId", hostelId);
+    public String register() {
         return "register";
     }
+//    @PostMapping(value = "register")
+//    public String register(@ModelAttribute(value = "user") User user, ModelMap mm) {
+//        if (!user.getUserName().equals("long")) {
+//            mm.put("error", "Register failed");
+//            return "register";
+//        }
+//        mm.put("message", user.getUserName());
+//        return "welcome";
+//    }
+
     @PostMapping(value = "register")
-    public String register(@ModelAttribute(value = "user") User user, ModelMap mm) {
-        if (!user.getUserName().equals("long")) {
+    public String register(@RequestParam("userName") String userName, @RequestParam("password") String password,
+                           @RequestParam("confirmPassword") String confirmPassword, @RequestParam("fullName") String fullName,
+                           @RequestParam("dateOfBirth") Date dateOfBirth, @RequestParam("gender") String gender,
+                           @RequestParam("phone") String phone, @RequestParam("email") String email, @RequestParam("documentId") String documentId,
+                           @RequestParam("documentFrontSide") Part documentFrontSide, @RequestParam("documentBackSide") Part documentBackSide,
+                           @RequestParam("roleId") int roleId, ModelMap mm) throws IOException {
+        if (!password.equals(confirmPassword)) {
             mm.put("error", "Register failed");
             return "register";
         }
-        mm.put("message", user.getUserName());
-        return "welcome";
+        userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, getByteImage(documentFrontSide), getByteImage(documentBackSide), roleId, true, new Date(System.currentTimeMillis())));
+        return "login";
     }
-    @GetMapping(value = "searchName")
+
+    @GetMapping(value = "search")
     public String searchName(@RequestParam(name = "userName",required = false) String userName, ModelMap mm) {
         try {
             mm.put("userName", userName);
@@ -82,5 +108,27 @@ public class UserController {
         } finally {
             return "admin_userMngt";
         }
+    }
+    @ResponseBody
+    @GetMapping("imageFront/{id}")
+    public ResponseEntity<byte[]> getFrontDocument(@PathVariable("id") int id) {
+        Optional<User> user = userRepository.findById(id);
+        byte[] imageBytes = null;
+        if (user.isPresent()) {
+
+            imageBytes = user.get().getDocumentFrontSide();
+        }
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+    }
+    @ResponseBody
+    @GetMapping("imageBack/{id}")
+    public ResponseEntity<byte[]> getBackDocument(@PathVariable("id") int id) {
+        Optional<User> user = userRepository.findById(id);
+        byte[] imageBytes = null;
+        if (user.isPresent()) {
+
+            imageBytes = user.get().getDocumentBackSide();
+        }
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 }

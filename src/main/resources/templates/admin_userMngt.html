@@ -5,8 +5,8 @@
     <title>User Management - Admin</title>
 </head>
 <body>
-<a href="/api/v1/hostel/">Host Manager</a>
-<form action="searchName" method="get">
+<a href="/api/v1/hostel/">Hostel Manager</a>
+<form action="/api/v1/User/search" method="get">
   <input type="text" name="userName" placeholder="Enter userName..." th:value="${userName}"/>
   <button type="submit">Search</button>
 </form>
@@ -19,6 +19,9 @@
       <th>Date of Birth</th>
       <th>Phone</th>
       <th>Email</th>
+    <th>Document Id</th>
+    <th>Document front side</th>
+    <th>Document back side</th>
       <th>Role ID</th>
   </tr>
   <tr th:each="user: ${users}">
@@ -28,9 +31,12 @@
       <td th:text="${user.dateOfBirth}"></td>
       <td th:text="${user.phone}"></td>
       <td th:text="${user.email}"></td>
-      <td th:text="${user.roleID}"></td>
+    <td th:text="${user.documentId}"></td>
+    <td><img style="width: 100px;" th:src="@{${'/api/v1/User/imageFront/'+user.userId}}" alt="Document front side"></td>
+    <td><img style="width: 100px;" th:src="@{${'/api/v1/User/imageBack/'+user.userId}}" alt="Document back side"></td>
+      <td th:text="${user.roleId}"></td>
   </tr>
-  <a th:href="@{login.html?id=${userID}}"></a>
+  <a th:href="@{login.html?id=${userId}}"></a>
 </table>
 </body>
 </html>
