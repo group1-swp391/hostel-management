@@ -43,7 +43,7 @@ public class UserController {
 
     @PostMapping(value = "login")
     public String login(@RequestParam(name = "userName",required = false) String userName, @RequestParam(name = "password",required = false) String password, HttpSession session, ModelMap mm) {
-        User user = userRepository.getUserByUserNameAndPassword(userName, password);
+        User user = userRepository.getUserByUserNameAndPasswordAndUserStatus(userName, password, true);
         if(user!=null) {
             session.setAttribute("LOGIN_USER", user);
             if (user.getRoleId()==1) {
@@ -96,7 +96,7 @@ public class UserController {
     public String searchName(@RequestParam(name = "userName",required = false) String userName, ModelMap mm) {
         try {
             mm.put("userName", userName);
-            List<User> users = userRepository.getAllByAName(userName);
+            List<User> users = userRepository.getAllByUserNameContains(userName);
             if (users.isEmpty()) {
                 mm.put("message", "No result");
             }else {
