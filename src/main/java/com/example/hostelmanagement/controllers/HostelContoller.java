@@ -67,7 +67,7 @@ public class HostelContoller {
 
         mm.put("hostelName", hostelName);
         User loginUser = (User) session.getAttribute("LOGIN_USER");
-        mm.put("hostels", hostelRepository.findAllByOwnerHostelID(hostelName, loginUser.getUserId()));
+        mm.put("hostels", hostelRepository.findAllByOwnerHostelIDAndHostelNameContainsAndHostelStatus(loginUser.getUserId(),hostelName,true));
         return "host_hostelMngt";
     }
 }
