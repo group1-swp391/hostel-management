@@ -1,6 +1,6 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.entities.Room;
+
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

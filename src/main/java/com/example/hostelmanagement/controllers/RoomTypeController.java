@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping(value = "api/v1/RoomType/")
@@ -67,7 +66,7 @@ public class RoomTypeController {
     @GetMapping(value = "search")
     public String getAllRoomType(@RequestParam(value = "roomName", required = false) String roomName, ModelMap mm) {
         mm.put("roomName", roomName);
-        mm.put("roomTypes", roomTypeRepository.findAllByRoomName(roomName));
+        mm.put("roomTypes", roomTypeRepository.findAllByRoomNameAndRoomTypeStatus(roomName, true));
         return "host_roomTypeMngt";
     }
 }
