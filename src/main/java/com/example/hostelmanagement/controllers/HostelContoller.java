@@ -23,9 +23,13 @@ public class HostelContoller {
 
     @PostMapping(value = "insert")
     public String insertHostel(ModelMap mm, HttpSession session,@RequestParam("newAddress") String newAddress,@RequestParam("newHostelName") String newHostelName, @RequestParam("newQuantity") int newQuantity){
-        User loginUser = (User) session.getAttribute("LOGIN_USER");
-        hostelRepository.save(new Hostel(loginUser.getUserId(), newAddress, newHostelName, newQuantity, true));
-        mm.put("message", "Insert new hostel successfully!");
+        try {
+            User loginUser = (User) session.getAttribute("LOGIN_USER");
+            hostelRepository.save(new Hostel(loginUser.getUserId(), newAddress, newHostelName, newQuantity, true));
+            mm.put("message", "Insert new hostel successfully!");
+        }catch (Exception e) {
+            mm.put("message", "Insert new hostel failed!");
+        }
         return "host_hostelMngt";
     }
 
