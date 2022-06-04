@@ -75,7 +75,7 @@ public class RoomController {
     @GetMapping(value = "search")
     public String getAllRooms(@RequestParam("roomNumber") int roomNumber, ModelMap mm) {
         mm.put("roomNumber", roomNumber);
-        mm.put("rooms", roomRepository.findAllByRoomNumber(roomNumber));
+        mm.put("rooms", roomRepository.findAllByRoomNumberAndRoomStatus(roomNumber, true));
         return "host_roomMngt";
     }
     @ResponseBody
