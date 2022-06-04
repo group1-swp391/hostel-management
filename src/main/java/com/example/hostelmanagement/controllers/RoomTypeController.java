@@ -25,8 +25,12 @@ public class RoomTypeController {
 
     @PostMapping(value = "insert")
     public String insertRoomType(ModelMap mm, @RequestParam("newRoomName") String newRoomName, @RequestParam("newDescription") String newDescription, @RequestParam("newPrice") double newPrice, @RequestParam("newDepositPrice") double newDepositPrice) {
-        roomTypeRepository.save(new RoomType(newDescription, newPrice, newDepositPrice, newRoomName, true));
-        mm.put("message", "Insert new hostel successfully!");
+        try {
+            roomTypeRepository.save(new RoomType(newDescription, newPrice, newDepositPrice, newRoomName, true));
+            mm.put("message", "Insert new hostel successfully!");
+        }catch (Exception e) {
+            mm.put("message", "Insert new hostel failed!");
+        }
         return "host_roomTypeMngt";
     }
 
