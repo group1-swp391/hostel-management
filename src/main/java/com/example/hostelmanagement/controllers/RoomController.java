@@ -32,9 +32,13 @@ public class RoomController {
 
     @PostMapping(value = "insert")
     public String insertRoom(ModelMap mm, HttpSession session, @RequestParam("newRoomNumber") int newRoomNumber, @RequestParam("newTypeId") int newTypeId, @RequestParam("hostelId") int hostelId, @RequestParam("newImage") Part newImage) throws IOException {
-        User loginUser = (User) session.getAttribute("LOGIN_USER");
-        roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId, true, getByteImage(newImage), hostelId));
-        mm.put("message", "Insert new hostel successfully!");
+        try {
+            User loginUser = (User) session.getAttribute("LOGIN_USER");
+            roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId, true, getByteImage(newImage), hostelId));
+            mm.put("message", "Insert new room successfully!");
+        }catch (Exception e) {
+            mm.put("message", "Insert new room failed!");
+        }
         return "host_roomMngt";
     }
 
