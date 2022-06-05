@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr th:text = "${contract.contractID}">a</tr>
+    <a th:href="@{/api/v1/User/historybill/{id}(id=${#session?.getAttribute('LOGIN_USER').getUserId()})/{id}(id=${contract.contractID})}" >history bill</a>
+</table>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.example.hostelmanagement.controllers;
 
+import com.example.hostelmanagement.models.Contract;
+import com.example.hostelmanagement.models.TblInvoiceEntity;
 import com.example.hostelmanagement.models.User;
 import com.example.hostelmanagement.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
@@ -80,5 +82,44 @@ public class UserController {
         } finally {
             return "admin_userMngt";
         }
+    }
+    @GetMapping(value = "history/{id}")
+    public String history(@PathVariable(name="id",required = false) int id, HttpSession session, ModelMap mm){
+        try {
+
+            List<Contract> history = userRepository.getHistoryOfUserByUserID(id);
+            if(!history.isEmpty())
+                mm.put("listHistory", history);
+            else
+                mm.put("message","history empty");
+        }
+        catch (Exception e){
+
+
+ }
+        finally {
+            return "history";
+        }
+
+    }
+    @GetMapping(value = "historyContract/{iduser}/{idcontract}")
+    public String viewContract(@PathVariable(name = "iduser",required = false) int iduser,@PathVariable(name = "idcontract",required = false) int idcontract,HttpSession session,ModelMap mm){
+        try {
+            Contract c = userRepository.getContract(iduser,idcontract);
+            mm.put("contract",c);
+        }catch (Exception e){
+
+        }
+        return "historyContract";
+    }
+    @GetMapping(value = "historybill/{iduser}/{idcontract}")
+    public String viewAllHistoryBill(@PathVariable(name = "iduser",required = false) int iduser,@PathVariable(name = "idcontract",required = false) int idcontract,HttpSession session,ModelMap mm){
+        try {
+            List<TblInvoiceEntity> bill = userRepository.getHistoryBillByUserID(iduser,idcontract);
+            mm.put("historybill",bill);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  "historybill";
     }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+</head>
+<body>
+<p th:text="${message}"></p>
+<table>
+    <th>userID</th>
+    <tr th:each="contract: ${listHistory}">
+        <td th:text="${contract.id}"> </td>
+        <a th:href="@{/api/v1/User/historycontract/{id}(id=${#session?.getAttribute('LOGIN_USER').getUserId()})/{id}(id=${contract.id})}" >contract</a>
+    </tr>
+</table>
+</body>
+</html>

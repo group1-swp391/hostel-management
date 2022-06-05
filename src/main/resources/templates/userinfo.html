@@ -7,5 +7,7 @@
 <body>
 <p><a href="/api/v1/User/logout">Logout</a></p>
     <h1><th:block th:text="${#session?.getAttribute('LOGIN_USER').getUserName()}"></th:block></h1>
+
+<a th:href="@{/api/v1/User/historybill/{id}(id=${#session?.getAttribute('LOGIN_USER').getUserId()})}" >history bill</a>
 </body>
 </html>
