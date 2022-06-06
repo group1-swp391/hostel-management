@@ -10,6 +10,7 @@ import java.util.List;
 public interface RoomTypeRepository extends JpaRepository<RoomType, Integer> {
 
     List<RoomType> getTblRoomTypeByRoomTypeStatusTrue();
-    List<RoomType> getTblRoomTypeByRoomTypeStatusTrueAndHostelId(int x);
+    List<RoomType> getTblRoomTypeByRoomTypeStatusTrueAndHostelId(int hostelId);
 
+    RoomType getRoomTypeByTypeId(int roomTypeId);
 }

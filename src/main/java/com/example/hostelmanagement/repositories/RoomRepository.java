@@ -9,8 +9,9 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
 
-    List<Room> getTblRoomByRoomStatusTrueAndTypeId(int typeId);
-
+    List<Room> getTblRoomByUserIdNullAndRoomStatusTrueAndTypeId(int typeId);
     List<Room> getAllByRoomStatusTrue();
+
+    Room getRoomByRoomId(int roomId);
 
 }

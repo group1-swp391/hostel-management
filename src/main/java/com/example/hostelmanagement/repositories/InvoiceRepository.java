@@ -1,14 +1,24 @@
 package com.example.hostelmanagement.repositories;
 
-import com.example.hostelmanagement.models.Hostel;
+import com.example.hostelmanagement.models.Contracts;
+import com.example.hostelmanagement.models.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface HostelRepository extends JpaRepository<Hostel, Integer> {
+public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
 
-    List<Hostel> getAllByHostelStatusTrue();
+
+
+
 
 }
+
+
+
+
+
+
+

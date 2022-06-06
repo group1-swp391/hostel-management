@@ -12,13 +12,10 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(nativeQuery = true, value = "SELECT * FROM tbl_Users AS u") List<User> getAll();
 
     User findByUserNameAndAndPassword(String username, String password);
-    User findUserByUserId(int userid);
 
-
-
-
+    List<User> findAllByUserNameContains(String username);
+    List<User> findAllByUserStatusTrue();
 
 }

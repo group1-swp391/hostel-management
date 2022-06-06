@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -35,20 +36,24 @@ public class Contracts {
     private Boolean contractStatus;
     @Basic
     @Column(name = "createContractTime")
-    private Date createContractTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Timestamp createContractTime;
     @Basic
-    @Column(name = "contractLiquidationTime")
-    private Date contractLiquidationTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Timestamp  contractLiquidationTime;
 
     public Contracts() {
     }
 
-    public Contracts(Date startDate, Date endDate, Double deposit, Integer userId, Integer roomId) {
+    public Contracts(Date startDate, Date endDate, Double deposit, Integer userId, Integer roomId, Boolean contractStatus, Timestamp createContractTime, Timestamp contractLiquidationTime) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.deposit = deposit;
         this.userId = userId;
         this.roomId = roomId;
+        this.contractStatus = contractStatus;
+        this.createContractTime = createContractTime;
+        this.contractLiquidationTime = contractLiquidationTime;
     }
 
     public Integer getContractId() {
@@ -107,32 +112,34 @@ public class Contracts {
         this.contractStatus = contractStatus;
     }
 
-    public Date getCreateContractTime() {
+    public Timestamp getCreateContractTime() {
         return createContractTime;
     }
 
-    public void setCreateContractTime(Date createContractTime) {
+    public void setCreateContractTime(Timestamp createContractTime) {
         this.createContractTime = createContractTime;
     }
 
-    public Date getContractLiquidationTime() {
+    public Timestamp getContractLiquidationTime() {
         return contractLiquidationTime;
     }
 
-    public void setContractLiquidationTime(Date contractLiquidationTime) {
+    public void setContractLiquidationTime(Timestamp contractLiquidationTime) {
         this.contractLiquidationTime = contractLiquidationTime;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Contracts that = (Contracts) o;
-        return Objects.equals(contractId, that.contractId) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(deposit, that.deposit) && Objects.equals(userId, that.userId) && Objects.equals(roomId, that.roomId) && Objects.equals(contractStatus, that.contractStatus) && Objects.equals(createContractTime, that.createContractTime) && Objects.equals(contractLiquidationTime, that.contractLiquidationTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(contractId, startDate, endDate, deposit, userId, roomId, contractStatus, createContractTime, contractLiquidationTime);
+    public String toString() {
+        return "Contracts{" +
+                "contractId=" + contractId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", deposit=" + deposit +
+                ", userId=" + userId +
+                ", roomId=" + roomId +
+                ", contractStatus=" + contractStatus +
+                ", createContractTime=" + createContractTime +
+                ", contractLiquidationTime=" + contractLiquidationTime +
+                '}';
     }
 }

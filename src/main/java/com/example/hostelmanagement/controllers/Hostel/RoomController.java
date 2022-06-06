@@ -29,7 +29,7 @@ public class RoomController {
     @GetMapping(value = "/getRoomAvaiableByTypeId")
     public String getRoomTypesById(@RequestParam("typeid") int typeid, ModelMap mm) {
 
-        List<Room> listRooms = roomRepository.getTblRoomByRoomStatusTrueAndTypeId(typeid);
+        List<Room> listRooms = roomRepository.getTblRoomByUserIdNullAndRoomStatusTrueAndTypeId(typeid);
         mm.put("listRooms", listRooms);
 
         return "test/roomavaiable";

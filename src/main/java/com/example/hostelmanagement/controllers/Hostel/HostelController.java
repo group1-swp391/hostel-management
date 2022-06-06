@@ -16,7 +16,6 @@ public class HostelController {
     private HostelRepository hostelRepository;
 
     @RequestMapping(value = "/getAllHostel1")
-
     public String getAllHostel1(ModelMap mm) {
 
         List<Hostel> listHostels = hostelRepository.getAllByHostelStatusTrue();

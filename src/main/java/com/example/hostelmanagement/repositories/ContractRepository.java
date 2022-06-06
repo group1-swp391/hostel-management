@@ -16,6 +16,7 @@ import java.util.List;
 public interface ContractRepository extends JpaRepository<Contracts, Integer> {
 
    List<Contracts> getAllByUserId(int userid);
+   List<Contracts> findAllByContractStatusTrue();
 
 
 

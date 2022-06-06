@@ -31,7 +31,6 @@ public class LoginController {
         } else {
             return "test/login";
         }
-
     }
 
     @RequestMapping(value = "/logout")

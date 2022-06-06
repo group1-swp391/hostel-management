@@ -1,17 +1,17 @@
 package com.example.hostelmanagement;
 
 import com.example.hostelmanagement.models.*;
-import com.example.hostelmanagement.repositories.HostelRepository;
-import com.example.hostelmanagement.repositories.RoomRepository;
-import com.example.hostelmanagement.repositories.RoomTypeRepository;
-import com.example.hostelmanagement.repositories.UserRepository;
+import com.example.hostelmanagement.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 
 @SpringBootApplication
@@ -24,6 +24,8 @@ public class HostelManagementApplication implements CommandLineRunner {
     private RoomTypeRepository roomTypeRepository;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private ContractRepository contractRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(HostelManagementApplication.class, args);
@@ -49,7 +51,7 @@ public class HostelManagementApplication implements CommandLineRunner {
         for (RoomType x : roomtypes1) {
             //System.out.println(x.getRoomName() + " - " + x.getDescription());
         };
-        List<Room> rooms = roomRepository.getTblRoomByRoomStatusTrueAndTypeId(1);
+        List<Room> rooms = roomRepository.getTblRoomByUserIdNullAndRoomStatusTrueAndTypeId(1);
         for (Room x : rooms) {
             System.out.println(x.getRoomId() + " - " + x.getRoomNumber());
         };
@@ -57,13 +59,18 @@ public class HostelManagementApplication implements CommandLineRunner {
         String strDate2 = "2023-06-01";
 
         //Converting String to Date
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+        Date date3 = Date.valueOf(LocalDate.of(2019, 01, 10));
+        java.util.Date date4 = new java.util.Date();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        Date date1 = formatter.parse(strDate1);
-        Date date2 = formatter.parse(strDate2);
+//      Contracts x = new Contracts((java.sql.Date) date1, (java.sql.Date) date2, 5000000.0, 3, 1);
 
-//        Contracts x = new Contracts((java.sql.Date) date1, (java.sql.Date) date2, 5000000.0, 3, 1);
-        System.out.println(date1);
+        //Contracts x = new Contracts(date3, date3, 500.00, 3, 1, false, timestamp, null);
+        //Contracts x = new Contracts(date3, date3, 500.00, 3, 1, false, date4, null);
+       // Contracts x =  new Contracts(date3, date3, 500.00, 3, 1, false, date4, null);
+        //System.out.println(contractRepository.save(x));
+        //System.out.println(x.toString());
+        //contractRepository.save(x);
     }
 }

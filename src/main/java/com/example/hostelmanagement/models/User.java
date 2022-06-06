@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -53,10 +54,9 @@ public class User {
     private Boolean userStatus;
     @Basic
     @Column(name = "REGTIME")
-    private java.sql.Date regtime;
+    private Timestamp regtime;
 
-    public User(Integer userId, String userName, String password, String fullName, Date dateOfBirth, Boolean gender, String phone, String email, String documentId, byte[] documentFrontSide, byte[] documentBackSide, Integer roleId, Boolean userStatus, Date regtime) {
-        this.userId = userId;
+    public User(String userName, String password, String fullName, Date dateOfBirth, Boolean gender, String phone, String email, String documentId, byte[] documentFrontSide, byte[] documentBackSide, Integer roleId, Boolean userStatus, Timestamp regtime) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
@@ -107,11 +107,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public java.sql.Date getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(java.sql.Date dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -179,20 +179,31 @@ public class User {
         this.userStatus = userStatus;
     }
 
-    public java.sql.Date getRegtime() {
+    public Timestamp getRegtime() {
         return regtime;
     }
 
-    public void setRegtime(Date regtime) {
+    public void setRegtime(Timestamp regtime) {
         this.regtime = regtime;
     }
-    
 
     @Override
-    public int hashCode() {
-        int result = Objects.hash(userId, userName, password, fullName, dateOfBirth, gender, phone, email, documentId, roleId, userStatus, regtime);
-        result = 31 * result + Arrays.hashCode(documentFrontSide);
-        result = 31 * result + Arrays.hashCode(documentBackSide);
-        return result;
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", documentId='" + documentId + '\'' +
+                ", documentFrontSide=" + Arrays.toString(documentFrontSide) +
+                ", documentBackSide=" + Arrays.toString(documentBackSide) +
+                ", roleId=" + roleId +
+                ", userStatus=" + userStatus +
+                ", regtime=" + regtime +
+                '}';
     }
 }
