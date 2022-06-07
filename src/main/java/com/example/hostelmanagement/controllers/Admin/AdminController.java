@@ -31,6 +31,8 @@ public class AdminController {
     private RoomRepository roomRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private HostelRepository hostelRepository;
 
 
     @RequestMapping(value = "/getAllUser")
@@ -54,8 +56,7 @@ public class AdminController {
             mm.put("message", "Not found user id " + userid);
         }
 
-        String getAllUsers = getAllUsers(mm);
-        return getAllUsers;
+        return getAllUsers(mm);
     }
 
     @PostMapping(value = "/updateUser/{userid}")
@@ -69,8 +70,7 @@ public class AdminController {
                              @RequestParam String email,
                              @RequestParam(required = false) String documentId,
                              @RequestParam int roleId,
-                             ModelMap mm)
-    {
+                             ModelMap mm) {
         if(!userRepository.existsById(userid)) {
             mm.put("message", "Not found user id " + userid);
         } else {
@@ -94,8 +94,24 @@ public class AdminController {
                 mm.put("message", "Have error when update");
         }
 
-        String getAllUsers = getAllUsers(mm);
-        return getAllUsers;
+        return getAllUsers(mm);
+    }
+
+    @RequestMapping(value = "/deleteUser")
+    public String deleteUser(@RequestParam("userid") int userid, ModelMap mm) {
+
+        User user = userRepository.findById(userid).get();
+        if (user != null && user.getUserStatus()) {
+            user.setUserStatus(false);
+            user = userRepository.save(user);
+            if(!user.getUserStatus())
+                mm.put("message", "Delete Success Contract ID: " + user.getUserId());
+        } else {
+            mm.put("message", "Not found user id");
+        }
+
+        String getAllContract = getAllContract(mm);
+        return getAllContract;
     }
 
     @RequestMapping(value = "/getAllContract")
@@ -147,25 +163,7 @@ public class AdminController {
             }
         }
 
-        String getAllContract = getAllContract(mm);
-        return getAllContract;
-    }
-
-    @RequestMapping(value = "/deleteUser")
-    public String deleteUser(@RequestParam("userid") int userid, ModelMap mm) {
-
-        User user = userRepository.findById(userid).get();
-        if (user != null && user.getUserStatus()) {
-            user.setUserStatus(false);
-            user = userRepository.save(user);
-            if(!user.getUserStatus())
-                mm.put("message", "Delete Success Contract ID: " + user.getUserId());
-        } else {
-            mm.put("message", "Not found user id");
-        }
-
-        String getAllContract = getAllContract(mm);
-        return getAllContract;
+        return getAllContract(mm);
     }
 
     @RequestMapping(value = "/deleteContract")
@@ -223,8 +221,7 @@ public class AdminController {
             mm.put("message", "Not found contract id " + contractid);
         }
 
-        String getAllContract = getAllContract(mm);
-        return getAllContract;
+        return getAllContract(mm);
     }
 
     @PostMapping(value = "/updateContract/{contractid}")
@@ -263,10 +260,107 @@ public class AdminController {
 
 
 
+    @RequestMapping(value = "/getAllHostel")
+    public String getAllHostel(ModelMap mm) {
+
+        List<Hostel> hostels = hostelRepository.getAllByHostelStatusTrue();
+        mm.put("listHostels", hostels);
+
+        return "admin/hostel/listhostels";
+    }
+
+    @RequestMapping(value = "/getHostel/{hostelid}")
+    public String getHostel(@PathVariable("hostelid") int hostelid,
+                          ModelMap mm) {
+
+        if (hostelRepository.existsById(hostelid) && hostelRepository.findById(hostelid).get().getHostelStatus()) {
+            Hostel hostel = hostelRepository.findById(hostelid).get();
+            mm.put("hostel", hostel);
+        } else {
+            mm.put("message", "Not found hostel id " + hostelid);
+        }
+
+        return getAllHostel(mm);
+    }
+
+    @PostMapping(value = "/createHostel")
+    public String createHostel(@RequestParam int ownerHostelId,
+                               @RequestParam String address,
+                               @RequestParam String hostelName,
+                               @RequestParam String imageHostel,
+                               ModelMap mm) {
 
 
+        Optional<User> userOptional = userRepository.findById(ownerHostelId);
+
+        if (!userOptional.isPresent() || !userOptional.get().getUserStatus() || userOptional.get().getRoleId() != 2) {
+            mm.put("message", "Not found userid or user role not hostel owner!");
+        } else {
+                try {
+                    Hostel hostel = new Hostel(ownerHostelId, address, hostelName, true, imageHostel);
+
+                    hostel = hostelRepository.save(hostel);
+
+                    mm.put("message",  "Create success hostel id: " + hostel.getHostelId());
+                } catch (Exception e) {
+                    mm.put("message", "Create hostel error!");
+                }
+        }
+
+        return getAllHostel(mm);
+    }
+
+    @PostMapping(value = "/updateHostel/{hostelid}")
+    public String updateHostel(@PathVariable("hostelid") int hostelid,
+                               @RequestParam int ownerHostelId,
+                               @RequestParam String address,
+                               @RequestParam String hostelName,
+                               @RequestParam String imageHostel,
+                               ModelMap mm) {
 
 
+        Optional<User> userOptional = userRepository.findById(ownerHostelId);
+
+        if (!userOptional.isPresent() || !userOptional.get().getUserStatus() || userOptional.get().getRoleId() != 2) {
+            mm.put("message", "Not found userid or user role not hostel owner!");
+        } else if (!hostelRepository.existsById(hostelid) || !hostelRepository.findById(hostelid).get().getHostelStatus()) {
+            mm.put("message", "Not found hostel id");
+        }
+        else {
+            try {
+
+                Hostel hostel = hostelRepository.findById(hostelid).get();
+                hostel.setOwnerHostelId(ownerHostelId);
+                hostel.setHostelName(hostelName);
+                hostel.setAddress(address);
+                hostel.setImageHostel(imageHostel);
+
+                hostel = hostelRepository.save(hostel);
+
+                mm.put("message",  "Update success hostel id: " + hostel.getHostelId());
+            } catch (Exception e) {
+                mm.put("message", "Update hostel error!");
+            }
+        }
+
+        return getAllHostel(mm);
+    }
+
+    @RequestMapping(value = "/deleteHostel")
+    public String deleteHostel(@RequestParam("hostelid") int hostelid, ModelMap mm) {
+
+        Hostel hostel = hostelRepository.findById(hostelid).get();
+        if (hostel != null && hostel.getHostelStatus()) {
+            hostel.setHostelStatus(false);
+            hostel = hostelRepository.save(hostel);
+            if(!hostel.getHostelStatus())
+                mm.put("message", "Delete Success Hostel ID: " + hostel.getHostelId());
+        } else {
+            mm.put("message", "Not found hostel id");
+        }
+
+        return getAllHostel(mm);
+    }
 
 }
 

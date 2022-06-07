@@ -11,4 +11,5 @@ public interface HostelRepository extends JpaRepository<Hostel, Integer> {
 
     List<Hostel> getAllByHostelStatusTrue();
 
+
 }
