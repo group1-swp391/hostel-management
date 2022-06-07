@@ -293,8 +293,8 @@ public class AdminController {
 
         Optional<User> userOptional = userRepository.findById(ownerHostelId);
 
-        if (!userOptional.isPresent() || !userOptional.get().getUserStatus() || userOptional.get().getRoleId() != 2) {
-            mm.put("message", "Not found userid or user role not hostel owner!");
+        if (!userOptional.isPresent() || !userOptional.get().getUserStatus() || userOptional.get().getRoleId() == 3) {
+            mm.put("message", "Not found userid or user role is customers!");
         } else {
                 try {
                     Hostel hostel = new Hostel(ownerHostelId, address, hostelName, true, imageHostel);
