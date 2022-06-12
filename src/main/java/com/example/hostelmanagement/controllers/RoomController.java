@@ -3,7 +3,6 @@ package com.example.hostelmanagement.controllers;
 import com.example.hostelmanagement.entities.Room;
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.RoomRepository;
-import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PreUpdate;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
@@ -28,11 +26,15 @@ public class RoomController {
         return "host_roomMngt";
     }
 
+    private byte[] getByteImage(Part image) throws IOException {
+        return image.getInputStream().readAllBytes();
+    }
+
     @PostMapping(value = "insert")
     public String insertRoom(ModelMap mm, HttpSession session, @RequestParam("newRoomNumber") int newRoomNumber, @RequestParam("newTypeId") int newTypeId, @RequestParam("hostelId") int hostelId, @RequestParam("newImage") Part newImage) throws IOException {
         try {
             User loginUser = (User) session.getAttribute("LOGIN_USER");
-            roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId,hostelId, Utils.getByteImage(newImage),true));
+            roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId, true, getByteImage(newImage), hostelId));
             mm.put("message", "Insert new room successfully!");
         }catch (Exception e) {
             mm.put("message", "Insert new room failed!");
@@ -60,7 +62,7 @@ public class RoomController {
             Room room = roomRepository.findById(roomId).get();
             room.setRoomNumber(roomNumber);
             room.setTypeId(typeId);
-            if (image.getSize()>0) room.setImage(Utils.getByteImage(image));
+            room.setImage(getByteImage(image));
             roomRepository.save(room);
             mm.put("message","Update room successfully");
         } catch (Exception e) {

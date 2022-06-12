@@ -3,7 +3,6 @@ package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.UserRepository;
-import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,10 @@ public class UserController {
             return "login";
         }
         return "userinfo";
+    }
+
+    private byte[] getByteImage(Part image) throws IOException {
+        return image.getInputStream().readAllBytes();
     }
 
     @GetMapping(value = "login")
@@ -85,7 +88,7 @@ public class UserController {
             mm.put("error", "Register failed");
             return "register";
         }
-        userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, Utils.getByteImage(documentFrontSide), Utils.getByteImage(documentBackSide), roleId, true, new Date(System.currentTimeMillis())));
+        userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, getByteImage(documentFrontSide), getByteImage(documentBackSide), roleId, true, new Date(System.currentTimeMillis())));
         return "login";
     }
 
