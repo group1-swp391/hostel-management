@@ -1,58 +1,48 @@
 package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
-@Table(name = "tbl_Hostel")
+@Table(name = "tbl_Hostel", schema = "dbo", catalog = "Hostel_Management")
 public class Hostel {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int hostelID;
+    @Id
+    @Column(name = "hostelID")
+    private int hostelId;
+    @Basic
     @Column(name = "ownerHostelID")
-    private int ownerHostelID;
+    private int ownerHostelId;
+    @Basic
     @Column(name = "address")
     private String address;
+    @Basic
     @Column(name = "hostelName")
     private String hostelName;
+    @Basic
     @Column(name = "room_quantity")
-    private int room_quality;
+    private int roomQuantity;
+    @Basic
+    @Column(name = "hostelImg")
+    private byte[] hostelImg;
+    @Basic
     @Column(name = "hostelStatus")
     private boolean hostelStatus;
 
-    public Hostel(int ownerHostelID, String address, String hostelName, int room_quality, boolean hostelStatus) {
-        this.ownerHostelID = ownerHostelID;
-        this.address = address;
-        this.hostelName = hostelName;
-        this.room_quality = room_quality;
-        this.hostelStatus = hostelStatus;
+    public int getHostelId() {
+        return hostelId;
     }
 
-    public Hostel(int hostelID, int ownerHostelID, String address, String hostelName, int room_quality, boolean hostelStatus) {
-        this.hostelID = hostelID;
-        this.ownerHostelID = ownerHostelID;
-        this.address = address;
-        this.hostelName = hostelName;
-        this.room_quality = room_quality;
-        this.hostelStatus = hostelStatus;
+    public void setHostelId(int hostelId) {
+        this.hostelId = hostelId;
     }
 
-    public Hostel() {
+    public int getOwnerHostelId() {
+        return ownerHostelId;
     }
 
-    public int getHostelID() {
-        return hostelID;
-    }
-
-    public void setHostelID(int hostelID) {
-        this.hostelID = hostelID;
-    }
-
-    public int getOwnerHostelID() {
-        return ownerHostelID;
-    }
-
-    public void setOwnerHostelID(int ownerHostelID) {
-        this.ownerHostelID = ownerHostelID;
+    public void setOwnerHostelId(int ownerHostelId) {
+        this.ownerHostelId = ownerHostelId;
     }
 
     public String getAddress() {
@@ -71,12 +61,20 @@ public class Hostel {
         this.hostelName = hostelName;
     }
 
-    public int getRoom_quality() {
-        return room_quality;
+    public int getRoomQuantity() {
+        return roomQuantity;
     }
 
-    public void setRoom_quality(int room_quality) {
-        this.room_quality = room_quality;
+    public void setRoomQuantity(int roomQuantity) {
+        this.roomQuantity = roomQuantity;
+    }
+
+    public byte[] getHostelImg() {
+        return hostelImg;
+    }
+
+    public void setHostelImg(byte[] hostelImg) {
+        this.hostelImg = hostelImg;
     }
 
     public boolean isHostelStatus() {
@@ -88,14 +86,54 @@ public class Hostel {
     }
 
     @Override
-    public String toString() {
-        return "Hostel{" +
-                "hostelID=" + hostelID +
-                ", ownerHostelID=" + ownerHostelID +
-                ", address='" + address + '\'' +
-                ", hostelName='" + hostelName + '\'' +
-                ", room_quality=" + room_quality +
-                ", hostelStatus=" + hostelStatus +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Hostel hostel = (Hostel) o;
+
+        if (hostelId != hostel.hostelId) return false;
+        if (ownerHostelId != hostel.ownerHostelId) return false;
+        if (roomQuantity != hostel.roomQuantity) return false;
+        if (hostelStatus != hostel.hostelStatus) return false;
+        if (address != null ? !address.equals(hostel.address) : hostel.address != null) return false;
+        if (hostelName != null ? !hostelName.equals(hostel.hostelName) : hostel.hostelName != null) return false;
+        if (!Arrays.equals(hostelImg, hostel.hostelImg)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = hostelId;
+        result = 31 * result + ownerHostelId;
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (hostelName != null ? hostelName.hashCode() : 0);
+        result = 31 * result + roomQuantity;
+        result = 31 * result + Arrays.hashCode(hostelImg);
+        result = 31 * result + (hostelStatus ? 1 : 0);
+        return result;
+    }
+
+    public Hostel() {
+    }
+
+    public Hostel(int ownerHostelId, String address, String hostelName, int roomQuantity, byte[] hostelImg, boolean hostelStatus) {
+        this.ownerHostelId = ownerHostelId;
+        this.address = address;
+        this.hostelName = hostelName;
+        this.roomQuantity = roomQuantity;
+        this.hostelImg = hostelImg;
+        this.hostelStatus = hostelStatus;
+    }
+
+    public Hostel(int hostelId, int ownerHostelId, String address, String hostelName, int roomQuantity, byte[] hostelImg, boolean hostelStatus) {
+        this.hostelId = hostelId;
+        this.ownerHostelId = ownerHostelId;
+        this.address = address;
+        this.hostelName = hostelName;
+        this.roomQuantity = roomQuantity;
+        this.hostelImg = hostelImg;
+        this.hostelStatus = hostelStatus;
     }
 }
