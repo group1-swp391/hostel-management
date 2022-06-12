@@ -41,8 +41,9 @@ CREATE TABLE tbl_Hostel(
 	address varchar(255) not null,
 	hostelName varchar(50) not null,
 	room_quantity int not null,
+	hostelImg image,
 	hostelStatus bit not null,
-
+	
 	CONSTRAINT FK_userManage FOREIGN KEY (ownerHostelID) REFERENCES tbl_Users(userID)
 )
 go
@@ -56,6 +57,7 @@ Create table tbl_RoomType(
 	description varchar(200) not null,
 	price float NOT NULL,
 	depositPrice float not null,
+	roomTImg image,
 	roomName varchar (100) not null,
 	roomTypeStatus bit not null, 
 
@@ -72,8 +74,11 @@ Create table tbl_Room(
 	roomNumber int NOT NULL,
 	UserID int,
 	typeID int NOT NULL,
-	roomStatus bit NOT NULL,
+	hostelID int NOT NULL,
 	image image,
+	roomStatus bit NOT NULL,
+	FOREIGN KEY (hostelID)
+	REFERENCES tbl_Hostel(hostelID),
 	CONSTRAINT FK_roomUser
 	FOREIGN KEY (userID)
 	REFERENCES tbl_Users(userID),

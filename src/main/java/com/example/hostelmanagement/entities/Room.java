@@ -1,6 +1,7 @@
 package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "tbl_Room", schema = "dbo", catalog = "Hostel_Management")
@@ -14,19 +15,19 @@ public class Room {
     private int roomNumber;
     @Basic
     @Column(name = "UserID")
-    private int userId;
+    private Integer userId;
     @Basic
     @Column(name = "typeID")
     private int typeId;
     @Basic
-    @Column(name = "roomStatus")
-    private boolean roomStatus;
+    @Column(name = "hostelID")
+    private int hostelId;
     @Basic
     @Column(name = "image")
     private byte[] image;
     @Basic
-    @Column(name = "hostelID")
-    private int hostelId;
+    @Column(name = "roomStatus")
+    private boolean roomStatus;
 
     public int getRoomId() {
         return roomId;
@@ -44,7 +45,7 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -60,12 +61,12 @@ public class Room {
         this.typeId = typeId;
     }
 
-    public boolean isRoomStatus() {
-        return roomStatus;
+    public int getHostelId() {
+        return hostelId;
     }
 
-    public void setRoomStatus(boolean roomStatus) {
-        this.roomStatus = roomStatus;
+    public void setHostelId(int hostelId) {
+        this.hostelId = hostelId;
     }
 
     public byte[] getImage() {
@@ -76,33 +77,63 @@ public class Room {
         this.image = image;
     }
 
-    public int getHostelId() {
-        return hostelId;
+    public boolean isRoomStatus() {
+        return roomStatus;
     }
 
-    public void setHostelId(Integer hostelId) {
-        this.hostelId = hostelId;
+    public void setRoomStatus(boolean roomStatus) {
+        this.roomStatus = roomStatus;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room room = (Room) o;
+
+        if (roomId != room.roomId) return false;
+        if (roomNumber != room.roomNumber) return false;
+        if (typeId != room.typeId) return false;
+        if (hostelId != room.hostelId) return false;
+        if (roomStatus != room.roomStatus) return false;
+        if (userId != null ? !userId.equals(room.userId) : room.userId != null) return false;
+        if (!Arrays.equals(image, room.image)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = roomId;
+        result = 31 * result + roomNumber;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + typeId;
+        result = 31 * result + hostelId;
+        result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + (roomStatus ? 1 : 0);
+        return result;
     }
 
     public Room() {
     }
 
-    public Room(int roomId, int roomNumber, int userId, int typeId, boolean roomStatus, byte[] image, int hostelId) {
+    public Room(int roomNumber, Integer userId, int typeId, int hostelId, byte[] image, boolean roomStatus) {
+        this.roomNumber = roomNumber;
+        this.userId = userId;
+        this.typeId = typeId;
+        this.hostelId = hostelId;
+        this.image = image;
+        this.roomStatus = roomStatus;
+    }
+
+    public Room(int roomId, int roomNumber, Integer userId, int typeId, int hostelId, byte[] image, boolean roomStatus) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.userId = userId;
         this.typeId = typeId;
-        this.roomStatus = roomStatus;
-        this.image = image;
         this.hostelId = hostelId;
-    }
-
-    public Room(int roomNumber, int userId, int typeId, boolean roomStatus, byte[] image, int hostelId) {
-        this.roomNumber = roomNumber;
-        this.userId = userId;
-        this.typeId = typeId;
-        this.roomStatus = roomStatus;
         this.image = image;
-        this.hostelId = hostelId;
+        this.roomStatus = roomStatus;
     }
 }
