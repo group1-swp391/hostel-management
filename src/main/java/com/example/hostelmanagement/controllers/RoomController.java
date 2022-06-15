@@ -18,15 +18,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "api/v1/Room/")
+@RequestMapping(value = {"api/v1/host/","api/v1/host/room"})
 public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
 
-    @GetMapping(value = "/")
-    public String hostIndex() {
-        return "host_roomMngt";
-    }
 
     @PostMapping(value = "insert")
     public String insertRoom(ModelMap mm, HttpSession session, @RequestParam("newRoomNumber") int newRoomNumber, @RequestParam("newTypeId") int newTypeId, @RequestParam("hostelId") int hostelId, @RequestParam("newImage") Part newImage) throws IOException {
@@ -37,7 +33,7 @@ public class RoomController {
         }catch (Exception e) {
             mm.put("message", "Insert new room failed!");
         }
-        return "host_roomMngt";
+        return "redirect:";
     }
 
     @PostMapping(value = "delete")
@@ -50,31 +46,36 @@ public class RoomController {
         } catch (Exception e) {
             mm.put("message", "Delete room failed");
         } finally {
-            return "host_roomMngt";
+            return "redirect:";
         }
     }
 
     @PostMapping(value = "update")
-    public String updateRoom(ModelMap mm, @RequestParam(value = "roomId") int roomId, @RequestParam("roomNumber") int roomNumber, @RequestParam("typeId") int typeId, @RequestParam("image") Part image) {
+    public String updateRoom(ModelMap mm, @RequestParam(value = "roomId") int roomId, @RequestParam("roomNumber") int roomNumber, @RequestParam("image") Part image) {
         try {
             Room room = roomRepository.findById(roomId).get();
             room.setRoomNumber(roomNumber);
-            room.setTypeId(typeId);
             if (image.getSize()>0) room.setImage(Utils.getByteImage(image));
             roomRepository.save(room);
             mm.put("message","Update room successfully");
         } catch (Exception e) {
             mm.put("message", "Update room failed");
         } finally {
-            return "host_roomMngt";
+            return "redirect:";
         }
     }
 
-    @GetMapping(value = "search")
-    public String getAllRooms(@RequestParam("roomNumber") int roomNumber, ModelMap mm) {
-        mm.put("roomNumber", roomNumber);
-        mm.put("rooms", roomRepository.findAllByRoomNumberAndRoomStatus(roomNumber, true));
-        return "host_roomMngt";
+    @GetMapping(value = {"/","search"})
+    public String getAllRooms(@RequestParam(value = "roomNumber", required = false) String roomNumber, ModelMap mm) {
+        if (roomNumber==null || "".equals(roomNumber.trim())) {
+            mm.put("roomNumber", roomNumber);
+            mm.put("rooms", roomRepository.findAllByRoomStatus(true));
+        }
+        else {
+            mm.put("roomNumber", roomNumber);
+            mm.put("rooms", roomRepository.findAllByRoomNumberAndRoomStatus(Integer.parseInt(roomNumber), true));
+        }
+        return "hostpage";
     }
     @ResponseBody
     @GetMapping("image/{id}")

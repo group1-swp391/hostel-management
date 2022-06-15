@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Home site</h1>
-<p><a th:href="@{/api/v1/User/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Login'"></a></p>
+<p><a th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Login'"></a></p>
     <p><a href="/api/v1/Room/">Room</a></p>
     <p><a href="/api/v1/UtilityType/">UtilityType</a></p>
     <p><a href="/api/v1/ServiceType/">ServiceType</a></p>

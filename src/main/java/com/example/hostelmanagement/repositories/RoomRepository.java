@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     List<Room> findAllByRoomNumberAndRoomStatus(int roomNumber, boolean roomStatus);
+    List<Room> findAllByRoomStatus(boolean roomStatus);
 }

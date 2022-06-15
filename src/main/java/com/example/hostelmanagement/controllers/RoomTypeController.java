@@ -70,7 +70,7 @@ public class RoomTypeController {
     @GetMapping(value = "search")
     public String getAllRoomType(@RequestParam(value = "roomName", required = false) String roomName, ModelMap mm) {
         mm.put("roomName", roomName);
-        mm.put("roomTypes", roomTypeRepository.findAllByRoomNameAndRoomTypeStatus(roomName, true));
+        mm.put("roomTypes", roomTypeRepository.findAllByRoomNameContainsAndRoomTypeStatus(roomName, true));
         return "host_roomTypeMngt";
     }
 }

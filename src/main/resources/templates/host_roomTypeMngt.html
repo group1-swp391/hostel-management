@@ -5,7 +5,7 @@
     <title>Room Type - Host</title>
 </head>
 <body>
-    <p><a href="/api/v1/User/logout">Logout</a></p>
+    <p><a href="/api/v1/user/logout">Logout</a></p>
     <form action="/api/v1/RoomType/search" method="get">
         Room Name <input type="text" name="roomName" placeholder="Enter your room name" th:value="${roomName}">
         <button type="submit">Search</button>
@@ -18,15 +18,18 @@
             <th>Description</th>
             <th>Price</th>
             <th>Deposit Price</th>
+            <th>Image</th>
             <th>Operation</th>
             <th>Delete</th>
         </tr>
-        <form action="/api/v1/RoomType/insert" method="post">
+        <form action="/api/v1/RoomType/insert" method="post" enctype="multipart/form-data">
             <td><input type="text" value="typeId" readonly></td>
             <td><input type="text" name="newRoomName" placeholder="New room name..."></td>
             <td><input type="text" name="newDescription" placeholder="New description..."></td>
             <td><input type="text" name="newPrice" placeholder="New price..."></td>
+            <td><input type="hidden" name="hostelId" value="2"></td>
             <td><input type="text" name="newDepositPrice" placeholder="New deposit price..."></td>
+            <td><input type="file" name="newRoomTImg"></td>
             <td><button type="submit">Insert</button></td>
             <td><button type="reset">Reset</button></td>
         </form>

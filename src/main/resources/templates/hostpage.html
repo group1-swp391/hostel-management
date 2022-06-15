@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/hostpage.css">
+</head>
+
+<body>
+
+    <input type="checkbox" id="sidebar-toggle">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3 class="brand">
+                <span>Hometro</span>
+            </h3>
+            <label for="sidebar-toggle" class="fa-solid fa-bars"></label>
+        </div>
+
+        <div class="sidebar-menu">
+            <li>
+                <a href="/api/v1/host/">
+                    <span class="fa-solid fa-house"></span>
+                    <span>Trang chủ</span>
+                </a>
+            </li>
+            <li>
+                <a href="/api/v1/RoomType/">
+                    <span class="fa-solid fa-door-closed"></span>
+                    <span>Loại phòng</span>
+                </a>
+            </li>
+            <li>
+                <a href="services.html">
+                    <span class="fa-solid fa-wifi"></span>
+                    <span>Dịch vụ</span>
+                </a>
+            </li>
+            <li>
+                <a href="electricity.html">
+                    <span class="fa-solid fa-bolt"></span>
+                    <span>Chỉ số điện</span>
+                </a>
+            </li>
+            <li>
+                <a href="water.html">
+                    <span class="fa-solid fa-water"></span>
+                    <span>Chỉ số nước</span>
+                </a>
+            </li>
+            <li>
+                <a href="history.html">
+                    <span class="fa-solid fa-clock-rotate-left"></span>
+                    <span>Lịch sử</span>
+                </a>
+            </li>
+            <li>
+                <a href="contract.html">
+                    <span class="fa-solid fa-file-contract"></span>
+                    <span>Hợp đồng</span>
+                </a>
+            </li>
+            <li>
+                <a href="money.html">
+                    <span class="fa-solid fa-money-bill"></span>
+                    <span>Doanh thu</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/api/v1/user/show-info">
+                    <span class="fa-solid fa-user"></span>
+                    <span th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Tài khoản'"></span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/api/v1/user/logout">
+                    <span class="fa-solid fa-arrow-right-from-bracket"></span>
+                    <span>Đăng xuất</span>
+                </a>
+            </li>
+
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <header>
+                <form action="/api/v1/host/room/search" class="search-wrapper" method="get">
+                    <span class="fa-solid fa-magnifying-glass"></span><input type="text" name="roomNumber" placeholder="Enter your room number..." th:value="${roomNumber}">
+                    <button type="submit" style="display: none;">Search</button>
+                </form>
+
+            <div class="social-icons">
+                <span class="fa-solid fa-bell"></span>
+                <span class="fa-solid fa-comment-alt"></span>
+            </div>
+        </header>
+
+
+        <main>
+            <div class="hostel-number">
+                <form action="">
+                    <button type="submit" class="btn btn-warning">Nhà trọ 1</button>
+                    <button type="submit" class="btn btn-warning">Nhà trọ 2</button>
+                    <button type="submit" class="btn btn-primary fa-solid fa-plus"></button>
+                </form>
+            </div>
+
+            <div class="head-table">
+                <table class="table bg-white">
+                    <thead class="bg-dark text-light">
+                    <p th:text="${message}" style="color: red;"></p>
+                        <tr>
+                            <th>Phòng</th>
+                            <th>Người thuê trọ</th>
+                            <th>Giá</th>
+                            <th>Loại phòng</th>
+                            <th>Hình ảnh</th>
+                            <th>Trạng thái</th>
+                            <th>Tuỳ chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <form action="/api/v1/host/room/insert" enctype="multipart/form-data" method="post">
+                                <td><input type="text" name="newRoomNumber" placeholder="New room number..."></td>
+                                <td><input type="text" name="newUserId" placeholder="New user id..."></td>
+                                <input type="hidden" name="hostelId" value="2" readonly>
+                                <td><input type="text" name="newPrice" placeholder="Deposit price" readonly></td>
+                                <td><input type="text" name="newTypeId" placeholder="New room type..."></td>
+                                <td><input type="file" name="newImage" placeholder="Choose image..."></td>
+                                <td>Trống</td>
+                                <td><button type="submit">Insert</button></td>
+                                <td><button type="reset">Reset</button></td>
+                            </form>
+                        </tr>
+                        <tr th:each="room: ${rooms}">
+
+                            <form method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                <td><input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
+                                <td><input type="text" name="userId" th:value="${room.userId}"></td>
+                                <td><input type="text" name="price" readonly></td>
+                                <td><input type="text" name="typeId" th:value="${room.typeId}" readonly></td>
+                                <td><input type="file" name="image"><br><img style="width: 100px;" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" th:alt="${room.roomId}"></td>
+                                <td>Trống</td>
+                                <td><button class="btn btn-primary fa-solid fa-edit" formaction="/api/v1/host/room/update" type="submit" name="update"></button></td>
+                                <td><button class="btn btn-danger fa-solid fa-trash"formaction="/api/v1/host/room/delete" type="submit" name="delete"></button></td>
+                                <td><button class="btn btn-success fa-solid fa-file-invoice"></button></td>
+                            </form>
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

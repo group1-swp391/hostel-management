@@ -20,18 +20,19 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping(value = "api/v1/User/")
+@RequestMapping(value = "api/v1/user/")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @GetMapping(value = "showInfo")
+    @GetMapping(value = "show-info")
     public String showInfo(HttpSession session) {
         if (session.getAttribute("LOGIN_USER")==null) {
-            return "login";
+            return login();
         }
-        return "userinfo";
+        return "account";
     }
+
 
     @GetMapping(value = "login")
     public String login() {
@@ -47,12 +48,12 @@ public class UserController {
                 return "admin_userMngt";
             }
             if (user.getRoleId()==2) {
-                return "host_hostelMngt";
+                return "redirect:/api/v1/host/";
             }
             return "index";
         } else {
             mm.put("message", "Invalid account");
-            return "login";
+            return "redirect:";
         }
     }
     @RequestMapping(value = "logout")
@@ -87,6 +88,52 @@ public class UserController {
         }
         userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, Utils.getByteImage(documentFrontSide), Utils.getByteImage(documentBackSide), roleId, true, new Date(System.currentTimeMillis())));
         return "login";
+    }
+
+    @PostMapping(value = "update")
+    public String update(@RequestParam("userName") String userName, @RequestParam("fullName") String fullName,
+                         @RequestParam("dateOfBirth") Date dateOfBirth, @RequestParam("gender") String gender,
+                         @RequestParam("phone") String phone, @RequestParam("email") String email, @RequestParam("documentId") String documentId,
+                         @RequestParam(value = "documentFrontSide", required = false) Part documentFrontSide, @RequestParam(value = "documentBackSide", required = false) Part documentBackSide,
+                         HttpSession session, ModelMap mm) {
+        User user = (User) session.getAttribute("LOGIN_USER");
+        try {
+            user.setUserName(userName);
+            user.setFullName(fullName);
+            user.setDateOfBirth(dateOfBirth);
+            user.setGender("Male".equals(gender));
+            user.setPhone(phone);
+            user.setEmail(email);
+            user.setDocumentId(documentId);
+            if (documentFrontSide.getSize()>0) user.setDocumentFrontSide(Utils.getByteImage(documentFrontSide));
+            if (documentBackSide.getSize()>0) user.setDocumentBackSide(Utils.getByteImage(documentBackSide));
+            userRepository.save(user);
+            mm.put("message", "Update successfully!");
+        } catch (Exception e) {
+            mm.put("message","Error while updating");
+        }finally {
+            return "redirect:show-info";
+        }
+    }
+
+    @GetMapping(value = "change-password")
+    public String changePassword() {
+        return "changePassword";
+    }
+
+    @PostMapping(value = "change-password")
+    public String changePassword(HttpSession session, @RequestParam("resetPassword") String resetPassword,
+                                 @RequestParam("password") String password, @RequestParam("oldPassword") String oldPassword,
+                                 ModelMap mm) {
+        User user = (User) session.getAttribute("LOGIN_USER");
+        if (resetPassword.equals(password) && !oldPassword.equals(password)) {
+            user.setPassword(password);
+            userRepository.save(user);
+            mm.put("message", "Đổi mật khẩu thành công!");
+            return "account";
+        }
+        mm.put("message", "Đổi mật khẩu thất bại!");
+        return "changePassword";
     }
 
     @GetMapping(value = "search")

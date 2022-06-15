@@ -212,4 +212,19 @@ create table tbl_roomCharge(
 )
 go
 
+create table tbl_Booking(
+    bookingId int IDENTITY(1,1) PRIMARY KEY,
+    userID int not null,
+    roomID int not null,
+    appointmentDate datetime not null,
+    startDate datetime not null,
+    endDate datetime not null,
+    isBookingAccept bit not null,
+    depositPaymentStatus bit not null,
+    invoiceID int,
+    constraint FK_bookingInvoice FOREIGN KEY (invoiceID) REFERENCES tbl_Invoice(invoiceID),
+    constraint FK_bookingRoom FOREIGN KEY (roomID) REFERENCES tbl_Room(roomID),
+    constraint FK_bookingUser FOREIGN KEY (userID) REFERENCES tbl_Users(userID)
+)
+
 
