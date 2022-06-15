@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - List Contracts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<h3>Create</h3>
+
+<div th:text="${message}" class="alert alert-primary" role="alert">
+
+</div>
+
+<form action="createContract" method="POST">
+    <br class="form-row">
+
+    <div class="form-row">
+
+        <div class="form-group col-md-4">
+            <label for="startDate">Start</label>
+            <input name="startDate" id="startDate" class="form-control" type="date" />
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="endDate">End</label>
+            <input name="endDate" id="endDate" class="form-control" type="date" />
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="userId">User Id</label>
+            <input name="userId" type="text" class="form-control" id="userId">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="roomId">Room Id</label>
+            <input name="roomId" type="text" class="form-control" id="roomId">
+        </div>
+
+    </div>
+
+
+    </br>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+</br>
+<h3>Update</h3>
+
+
+<div th:if="${contract}">
+    <form th:action="@{/api/v1/Admin/updateContract/{contractid}(contractid=${contract.contractId})}" th:object="${contract}" method="POST">
+        <br class="form-row">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="contractId1">Contract ID</label>
+                <input name="contractId" id="contractId1" class="form-control" type="text" readonly th:field="*{contractId}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="startDate1">Start</label>
+                <input name="startDate" id="startDate1" class="form-control" type="date" th:field="*{startDate}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="endDate1">End</label>
+                <input name="endDate" id="endDate1" class="form-control" type="date" th:field="*{endDate}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="userId1">User Id</label>
+                <input name="userId" type="text" class="form-control" id="userId1" th:field="*{userId}">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="roomId1">Room Id</label>
+                <input name="roomId" type="text" class="form-control" id="roomId1" th:field="*{roomId}">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="deposit1">Deposit</label>
+                <input name="deposit" type="text" class="form-control" id="deposit1" th:field="*{deposit}">
+            </div>
+        </div>
+        </br>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<!--/* If the product has no image, display default Image. */-->
+<div th:unless="${contract}">
+    <p>No find contract</p>
+</div>
+
+
+<h2>List Contracts</h2>
+
+
+
+
+
+<table class="table">
+    <thead class="table-light">
+    <tr>
+        <th scope="col" th:text="ContractId">Contract Id</th>
+        <th scope="col" th:text="StartDate">Start Date</th>
+        <th scope="col" th:text="EndDate">End Date</th>
+        <th scope="col" th:text="Deposit">Deposit</th>
+        <th scope="col" th:text="UserID">User Id</th>
+        <th scope="col" th:text="RoomID">Room Id</th>
+        <th scope="col" th:text="Status">Status</th>
+        <th scope="col" th:text="Created">Created</th>
+        <th scope="col" th:text="LiquidationTime">Liquidation Time</th>
+        <th scope="col" th:text="Action">@Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="contract: ${listContracts}">
+    <tr>
+        <td th:text="${contract.contractId}"></td>
+        <td th:text="${#dates.format(contract.startDate, 'dd-MM-yyyy')}"></td>
+        <td th:text="${#dates.format(contract.endDate, 'dd-MM-yyyy')}"></td>
+        <td th:text="${contract.deposit}"></td>
+        <td th:text="${contract.userId}"></td>
+        <td th:text="${contract.roomId}"></td>
+        <td th:text="${contract.contractStatus}"></td>
+        <td th:text="${#dates.format(contract.createContractTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+        <td th:text="${#dates.format(contract.contractLiquidationTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+        <td>
+            <form th:action="@{/api/v1/Admin/getContract/{contractid}(contractid=${contract.contractId})}" method="POST">
+            <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+
+            <button type="button" class="btn btn-warning">Liquidation</button>
+
+            <form th:action="@{/api/v1/Admin/deleteContract?contractid={contractid}(contractid=${contract.contractId})}" method="POST">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+
+    </tr>
+    </th:block>
+    </tbody>
+</table>
+</br> </br> </br>
+
+
+
+
+
+</body>
+</html>
