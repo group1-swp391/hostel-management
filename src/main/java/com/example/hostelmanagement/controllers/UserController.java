@@ -53,13 +53,13 @@ public class UserController {
             return "index";
         } else {
             mm.put("message", "Invalid account");
-            return "redirect:";
+            return "redirect:/";
         }
     }
     @RequestMapping(value = "logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "index";
+        return "redirect:/";
     }
     @RequestMapping(value = "register")
     public String register() {
