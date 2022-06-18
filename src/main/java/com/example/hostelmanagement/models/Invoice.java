@@ -1,7 +1,10 @@
 package com.example.hostelmanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -27,16 +30,16 @@ public class Invoice {
     @Column(name = "note")
     private String note;
     @Basic
-    @Column(name = "invoiceCreateDate")
-    private Date invoiceCreateDate;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Timestamp invoiceCreateDate;
     @Basic
-    @Column(name = "paymentDate")
-    private Date paymentDate;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Timestamp paymentDate;
 
     public Invoice() {
     }
 
-    public Invoice(Integer roomId, String invoiceName, Double totalAmount, Boolean invoiceStatus, String note, Date invoiceCreateDate, Date paymentDate) {
+    public Invoice(Integer roomId, String invoiceName, Double totalAmount, Boolean invoiceStatus, String note, Timestamp invoiceCreateDate, Timestamp paymentDate) {
         this.roomId = roomId;
         this.invoiceName = invoiceName;
         this.totalAmount = totalAmount;
@@ -94,19 +97,19 @@ public class Invoice {
         this.note = note;
     }
 
-    public Date getInvoiceCreateDate() {
+    public Timestamp getInvoiceCreateDate() {
         return invoiceCreateDate;
     }
 
-    public void setInvoiceCreateDate(Date invoiceCreateDate) {
+    public void setInvoiceCreateDate(Timestamp invoiceCreateDate) {
         this.invoiceCreateDate = invoiceCreateDate;
     }
 
-    public Date getPaymentDate() {
+    public Timestamp getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(Timestamp paymentDate) {
         this.paymentDate = paymentDate;
     }
 

@@ -245,7 +245,6 @@ create table tbl_Booking(
 	--deposit float not null,
 
 	isBookingAccecpt bit not null, -- chấp thuận ?
-	depositPaymentStatus float not null, 
 	bookingStatus bit not null,
 
 	invoiceID int,
@@ -260,7 +259,7 @@ create table tbl_Booking(
 
 	CONSTRAINT FK_bookingUser
 	FOREIGN KEY (userID)
-	REFERENCES tbl_User(userID),
+	REFERENCES tbl_Users(userID),
 )
 go
 

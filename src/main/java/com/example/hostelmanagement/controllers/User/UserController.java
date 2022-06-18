@@ -1,8 +1,10 @@
 package com.example.hostelmanagement.controllers.User;
 
 import com.example.hostelmanagement.models.AccountSession;
+import com.example.hostelmanagement.models.Booking;
 import com.example.hostelmanagement.models.Contracts;
 import com.example.hostelmanagement.models.User;
+import com.example.hostelmanagement.repositories.BookingRepository;
 import com.example.hostelmanagement.repositories.ContractRepository;
 import com.example.hostelmanagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,10 @@ public class UserController {
 
     @Autowired
     private ContractRepository contractRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
 
     private List<User> users = new ArrayList<User>();
 
@@ -63,7 +69,28 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/createBooking")
+    public String createBooking(@RequestParam int roomId,
+                                @RequestParam java.sql.Date appointmentDate,
+                                @RequestParam java.sql.Date startDate,
+                                @RequestParam java.sql.Date endDate,
+                                HttpSession session,
+                                ModelMap mm) {
+        AccountSession accSession = (AccountSession) session.getAttribute("accSession");
 
+        if (accSession != null) {
+            Booking booking = new Booking(accSession.getUserid(), roomId, appointmentDate, startDate, endDate, false, true);
+            booking = bookingRepository.save(booking);
+            if (booking != null)
+                mm.put("message", "Create success booking id : " + booking.getBookingId());
+
+            return "/booking";
+        }else {
+            mm.put("message", "Need login first!");
+
+            return "error";
+        }
+    }
 
 
 

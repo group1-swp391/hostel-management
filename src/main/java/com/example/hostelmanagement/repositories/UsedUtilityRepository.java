@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface UsedUtilityRepository extends JpaRepository<UsedUtility, Integer> {
-    List<UsedService> findAllByInvoiceIdNullAndRoomId(int roomid);
+    List<UsedUtility> findAllByInvoiceIdNullAndRoomId(int roomId);
 
 
 

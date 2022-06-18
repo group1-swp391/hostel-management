@@ -211,9 +211,8 @@ public class AdminController {
         try {
             Contracts contract = contractRepository.findById(contractid).get();
             if (contract.getContractStatus()) {
-
-            mm.put("contract", contract);
-
+                User user = userRepository.
+                mm.put("contract", contract);
             } else {
                 mm.put("message", "Not found contract id  " + contractid);
             }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface UsedServiceRepository extends JpaRepository<UsedService, Integer> {
-    List<UsedService> findAllByInvoiceIdNullAndRoomId(int roomid);
+    List<UsedService> findAllByInvoiceIdNullAndRoomId(int roomId);
 
 
 

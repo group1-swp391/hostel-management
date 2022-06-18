@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_Booking", schema = "dbo", catalog = "Hostel_Management7")
-public class TblBooking {
+public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "bookingId")
@@ -32,9 +32,20 @@ public class TblBooking {
     @Basic
     @Column(name = "bookingStatus")
     private Boolean bookingStatus;
-    @Basic
-    @Column(name = "invoiceID")
-    private Integer invoiceId;
+
+
+    public Booking() {
+    }
+
+    public Booking(Integer userId, Integer roomId, Date appointmentDate, Date startDate, Date endDate, Boolean isBookingAccecpt, Boolean bookingStatus) {
+        this.userId = userId;
+        this.roomId = roomId;
+        this.appointmentDate = appointmentDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isBookingAccecpt = isBookingAccecpt;
+        this.bookingStatus = bookingStatus;
+    }
 
     public Integer getBookingId() {
         return bookingId;
@@ -100,24 +111,31 @@ public class TblBooking {
         this.bookingStatus = bookingStatus;
     }
 
-    public Integer getInvoiceId() {
-        return invoiceId;
-    }
-
-    public void setInvoiceId(Integer invoiceId) {
-        this.invoiceId = invoiceId;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TblBooking that = (TblBooking) o;
-        return Objects.equals(bookingId, that.bookingId) && Objects.equals(userId, that.userId) && Objects.equals(roomId, that.roomId) && Objects.equals(appointmentDate, that.appointmentDate) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(isBookingAccecpt, that.isBookingAccecpt) && Objects.equals(bookingStatus, that.bookingStatus) && Objects.equals(invoiceId, that.invoiceId);
+        if (!(o instanceof Booking)) return false;
+        Booking booking = (Booking) o;
+        return Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getUserId(), booking.getUserId()) && Objects.equals(getRoomId(), booking.getRoomId()) && Objects.equals(getAppointmentDate(), booking.getAppointmentDate()) && Objects.equals(getStartDate(), booking.getStartDate()) && Objects.equals(getEndDate(), booking.getEndDate()) && Objects.equals(isBookingAccecpt, booking.isBookingAccecpt) && Objects.equals(getBookingStatus(), booking.getBookingStatus());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookingId, userId, roomId, appointmentDate, startDate, endDate, isBookingAccecpt, bookingStatus, invoiceId);
+        return Objects.hash(getBookingId(), getUserId(), getRoomId(), getAppointmentDate(), getStartDate(), getEndDate(), isBookingAccecpt, getBookingStatus());
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "bookingId=" + bookingId +
+                ", userId=" + userId +
+                ", roomId=" + roomId +
+                ", appointmentDate=" + appointmentDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", isBookingAccecpt=" + isBookingAccecpt +
+                ", bookingStatus=" + bookingStatus +
+                '}';
     }
 }

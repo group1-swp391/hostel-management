@@ -23,15 +23,19 @@ public class RoomCharge {
     @Basic
     @Column(name = "invoiceID")
     private Integer invoiceId;
+    @Basic
+    @Column(name = "price")
+    private float price;
 
     public RoomCharge() {
     }
 
-    public RoomCharge(Integer roomId, Date startDate, Date endDate, Integer invoiceId) {
+    public RoomCharge(Integer roomId, Date startDate, Date endDate, Integer invoiceId, float price) {
         this.roomId = roomId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.invoiceId = invoiceId;
+        this.price = price;
     }
 
     public Integer getRoomChargeId() {
@@ -74,16 +78,36 @@ public class RoomCharge {
         this.invoiceId = invoiceId;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof RoomCharge)) return false;
         RoomCharge that = (RoomCharge) o;
-        return Objects.equals(roomChargeId, that.roomChargeId) && Objects.equals(roomId, that.roomId) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(invoiceId, that.invoiceId);
+        return Float.compare(that.getPrice(), getPrice()) == 0 && Objects.equals(getRoomChargeId(), that.getRoomChargeId()) && Objects.equals(getRoomId(), that.getRoomId()) && Objects.equals(getStartDate(), that.getStartDate()) && Objects.equals(getEndDate(), that.getEndDate()) && Objects.equals(getInvoiceId(), that.getInvoiceId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roomChargeId, roomId, startDate, endDate, invoiceId);
+        return Objects.hash(getRoomChargeId(), getRoomId(), getStartDate(), getEndDate(), getInvoiceId(), getPrice());
+    }
+
+    @Override
+    public String toString() {
+        return "RoomCharge{" +
+                "roomChargeId=" + roomChargeId +
+                ", roomId=" + roomId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", invoiceId=" + invoiceId +
+                ", price=" + price +
+                '}';
     }
 }

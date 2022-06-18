@@ -43,4 +43,6 @@ public class RoomTypeController {
         return "test/listroomtype";
     }
 
+
+
 }
