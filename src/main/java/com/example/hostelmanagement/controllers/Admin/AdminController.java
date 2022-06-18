@@ -11,12 +11,9 @@ import org.thymeleaf.spring5.SpringWebFluxTemplateEngine;
 
 import javax.servlet.http.HttpSession;
 import javax.swing.text.html.Option;
-import java.util.Date;
+import java.util.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "api/v1/Admin")
@@ -118,6 +115,19 @@ public class AdminController {
     public String getAllContract(ModelMap mm) {
 
         List<Contracts> contracts = contractRepository.findAllByContractStatusTrue();
+
+        HashMap<Contracts, User> contractuserHashMap = new HashMap<Contracts, User>();
+
+        for (Contracts contract:contracts) {
+            User user = userRepository.findById(contract.getUserId()).get();
+
+            contractuserHashMap.put(contract, user);
+        }
+
+        mm.put("contractuserHashMap", contractuserHashMap);
+
+
+
         mm.put("listContracts", contracts);
 
         return "admin/contract/listcontracts";
@@ -211,7 +221,8 @@ public class AdminController {
         try {
             Contracts contract = contractRepository.findById(contractid).get();
             if (contract.getContractStatus()) {
-                User user = userRepository.
+
+
                 mm.put("contract", contract);
             } else {
                 mm.put("message", "Not found contract id  " + contractid);

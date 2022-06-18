@@ -148,7 +148,37 @@
 </table>
 </br> </br> </br>
 
+<table class="table">
+    <thead class="table-light">
+    <tr>
+        <th scope="col" th:text="ContractId">Contract Id</th>
+        <th scope="col" th:text="StartDate">Start Date</th>
+        <th scope="col" th:text="EndDate">End Date</th>
+        <th scope="col" th:text="Deposit">Deposit</th>
+        <th scope="col" th:text="UserID">User Id</th>
+        <th scope="col" th:text="RoomID">Room Id</th>
+        <th scope="col" th:text="Status">Status</th>
+        <th scope="col" th:text="Created">Created</th>
+        <th scope="col" th:text="LiquidationTime">Liquidation Time</th>
+        <th scope="col" th:text="Action">@Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="row: ${contractuserHashMap}">
+        <tr>
+            <td th:text="${row.key.contractId}"></td>
+            <td th:text="${#dates.format(row.key.startDate, 'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(row.key.endDate, 'dd-MM-yyyy')}"></td>
 
+            <td th:text="${row.key.userId}"></td>
+            <td th:text="${row.value.userName}"></td>
+            <td th:text="${row.value.password}"></td>
+
+
+        </tr>
+    </th:block>
+    </tbody>
+</table>
 
 
 
