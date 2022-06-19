@@ -122,11 +122,10 @@ public class UserController {
     }
 
     @PostMapping(value = "change-password")
-    public String changePassword(HttpSession session, @RequestParam("resetPassword") String resetPassword,
-                                 @RequestParam("password") String password, @RequestParam("oldPassword") String oldPassword,
-                                 ModelMap mm) {
+    public String changePassword(HttpSession session, @RequestParam("oldPassword") String oldPassword, @RequestParam("resetPassword") String resetPassword,
+                                 @RequestParam("password") String password, ModelMap mm) {
         User user = (User) session.getAttribute("LOGIN_USER");
-        if (resetPassword.equals(password) && !oldPassword.equals(password)) {
+        if (resetPassword.equals(password) && oldPassword.equals(user.getPassword())) {
             user.setPassword(password);
             userRepository.save(user);
             mm.put("message", "Đổi mật khẩu thành công!");
