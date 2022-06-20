@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -55,7 +56,7 @@
                 <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
                     thu</a>
                 <div class="nav-item dropdown">
-                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${n+#session.getAttribute('LOGIN_USER').getUserName()}:${n+'Tài khoản'}"></a>
+                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
                         <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
@@ -106,7 +107,7 @@
                             <thead>
                             <tr class="text-dark">
                                 <th scope="col">Mã phòng</th>
-                                <th scope="col">Chủ phòng</th>
+                                <th scope="col">Người thuê</th>
                                 <th scope="col">Ngày bắt đầu</th>
                                 <th scope="col">Ngày kết thúc</th>
                                 <th scope="col">Chỉ số điện cũ (kW)</th>

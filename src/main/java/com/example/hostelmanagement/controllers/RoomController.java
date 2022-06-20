@@ -72,8 +72,7 @@ public class RoomController {
 
     @GetMapping(value = {"/","search"})
     public String getAllRooms(@RequestParam(value = "roomNumber", required = false) String roomNumber, ModelMap mm) {
-        String n = "<i class=\"fa-solid fa-user-tie me-2\"></i>";
-        mm.put("n", n);
+
         if (roomNumber==null || "".equals(roomNumber.trim())) {
             mm.put("roomNumber", roomNumber);
             List<Room> rooms = roomRepository.findAllByRoomStatus(true);

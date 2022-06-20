@@ -48,6 +48,8 @@ public class UserController {
                 return "admin_userMngt";
             }
             if (user.getRoleId()==2) {
+                String n = "<i class=\"fa-solid fa-user-tie me-2\"></i>";
+                session.setAttribute("n", n);
                 return "redirect:/api/v1/host/";
             }
             return "index";

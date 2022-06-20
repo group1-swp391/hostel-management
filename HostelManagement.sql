@@ -227,4 +227,6 @@ create table tbl_Booking(
     constraint FK_bookingUser FOREIGN KEY (userID) REFERENCES tbl_Users(userID)
 )
 
+insert into tbl_UtilityType()
+
 
