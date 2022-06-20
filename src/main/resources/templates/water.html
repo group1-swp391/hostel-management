@@ -115,29 +115,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>Phạm Phú Hưng</td>
-                            <td><input type="date"></td>
-                            <td><input type="date"></td>
-                            <td><input type="text" value="1"  style="text-align: center; width: 100px;"></td>
-                            <td> <input type="text" value="7" style="text-align: center; width: 100px;"></td>
-                            <td><input type="text" value="3.400" style="text-align: center; width: 100px;"></td>
+                        <tr th:each="utility : ${utilities}">
+                            <td th:text="${utility.roomId}"></td>
+                            <td th:text="${utility.renterName}"></td>
+                            <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
+                            <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
+                            <td><input type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
+                            <td> <input type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
+                            <td th:text="${utility.pricePerIndex}"></td>
                             <td>
-                                <button class="btn btn-primary fa-solid fa-save"></button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>03</td>
-                            <td>Nguyễn Văn Tèo</td>
-                            <td><input type="date"></td>
-                            <td><input type="date"></td>
-                            <td><input type="text" value="11"  style="text-align: center; width: 100px;"></td>
-                            <td> <input type="text" value="100" style="text-align: center; width: 100px;"></td>
-                            <td><input type="text" value="3.400" style="text-align: center; width: 100px;"></td>
-                            <td>
-                                <button class="btn btn-primary fa-solid fa-save"></button>
+                                <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
                             </td>
                         </tr>
                         </tbody>

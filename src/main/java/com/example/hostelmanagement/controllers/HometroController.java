@@ -42,8 +42,8 @@ public class HometroController {
     public String historySite() { return "history"; }
 
     @RequestMapping(value = "electricity")
-    public String electricitySite() { return "electricity"; }
+    public String electricitySite() { return "redirect:/api/v1/used-utility/dien"; }
 
     @RequestMapping(value = "water")
-    public String waterSite() { return "water"; }
+    public String waterSite() { return "redirect:/api/v1/used-utility/nuoc"; }
 }

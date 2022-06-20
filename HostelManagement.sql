@@ -227,6 +227,6 @@ create table tbl_Booking(
     constraint FK_bookingUser FOREIGN KEY (userID) REFERENCES tbl_Users(userID)
 )
 
-insert into tbl_UtilityType()
+insert into tbl_UtilityType(utilityName, pricePerIndex, hostelID) VALUES('Dien', 3700, 1), ('Nuoc', 2600, 1), ('Dien', 3500, 3), ('Nuoc', 2300, 3)
 
 

@@ -72,25 +72,16 @@ public class RoomController {
 
     @GetMapping(value = {"/","search"})
     public String getAllRooms(@RequestParam(value = "roomNumber", required = false) String roomNumber, ModelMap mm) {
-
-        if (roomNumber==null || "".equals(roomNumber.trim())) {
-            mm.put("roomNumber", roomNumber);
-            List<Room> rooms = roomRepository.findAllByRoomStatus(true);
-            for (Room room: rooms) {
-                Utils.putPriceAndTypeNameToRoom(roomTypeRepository,room);
-                room.setUserName(roomRepository.findUserNameByUserId(room.getUserId()));
-            }
-            mm.put("rooms", rooms);
+        mm.put("roomNumber", roomNumber);
+        List<Room> rooms = roomRepository.findAllByRoomStatus(true);
+        if (roomNumber!=null && !"".equals(roomNumber.trim())) {
+            rooms = roomRepository.findAllByRoomNumberAndRoomStatus(Integer.parseInt(roomNumber), true);
         }
-        else {
-            mm.put("roomNumber", roomNumber);
-            List<Room> rooms = roomRepository.findAllByRoomNumberAndRoomStatus(Integer.parseInt(roomNumber), true);
-            for (Room room: rooms) {
-                Utils.putPriceAndTypeNameToRoom(roomTypeRepository,room);
-                room.setUserName(roomRepository.findUserNameByUserId(room.getUserId()));
-            }
-            mm.put("rooms", rooms);
+        for (Room room: rooms) {
+            Utils.putPriceAndTypeNameToRoom(roomTypeRepository,room);
+            room.setUserName(roomRepository.findUserNameByUserId(room.getUserId()));
         }
+        mm.put("rooms", rooms);
         return "hostpage";
     }
     @ResponseBody
