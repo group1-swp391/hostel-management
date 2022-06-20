@@ -79,8 +79,8 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <form action="/api/v1/RoomType/search" method="get" class="d-none d-md-flex ms-4 search" style="width: 370px;">
-                    <input class="form-control border-0" type="search" name="roomName" placeholder="Tìm tên phòng...">
-                    <button type="submit" style="display: none;">Search</button>
+                    <input class="form-control border-0" type="search" name="roomName" th:value="${roomName}" placeholder="Tìm tên phòng...">
+                    <button type="submit" style="display: none;"></button>
                 </form>
 
             </nav>

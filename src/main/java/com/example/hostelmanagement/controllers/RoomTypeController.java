@@ -22,7 +22,7 @@ public class RoomTypeController {
 
     @GetMapping(value = "/")
     public String hostIndex() {
-        return "roomtype";
+        return "redirect:search?roomName=";
     }
 
     @PostMapping(value = "insert")
