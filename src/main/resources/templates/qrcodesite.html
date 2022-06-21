@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QRCode Site to login</title>
+</head>
+<body>
+    <h1>QRCode Login</h1>
+    <form action="/loginqrcode" method="post">
+        Hostel Id <input type="text" name="hostelId" placeholder="Enter hostel id..." value="1234">
+        <button type="submit">Submit</button>
+        <img th:src="@{${'/qrcode?hostelId='+hostelId}}" alt="QRCode here"/>
+    </form>
+</body>
+</html>

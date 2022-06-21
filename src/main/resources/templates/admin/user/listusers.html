@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>Welcome - Hostel</title>
+</head>
+<body>
+<p>List Users</p>
+
+<div th:text="${message}" class="alert alert-primary" role="alert"> </div>
+<table class="table">
+    <thead class="table-light">
+    <tr>
+        <th th:text="UserId">userId</th>
+        <th th:text="UserName">userName</th>
+        <th th:text="Password">password</th>
+        <th th:text="DOB">dateOfBirth</th>
+        <th th:text="Gender">gender</th>
+        <th th:text="Email">email</th>
+        <th th:text="Password">password</th>
+        <th th:text="FullName">fullName</th>
+        <th th:text="Phone">phone</th>
+        <th th:text="DocumentID">documentId</th>
+        <th th:text="RoleID">roleId</th>
+        <th th:text="Status">userStatus</th>
+        <th th:text="Regtime">regtime</th>
+        <th th:text="Action">@Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${listUsers}">
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:text="${user.dateOfBirth}"></td>
+        <td th:text="${user.gender} ? 'Male' : 'Fermale'"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:text="${user.fullName}"></td>
+        <td th:text="${user.phone}"></td>
+        <td th:text="${user.documentId}"></td>
+        <td th:text="${user.roleId}"></td>
+        <td th:text="${user.userStatus} ? 'Active' : 'Deactive' "></td>
+        <td th:text="${#dates.format(user.regtime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+
+
+        <td>
+            <form th:action="@{/api/v1/Admin/getUser/{userid}(userid=${user.userId})}" method="POST">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+
+
+            <form th:action="@{/api/v1/Admin/deleteUser?userid={userid}(userid=${user.userId})}" method="POST">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</br>
+
+<div th:if="${user}">
+    <h3 >Update</h3>
+    <form th:action="@{/api/v1/Admin/updateUser/{userid}(userid=${user.userId})}" th:object="${user}" method="POST">
+        <br class="form-row">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="userid">User Id</label>
+                <input id="userId" class="form-control" type="text" readonly th:field="*{userId}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="username">Username</label>
+                <input name="username" id="username" class="form-control" type="text" th:field="*{userName}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="password">Start</label>
+                <input name="password" id="password" class="form-control" type="text" th:field="*{password}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="fullname">Start</label>
+                <input name="fullname" id="fullname" class="form-control" type="text" th:field="*{fullName}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="dob">DOB</label>
+                <input name="dob" id="dob" class="form-control" type="date" th:field="*{dateOfBirth}"/>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="gender">Gender:</label>
+
+                <select id="gender" name="gender" th:field="*{gender}">
+                    <option th:selected="*{gender==true}" th:value="true" th:text="Male"></option>
+                    <option th:selected="*{gender==false}" th:value="false" th:text="Female"></option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="phone">Phone</label>
+                <input name="phone" type="text" class="form-control" id="phone" th:field="*{phone}">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="email">Email</label>
+                <input name="email" type="email" class="form-control" id="email" th:field="*{email}">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="documentId">Document ID</label>
+                <input name="documentId" type="text" class="form-control" id="documentId" th:field="*{documentId}">
+            </div>
+
+            <div class="form-group col-md-4">
+                <label for="roleId">Role Id</label>
+                <input name="roleId" type="text" class="form-control" id="roleId" th:field="*{roleId}">
+            </div>
+
+
+        </div>
+        </br>
+
+
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+
+
+</body>
+</html>

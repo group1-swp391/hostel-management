@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management - Admin</title>
+</head>
+<body>
+<form action="/searchName" method="get">
+  <input type="text" name="userName" placeholder="Enter userName..." th:value="${userName}"/>
+  <button type="submit">Search</button>
+</form>
+<table>
+  <tr>
+    <th>user Name</th>
+  </tr>
+  <tr>
+    <td th:value="${user.toString()}"></td>
+  </tr>
+</table>
+</body>
+</html>
