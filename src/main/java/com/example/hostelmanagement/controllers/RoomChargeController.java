@@ -48,6 +48,7 @@ public class RoomChargeController {
     public String getAllRoomCharge(ModelMap mm, HttpSession session) {
         //List<Invoice> listinvoices = invoiceRepository.findAllByInvoiceStatusIsTrue();
         List<RoomCharge> roomcharges = roomChargeRepository.findAll();
+
 //        try {
 //            User accSession = (User) session.getAttribute("LOGIN_USER");
 //            for (Invoice invoice: listinvoices) {
@@ -62,6 +63,7 @@ public class RoomChargeController {
 //        } catch (Exception ex) {
 //
 //        }
+
         mm.put("roomcharges", roomcharges);
         return "roomcharge";
     }

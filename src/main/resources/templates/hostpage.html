@@ -84,9 +84,18 @@
                                 <td>
                                     <button class="btn btn-primary fa-solid fa-save" formaction="/api/v1/host/room/update" type="submit" name="update"></button>
                                     <button class="btn  btn-danger fa-solid fa-trash" formaction="/api/v1/host/room/delete" type="submit" name="delete"></button>
-                                    <button class="btn  btn-success fa-solid fa-file"></button>
                                 </td>
                             </form>
+                            <td>
+                                <form method="GET" th:action="@{/api/v1/invoice/callBillByRoomId}">
+                                    <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                    <label for="invoiceName">Invoice Name</label>
+                                    <input type="text" name="invoiceName" id="invoiceName">
+                                    <label for="note">Note</label>
+                                    <input type="text" name="note" id="note">
+                                    <button class="btn  btn-success fa-solid fa-file" type="submit" name="callBill"></button>
+                                </form>
+                            </td>
                         </tr>
 
 

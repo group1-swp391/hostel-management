@@ -1,21 +1,18 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.entities.Contracts;
-import com.example.hostelmanagement.entities.Room;
-import com.example.hostelmanagement.entities.RoomType;
-import com.example.hostelmanagement.entities.User;
-import com.example.hostelmanagement.repositories.ContractRepository;
-import com.example.hostelmanagement.repositories.RoomRepository;
-import com.example.hostelmanagement.repositories.RoomTypeRepository;
-import com.example.hostelmanagement.repositories.UserRepository;
+import com.example.hostelmanagement.entities.*;
+import com.example.hostelmanagement.repositories.*;
 import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
@@ -36,14 +33,16 @@ public class ContractController {
     private ContractRepository contractRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private HostelRepository hostelRepository;
 
     @RequestMapping(value = {"","contract"})
-    public String getContractPage(ModelMap mm) {
-        return getAllContract(mm);
+    public String getContractPage(ModelMap mm, HttpSession session) {
+        return getAllContract(mm,session);
     }
 
     @RequestMapping(value = "getAllContract")
-    public String getAllContract(ModelMap mm) {
+    public String getAllContract(ModelMap mm, HttpSession session) {
 
         List<Contracts> contracts = contractRepository.findAllByContractStatusTrue();
 
@@ -51,13 +50,22 @@ public class ContractController {
 
         for (Contracts contract:contracts) {
             User user = userRepository.findById(contract.getUserId()).get();
+            try {
+                User accSession = (User) session.getAttribute("LOGIN_USER");
+                Room room = roomRepository.getRoomByRoomId(contract.getRoomId());
+                if (room != null) {
+                    Hostel hostel = hostelRepository.getHostelByHostelId(room.getHostelId());
+                    if (accSession.getUserId() ==  hostel.getOwnerHostelId()) {
+                        contractuserHashMap.put(contract, user);
+                    }
+                }
+            }
+            catch (Exception ex) {
 
-            contractuserHashMap.put(contract, user);
+            }
         }
 
         mm.put("contractuserHashMap", contractuserHashMap);
-
-
 
         mm.put("listContracts", contracts);
 
@@ -69,7 +77,7 @@ public class ContractController {
                                  @RequestParam("endDate") java.sql.Date endDate,
                                  @RequestParam("userId") int userId,
                                  @RequestParam("roomId") int roomId,
-                                 ModelMap mm) {
+                                 ModelMap mm, HttpSession session) {
 
         java.util.Date date = new java.util.Date();
         Timestamp ts = new Timestamp(date.getTime());
@@ -104,11 +112,11 @@ public class ContractController {
             }
         }
 
-        return getAllContract(mm);
+        return getAllContract(mm, session);
     }
 
     @RequestMapping(value = "deleteContract")
-    public String deleteContract(@RequestParam("contractid") int contractid, ModelMap mm) {
+    public String deleteContract(@RequestParam("contractid") int contractid, ModelMap mm, HttpSession session) {
 
         Contracts contract = contractRepository.findById(contractid).get();
         if (contract != null && contract.getContractStatus()) {
@@ -120,12 +128,12 @@ public class ContractController {
             mm.put("message", "Not found contract id");
         }
 
-        String getAllContract = getAllContract(mm);
+        String getAllContract = getAllContract(mm, session);
         return getAllContract;
     }
 
     @RequestMapping(value = "liquidationContract")
-    public String liquidationContract(@RequestParam("contractid") int contractid, ModelMap mm) {
+    public String liquidationContract(@RequestParam("contractid") int contractid, ModelMap mm, HttpSession session) {
 
         Contracts contract = contractRepository.findById(contractid).get();
 
@@ -142,13 +150,13 @@ public class ContractController {
             mm.put("message", "Not found contract id or contract was liquidation");
         }
 
-        String getAllContract = getAllContract(mm);
+        String getAllContract = getAllContract(mm, session);
         return getAllContract;
     }
 
     @RequestMapping(value = "getContract/{contractid}")
     public String getUpdateContract(@PathVariable("contractid") int contractid,
-                                    ModelMap mm) {
+                                    ModelMap mm, HttpSession session) {
         try {
             Contracts contract = contractRepository.findById(contractid).get();
             if (contract.getContractStatus()) {
@@ -162,7 +170,7 @@ public class ContractController {
             mm.put("message", "Not found contract id " + contractid);
         }
 
-        return getAllContract(mm);
+        return getAllContract(mm, session);
     }
 
     @PostMapping(value = "updateContract/{contractid}")
@@ -172,7 +180,7 @@ public class ContractController {
                                  @RequestParam float deposit,
                                  @RequestParam int userId,
                                  @RequestParam int roomId
-            ,ModelMap mm) {
+            ,ModelMap mm, HttpSession session) {
 
         if(!contractRepository.existsById(contractid)) {
             mm.put("message", "Not found contract id " + contractid);
@@ -195,7 +203,7 @@ public class ContractController {
             mm.put("message", "Update success contract id " + contractid);
         }
 
-        String getAllContract = getAllContract(mm);
+        String getAllContract = getAllContract(mm, session);
         return getAllContract;
     }
 

@@ -59,7 +59,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Giành cho người thuê</a>
+                                <a class="nav-link" href="/">Dành cho người thuê</a>
                             </li>
 
                         </ul>
@@ -77,35 +77,37 @@
 			<div class="container">
 				<div class="row">
 					<div class="booking-form">
-						<form>
-							<div class="form-group">
-								<input class="form-control" type="text" placeholder="Họ tên">
-								<span class="form-label">Họ tên</span>
-							</div>
-							<div class="form-group">
-								<input class="form-control" type="tel" placeholder="Số điện thoại">
-								<span class="form-label">Số điện thoại </span>
-							</div>
-							<div class="form-group">
-								<input class="form-control" type="tel" placeholder="Email">
-								<span class="form-label">Email </span>
-							</div>
+						<form method="POST" th:action="@{/api/v1/booking/createBooking}">
+
 							<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="roomId" class="form-control" type="text" th:value="${param.roomId}"required>
+                                        <span class="form-label">Room Id</span>
+                                    </div>
+                                </div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<input class="form-control" type="date" required>
+										<input name="appointmentDate" class="form-control" type="date" required>
 										<span class="form-label">Ngày xem phòng</span>
 									</div>
 								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<input class="form-control" type="time" required>
-										<span class="form-label">Giờ xem phòng</span>
-									</div>
-								</div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="startDate" class="form-control" type="date" required>
+                                        <span class="form-label">Ngày dự kiến thuê</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="endDate" class="form-control" type="date" required>
+                                        <span class="form-label">Ngày dự kiến trả</span>
+                                    </div>
+                                </div>
+
 							</div>
 							<div class="form-btn">
-								<button class="submit-btn">Đặt lịch</button>
+								<button class="submit-btn" type="submit">Đặt lịch</button>
 							</div>
 						</form>
 					</div>

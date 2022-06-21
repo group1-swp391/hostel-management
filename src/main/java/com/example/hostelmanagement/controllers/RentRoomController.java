@@ -38,6 +38,7 @@ public class RentRoomController {
         }
         return "rentroom";
     }
+
     @GetMapping(value = "/{id}/info-room")
     public String infoRoom(@PathVariable("id") int id, ModelMap mm) {
         Room room = roomRepository.findById(id).get();

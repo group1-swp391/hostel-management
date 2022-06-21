@@ -49,9 +49,7 @@
                         <div>
                             <button class="btn btn-warning">Nhà trọ 1</button>
                             <button class="btn btn-warning">Nhà trọ 2</button>
-
                         </div>
-
                     </form>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-4">
@@ -74,27 +72,27 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="contract: ${listContracts}">
+                            <th:block th:each="row: ${contractuserHashMap}">
                                 <tr>
-                                    <td th:text="${contract.contractId}"></td>
-                                    <td th:text="${#dates.format(contract.startDate, 'dd-MM-yyyy')}"></td>
-                                    <td th:text="${#dates.format(contract.endDate, 'dd-MM-yyyy')}"></td>
-                                    <td th:text="${contract.deposit}"></td>
-                                    <td th:text="${contract.userId}"></td>
-                                    <td th:text="${contract.roomId}"></td>
-                                    <td th:text="${contract.contractStatus}"></td>
-                                    <td th:text="${#dates.format(contract.createContractTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
-                                    <td th:text="${#dates.format(contract.contractLiquidationTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                                    <td th:text="${row.key.contractId}"></td>
+                                    <td th:text="${#dates.format(row.key.startDate, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#dates.format(row.key.endDate, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${row.key.deposit}"></td>
+                                    <td th:text="${row.key.userId}"></td>
+                                    <td th:text="${row.key.roomId}"></td>
+                                    <td th:text="${row.key.contractStatus}"></td>
+                                    <td th:text="${#dates.format(row.key.createContractTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                                    <td th:text="${#dates.format(row.key.contractLiquidationTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
                                     <td>
-                                        <form th:action="@{/api/v1/contract/getContract/{contractid}(contractid=${contract.contractId})}" method="POST">
+                                        <form th:action="@{/api/v1/contract/getContract/{contractid}(contractid=${row.key.contractId})}" method="POST">
                                             <button type="submit" class="btn btn-primary">Edit</button>
                                         </form>
 
-                                        <form th:action="@{/api/v1/contract/liquidationContract?contractid={contractid}(contractid=${contract.contractId})}" method="POST">
+                                        <form th:action="@{/api/v1/contract/liquidationContract?contractid={contractid}(contractid=${row.key.contractId})}" method="POST">
                                             <button type="submit" class="btn btn-warning">Liquidation</button>
                                         </form>
 
-                                        <form th:action="@{/api/v1/contract/deleteContract?contractid={contractid}(contractid=${contract.contractId})}" method="POST">
+                                        <form th:action="@{/api/v1/contract/deleteContract?contractid={contractid}(contractid=${row.key.contractId})}" method="POST">
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </td>
