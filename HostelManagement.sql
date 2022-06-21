@@ -227,4 +227,27 @@ create table tbl_Booking(
     constraint FK_bookingUser FOREIGN KEY (userID) REFERENCES tbl_Users(userID)
 )
 
+insert into tbl_UtilityType(utilityName, pricePerIndex, hostelID) VALUES('Dien', 3700, 1), ('Nuoc', 2600, 1), ('Dien', 3500, 3), ('Nuoc', 2300, 3);
 
+GO
+CREATE FUNCTION addPrice(@utilityTypeID INT)
+RETURNS float AS
+BEGIN
+DECLARE @pricePerIndex float;
+SET @pricePerIndex = (SELECT pricePerIndex FROM tbl_UtilityType WHERE utilityTypeID=@utilityTypeID);
+RETURN @pricePerIndex;
+END;
+GO
+insert into tbl_UsedUtility(roomID, startDate, endDate, utilityTypeID, oldIndex, newIndex, pricePerIndex) VALUES(1, '20220412', '20220512', 1, 2,3, dbo.addPrice(1));
+insert into tbl_UsedUtility(roomID, startDate, endDate, utilityTypeID, oldIndex, newIndex, pricePerIndex) 
+VALUES(1, '20220412', '20220512', 2, 4,5, dbo.addPrice(2)), (2, '20220314', '20220413', 3, 4,5, dbo.addPrice(3)), (2, '20220412', '20220512', 4, 2,5, dbo.addPrice(4));
+SELECT dbo.addPrice(2);
+SELECT * FROM tbl_UsedUtility;
+SELECT * FROM tbl_UtilityType;
+
+SELECT utilityTypeID FROM tbl_UtilityType WHERE utilityName LIKE 'Dien';
+SELECT * FROM tbl_UsedUtility WHERE utilityTypeID IN (SELECT utilityTypeID FROM tbl_UtilityType WHERE utilityName LIKE 'Dien');
+SELECT u.fullName, uti.* FROM tbl_Users u, tbl_UsedUtility uti, tbl_Room r
+WHERE uti.roomID = 2 AND uti.roomID = r.roomID AND u.userID = r.UserID AND uti.utilityTypeID=3;
+SELECT * FROM tbl_Users;
+SELECT * FROM tbl_Room;

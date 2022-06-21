@@ -45,15 +45,20 @@ public class UserController {
         if(user!=null) {
             session.setAttribute("LOGIN_USER", user);
             if (user.getRoleId()==1) {
-                return "admin_userMngt";
+
+                return "redirect:/api/v1/Admin/";
             }
             if (user.getRoleId()==2) {
+                String n = "<i class=\"fa-solid fa-user-tie me-2\"></i>";
+                session.setAttribute("n", n);
+
                 return "redirect:/api/v1/host/";
             }
             return "index";
         } else {
             mm.put("message", "Invalid account");
-            return "redirect:/";
+
+            return "login";
         }
     }
     @RequestMapping(value = "logout")
@@ -122,11 +127,11 @@ public class UserController {
     }
 
     @PostMapping(value = "change-password")
-    public String changePassword(HttpSession session, @RequestParam("resetPassword") String resetPassword,
-                                 @RequestParam("password") String password, @RequestParam("oldPassword") String oldPassword,
-                                 ModelMap mm) {
+
+    public String changePassword(HttpSession session, @RequestParam("oldPassword") String oldPassword, @RequestParam("resetPassword") String resetPassword,
+                                 @RequestParam("password") String password, ModelMap mm) {
         User user = (User) session.getAttribute("LOGIN_USER");
-        if (resetPassword.equals(password) && !oldPassword.equals(password)) {
+        if (resetPassword.equals(password) && oldPassword.equals(user.getPassword())) {
             user.setPassword(password);
             userRepository.save(user);
             mm.put("message", "Đổi mật khẩu thành công!");

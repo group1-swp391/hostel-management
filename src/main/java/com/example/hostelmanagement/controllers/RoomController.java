@@ -1,8 +1,12 @@
 package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.Room;
+
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.RoomRepository;
+
+import com.example.hostelmanagement.repositories.RoomTypeRepository;
+
 import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,10 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PreUpdate;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +26,9 @@ import java.util.Optional;
 public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private RoomTypeRepository roomTypeRepository;
 
 
     @PostMapping(value = "insert")
@@ -65,16 +72,20 @@ public class RoomController {
         }
     }
 
+
+
     @GetMapping(value = {"/","search"})
     public String getAllRooms(@RequestParam(value = "roomNumber", required = false) String roomNumber, ModelMap mm) {
-        if (roomNumber==null || "".equals(roomNumber.trim())) {
-            mm.put("roomNumber", roomNumber);
-            mm.put("rooms", roomRepository.findAllByRoomStatus(true));
+        mm.put("roomNumber", roomNumber);
+        List<Room> rooms = roomRepository.findAllByRoomStatus(true);
+        if (roomNumber!=null && !"".equals(roomNumber.trim())) {
+            rooms = roomRepository.findAllByRoomNumberAndRoomStatus(Integer.parseInt(roomNumber), true);
         }
-        else {
-            mm.put("roomNumber", roomNumber);
-            mm.put("rooms", roomRepository.findAllByRoomNumberAndRoomStatus(Integer.parseInt(roomNumber), true));
+        for (Room room: rooms) {
+            Utils.putPriceAndTypeNameToRoom(roomTypeRepository,room);
+            room.setUserName(roomRepository.findUserNameByUserId(room.getUserId()));
         }
+        mm.put("rooms", rooms);
         return "hostpage";
     }
     @ResponseBody

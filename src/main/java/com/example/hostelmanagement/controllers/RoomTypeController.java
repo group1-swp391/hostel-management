@@ -22,7 +22,8 @@ public class RoomTypeController {
 
     @GetMapping(value = "/")
     public String hostIndex() {
-        return "host_roomTypeMngt";
+
+        return "redirect:search?roomName=";
     }
 
     @PostMapping(value = "insert")
@@ -33,7 +34,7 @@ public class RoomTypeController {
         }catch (Exception e) {
             mm.put("message", "Insert new hostel failed!");
         }
-        return "host_roomTypeMngt";
+        return "roomtype";
     }
 
     @GetMapping(value = "delete")
@@ -46,7 +47,8 @@ public class RoomTypeController {
         } catch (Exception e) {
             mm.put("message", "Delete room type failed");
         } finally {
-            return "host_roomTypeMngt";
+
+            return "roomtype";
         }
     }
     @GetMapping(value = "update")
@@ -63,7 +65,7 @@ public class RoomTypeController {
         } catch (Exception e) {
             mm.put("message", "Update room type failed");
         } finally {
-            return "host_roomTypeMngt";
+            return "roomtype";
         }
     }
 
@@ -71,6 +73,7 @@ public class RoomTypeController {
     public String getAllRoomType(@RequestParam(value = "roomName", required = false) String roomName, ModelMap mm) {
         mm.put("roomName", roomName);
         mm.put("roomTypes", roomTypeRepository.findAllByRoomNameContainsAndRoomTypeStatus(roomName, true));
-        return "host_roomTypeMngt";
+
+        return "roomtype";
     }
 }

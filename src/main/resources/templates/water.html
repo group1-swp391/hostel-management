@@ -4,178 +4,111 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricity Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="water.css">
+    <title>Document</title>
+
+    <th:block th:insert="~{roomtype :: link}"></th:block>
+    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Template Stylesheet -->
+
 </head>
+
 <body>
-    <input type="checkbox" id="sidebar-toggle">
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3 class="brand">
-                <span>Hometro</span>
-            </h3>
-            <label for="sidebar-toggle" class="fa-solid fa-bars"></label>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div th:insert="~{roomtype :: div.fragment-1}"></div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <div th:insert="~{roomtype :: div.fragment-2}"></div>
+
+        <!-- Navbar End -->
+
+
+        <!-- Table Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="">
+                        <div>
+                            <button class="btn btn-warning">Nhà trọ 1</button>
+                            <button class="btn btn-warning">Nhà trọ 2</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col">Mã phòng</th>
+                            <th scope="col">Người thuê</th>
+                            <th scope="col">Ngày bắt đầu</th>
+                            <th scope="col">Ngày kết thúc</th>
+                            <th scope="col">Chỉ số nước cũ (m<sup>3</sup>)</th>
+                            <th scope="col">Chỉ số nước mới (m<sup>3</sup>)</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Lưu</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="utility : ${utilities}">
+                            <td th:text="${utility.roomId}"></td>
+                            <td th:text="${utility.renterName}"></td>
+                            <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
+                            <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
+                            <td><input type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
+                            <td> <input type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
+                            <td th:text="${utility.pricePerIndex}"></td>
+                            <td>
+                                <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div class="sidebar-menu">
-                <li>
-                    <a href="hostpage.html ">
-                        <span  class="fa-solid fa-house"></span>
-                        <span>Trang chủ</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="services.html">
-                        <span class="fa-solid fa-wifi"></span>
-                        <span>Dịch vụ</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="electricity.html">
-                        <span class="fa-solid fa-bolt"></span>
-                        <span>Chỉ số điện</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="water.html">
-                        <span class="fa-solid fa-water"></span>
-                        <span>Chỉ số nước</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="history.html">
-                        <span class="fa-solid fa-clock-rotate-left"></span>
-                        <span>Lịch sử</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="contract.html">
-                        <span class="fa-solid fa-file-contract"></span>
-                        <span>Hợp đồng</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="money.html">
-                        <span class="fa-solid fa-money-bill"></span>
-                        <span>Doanh thu</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="account.html">
-                        <span class="fa-solid fa-user"></span>
-                        <span>Tài khoản</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="">
-                        <span class="fa-solid fa-arrow-right-from-bracket"></span>
-                        <span>Đăng xuất</span>
-                    </a>
-                </li>
-
-        </div>
     </div>
-
-    <div class="main-content">
-
-        <header>
-            <div class="search-wrapper">
-                <span class="fa-solid fa-magnifying-glass"></span>
-                <input type="text" placeholder="Search">
-            </div>
-            <div class="social-icons">
-                <span class="fa-solid fa-bell"></span>
-                <span class="fa-solid fa-comment-alt"></span>
-            </div>
-        </header>
+    <!-- Content End -->
 
 
-        <main>
-            <div class="hostel-number">
-                <form action="">
-                    <button type="submit" class="btn btn-warning">Nhà trọ 1</button>
-                    <button type="submit" class="btn btn-warning">Nhà trọ 2</button>
-                    <button type="submit" class="btn btn-success update-cost">Điều chỉnh giá</button>
-                </form>
-            </div>
-            
-            <div class="head-table">
-                <table class="table bg-white">
-                    <thead class="bg-dark text-light">
-                        <tr>
-                            <th>Phòng</th>
-                            <th>Chủ phòng</th>
-                            <th>Chỉ số tháng trước</th>
-                            <th>Chỉ số hiện tại</th>
-                            <th>Cập nhật</th>
-                        </tr>
-                    </thead>
+    <!-- Back to Top -->
 
-                    <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>Phạm Phú Hưng</td>
-                            <td>15m<sup>3</sup></td>
-                            <td>25m<sup>3</sup></td>
-                            <td>
-                                <form action="">
-                                    <button class="btn btn-primary fa-solid fa-marker"></button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
+</div>
 
-                    
-                    <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>Phạm Phú Hưng</td>
-                            <td>15m<sup>3</sup></td>
-                            <td>25m<sup>3</sup></td>
-                            <td>
-                                <form action="">
-                                    <button class="btn btn-primary fa-solid fa-marker"></button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-                    <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>Phạm Phú Hưng</td>
-                            <td>15m<sup>3</sup></td>
-                            <td>25m<sup>3</sup></td>
-                            <td>
-                                <form action="">
-                                    <button class="btn btn-primary fa-solid fa-marker"></button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-
-                    <tbody>
-                        <tr>
-                            <td>01</td>
-                            <td>Phạm Phú Hưng</td>
-                            <td>15m<sup>3</sup></td>
-                            <td>25m<sup>3</sup></td>
-                            <td>
-                                <form action="">
-                                    <button class="btn btn-primary fa-solid fa-marker"></button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                    
-                </table>
-            </div>
-        </main>
-
-    </div>
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
 </body>
+
 </html>

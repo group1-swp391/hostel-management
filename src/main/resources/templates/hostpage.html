@@ -5,171 +5,258 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Host Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/css/hostpage.css">
+    <title>Host page</title>
+    <th:block th:insert="~{roomtype :: link}"></th:block>
+    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+
+    <!-- Customized Bootstrap Stylesheet -->
+<!--     <link href="css/bootstrap.min.css" rel="stylesheet">-->
+
+    <!-- Template Stylesheet -->
+    <link href="css/hoststyle.css" rel="stylesheet">
 </head>
 
 <body>
-
-    <input type="checkbox" id="sidebar-toggle">
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3 class="brand">
-                <span>Hometro</span>
-            </h3>
-            <label for="sidebar-toggle" class="fa-solid fa-bars"></label>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
-
-        <div class="sidebar-menu">
-            <li>
-                <a href="/api/v1/host/">
-                    <span class="fa-solid fa-house"></span>
-                    <span>Trang chủ</span>
-                </a>
-            </li>
-            <li>
-                <a href="/api/v1/RoomType/">
-                    <span class="fa-solid fa-door-closed"></span>
-                    <span>Loại phòng</span>
-                </a>
-            </li>
-            <li>
-                <a href="services.html">
-                    <span class="fa-solid fa-wifi"></span>
-                    <span>Dịch vụ</span>
-                </a>
-            </li>
-            <li>
-                <a href="electricity.html">
-                    <span class="fa-solid fa-bolt"></span>
-                    <span>Chỉ số điện</span>
-                </a>
-            </li>
-            <li>
-                <a href="water.html">
-                    <span class="fa-solid fa-water"></span>
-                    <span>Chỉ số nước</span>
-                </a>
-            </li>
-            <li>
-                <a href="history.html">
-                    <span class="fa-solid fa-clock-rotate-left"></span>
-                    <span>Lịch sử</span>
-                </a>
-            </li>
-            <li>
-                <a href="contract.html">
-                    <span class="fa-solid fa-file-contract"></span>
-                    <span>Hợp đồng</span>
-                </a>
-            </li>
-            <li>
-                <a href="money.html">
-                    <span class="fa-solid fa-money-bill"></span>
-                    <span>Doanh thu</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/api/v1/user/show-info">
-                    <span class="fa-solid fa-user"></span>
-                    <span th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Tài khoản'"></span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/api/v1/user/logout">
-                    <span class="fa-solid fa-arrow-right-from-bracket"></span>
-                    <span>Đăng xuất</span>
-                </a>
-            </li>
-
-        </div>
-    </div>
+    </div> -->
+    <!-- Spinner End -->
 
 
-    <div class="main-content">
-        <header>
-                <form action="/api/v1/host/room/search" class="search-wrapper" method="get">
-                    <span class="fa-solid fa-magnifying-glass"></span><input type="text" name="roomNumber" placeholder="Enter your room number..." th:value="${roomNumber}">
-                    <button type="submit" style="display: none;">Search</button>
-                </form>
-
-            <div class="social-icons">
-                <span class="fa-solid fa-bell"></span>
-                <span class="fa-solid fa-comment-alt"></span>
-            </div>
-        </header>
+    <!-- Sidebar Start -->
+    <div th:insert="~{roomtype :: div.fragment-1}"></div>
+    <!-- Sidebar End -->
 
 
-        <main>
-            <div class="hostel-number">
-                <form action="">
-                    <button type="submit" class="btn btn-warning">Nhà trọ 1</button>
-                    <button type="submit" class="btn btn-warning">Nhà trọ 2</button>
-                    <button type="submit" class="btn btn-primary fa-solid fa-plus"></button>
-                </form>
-            </div>
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <div th:insert="~{roomtype :: div.fragment-2}"></div>
+        <!-- Navbar End -->
 
-            <div class="head-table">
-                <table class="table bg-white">
-                    <thead class="bg-dark text-light">
-                    <p th:text="${message}" style="color: red;"></p>
-                        <tr>
-                            <th>Phòng</th>
-                            <th>Người thuê trọ</th>
-                            <th>Giá</th>
-                            <th>Loại phòng</th>
-                            <th>Hình ảnh</th>
-                            <th>Trạng thái</th>
-                            <th>Tuỳ chọn</th>
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="addhostel.html">
+                        <button class="btn btn-warning">Nhà trọ 1</button>
+                        <button class="btn btn-warning">Nhà trọ 2</button>
+                        <button class="btn btn-primary">+</button>
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+
+                            <th scope="col">Số phòng</th>
+                            <th scope="col">Loại phòng</th>
+                            <th scope="col">Người thuê trọ</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Hình ảnh</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Tuỳ chọn</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <form action="/api/v1/host/room/insert" enctype="multipart/form-data" method="post">
-                                <td><input type="text" name="newRoomNumber" placeholder="New room number..."></td>
-                                <td><input type="text" name="newUserId" placeholder="New user id..."></td>
-                                <input type="hidden" name="hostelId" value="2" readonly>
-                                <td><input type="text" name="newPrice" placeholder="Deposit price" readonly></td>
-                                <td><input type="text" name="newTypeId" placeholder="New room type..."></td>
-                                <td><input type="file" name="newImage" placeholder="Choose image..."></td>
-                                <td>Trống</td>
-                                <td><button type="submit">Insert</button></td>
-                                <td><button type="reset">Reset</button></td>
-                            </form>
-                        </tr>
+                        </thead>
+                        <tbody>
                         <tr th:each="room: ${rooms}">
-
                             <form method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="roomId" th:value="${room.roomId}">
                                 <td><input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
-                                <td><input type="text" name="userId" th:value="${room.userId}"></td>
-                                <td><input type="text" name="price" readonly></td>
-                                <td><input type="text" name="typeId" th:value="${room.typeId}" readonly></td>
+                                <td><input type="text" name="typeId" th:value="${room.roomName}" readonly></td>
+                                <td><input type="text" name="userName" th:value="${room.userName}"></td>
+                                <td><input type="text" name="price" th:value="${#numbers.formatDecimal(room.price, 0, 'COMMA', 2, 'POINT') + ' đ'}" readonly></td>
                                 <td><input type="file" name="image"><br><img style="width: 100px;" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" th:alt="${room.roomId}"></td>
-                                <td>Trống</td>
-                                <td><button class="btn btn-primary fa-solid fa-edit" formaction="/api/v1/host/room/update" type="submit" name="update"></button></td>
-                                <td><button class="btn btn-danger fa-solid fa-trash"formaction="/api/v1/host/room/delete" type="submit" name="delete"></button></td>
-                                <td><button class="btn btn-success fa-solid fa-file-invoice"></button></td>
+                                <td>
+                                    <select style="text-align: center;">
+                                        <option value="paid">Đã thanh toán</option>
+                                        <option value="unpaid">Chưa thanh toán</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save" formaction="/api/v1/host/room/update" type="submit" name="update"></button>
+                                    <button class="btn  btn-danger fa-solid fa-trash" formaction="/api/v1/host/room/delete" type="submit" name="delete"></button>
+                                </td>
                             </form>
+                            <td>
+                                <form method="GET" th:action="@{/api/v1/invoice/callBillByRoomId}">
+                                    <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                    <label for="invoiceName">Invoice Name</label>
+                                    <input type="text" name="invoiceName" id="invoiceName">
+                                    <label for="note">Note</label>
+                                    <input type="text" name="note" id="note">
+                                    <button class="btn  btn-success fa-solid fa-file" type="submit" name="callBill"></button>
+                                </form>
+                            </td>
                         </tr>
 
-                    </tbody>
 
-
-                </table>
+                        <tr>
+                            <form action="addroom.html">
+                                <th colspan="7">
+                                    <button class="btn btn-info">Thêm phòng</button>
+                                </th>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
+        <!-- Recent Sales End -->
 
-        </main>
+
+        <!-- Widgets Start -->
+        <!-- <div class="container-fluid pt-4 px-4">
+            <div class="row g-4">
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-light rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h6 class="mb-0">Messages</h6>
+                            <a href="">Show All</a>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center pt-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-light rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Calender</h6>
+                            <a href="">Show All</a>
+                        </div>
+                        <div id="calender"></div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-light rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">To Do List</h6>
+                            <a href="">Show All</a>
+                        </div>
+                        <div class="d-flex mb-2">
+                            <input class="form-control bg-transparent" type="text" placeholder="Enter task">
+                            <button type="button" class="btn btn-primary ms-2">Add</button>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox" checked>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span><del>Short task goes here...</del></span>
+                                    <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center pt-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Widgets End -->
+
 
     </div>
+    <!-- Content End -->
 
+
+    <!-- Back to Top -->
+    <!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a> -->
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
 </body>
 
 </html>

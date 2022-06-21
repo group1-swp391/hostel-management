@@ -1,7 +1,10 @@
 package com.example.hostelmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_Invoice", schema = "dbo", catalog = "Hostel_Management")
@@ -9,42 +12,61 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "invoiceID")
-    private int invoiceId;
+    private Integer invoiceId;
     @Basic
     @Column(name = "roomID")
-    private int roomId;
+    private Integer roomId;
     @Basic
     @Column(name = "invoiceName")
     private String invoiceName;
     @Basic
     @Column(name = "totalAmount")
-    private double totalAmount;
+    private Double totalAmount;
     @Basic
     @Column(name = "invoiceStatus")
-    private boolean invoiceStatus;
+    private Boolean invoiceStatus;
+
     @Basic
     @Column(name = "note")
     private String note;
-    @Basic
-    @Column(name = "invoiceCreateDate")
-    private Date invoiceCreateDate;
-    @Basic
-    @Column(name = "paymentDate")
-    private Date paymentDate;
 
-    public int getInvoiceId() {
+    @Basic
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Timestamp invoiceCreateDate;
+    @Basic
+    @Column(name = "paymentStatus")
+    private Boolean paymentStatus;
+    @Basic
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Timestamp paymentDate;
+
+    public Invoice() {
+    }
+
+    public Invoice(Integer roomId, String invoiceName, Double totalAmount, Boolean invoiceStatus, String note, Timestamp invoiceCreateDate, Boolean paymentStatus, Timestamp paymentDate) {
+        this.roomId = roomId;
+        this.invoiceName = invoiceName;
+        this.totalAmount = totalAmount;
+        this.invoiceStatus = invoiceStatus;
+        this.note = note;
+        this.invoiceCreateDate = invoiceCreateDate;
+        this.paymentStatus = paymentStatus;
+        this.paymentDate = paymentDate;
+    }
+
+    public Integer getInvoiceId() {
         return invoiceId;
     }
 
-    public void setInvoiceId(int invoiceId) {
+    public void setInvoiceId(Integer invoiceId) {
         this.invoiceId = invoiceId;
     }
 
-    public int getRoomId() {
+    public Integer getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
 
@@ -56,19 +78,19 @@ public class Invoice {
         this.invoiceName = invoiceName;
     }
 
-    public double getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
-    public boolean isInvoiceStatus() {
+    public Boolean getInvoiceStatus() {
         return invoiceStatus;
     }
 
-    public void setInvoiceStatus(boolean invoiceStatus) {
+    public void setInvoiceStatus(Boolean invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
     }
 
@@ -80,55 +102,56 @@ public class Invoice {
         this.note = note;
     }
 
-    public Date getInvoiceCreateDate() {
+    public Timestamp getInvoiceCreateDate() {
         return invoiceCreateDate;
     }
 
-    public void setInvoiceCreateDate(Date invoiceCreateDate) {
+    public void setInvoiceCreateDate(Timestamp invoiceCreateDate) {
         this.invoiceCreateDate = invoiceCreateDate;
     }
 
-    public Date getPaymentDate() {
+    public Boolean getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Timestamp getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(Timestamp paymentDate) {
         this.paymentDate = paymentDate;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof Invoice)) return false;
         Invoice invoice = (Invoice) o;
-
-        if (invoiceId != invoice.invoiceId) return false;
-        if (roomId != invoice.roomId) return false;
-        if (Double.compare(invoice.totalAmount, totalAmount) != 0) return false;
-        if (invoiceStatus != invoice.invoiceStatus) return false;
-        if (invoiceName != null ? !invoiceName.equals(invoice.invoiceName) : invoice.invoiceName != null) return false;
-        if (note != null ? !note.equals(invoice.note) : invoice.note != null) return false;
-        if (invoiceCreateDate != null ? !invoiceCreateDate.equals(invoice.invoiceCreateDate) : invoice.invoiceCreateDate != null)
-            return false;
-        if (paymentDate != null ? !paymentDate.equals(invoice.paymentDate) : invoice.paymentDate != null) return false;
-
-        return true;
+        return Objects.equals(getInvoiceId(), invoice.getInvoiceId()) && Objects.equals(getRoomId(), invoice.getRoomId()) && Objects.equals(getInvoiceName(), invoice.getInvoiceName()) && Objects.equals(getTotalAmount(), invoice.getTotalAmount()) && Objects.equals(getInvoiceStatus(), invoice.getInvoiceStatus()) && Objects.equals(getNote(), invoice.getNote()) && Objects.equals(getInvoiceCreateDate(), invoice.getInvoiceCreateDate()) && Objects.equals(getPaymentStatus(), invoice.getPaymentStatus()) && Objects.equals(getPaymentDate(), invoice.getPaymentDate());
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = invoiceId;
-        result = 31 * result + roomId;
-        result = 31 * result + (invoiceName != null ? invoiceName.hashCode() : 0);
-        temp = Double.doubleToLongBits(totalAmount);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (invoiceStatus ? 1 : 0);
-        result = 31 * result + (note != null ? note.hashCode() : 0);
-        result = 31 * result + (invoiceCreateDate != null ? invoiceCreateDate.hashCode() : 0);
-        result = 31 * result + (paymentDate != null ? paymentDate.hashCode() : 0);
-        return result;
+        return Objects.hash(getInvoiceId(), getRoomId(), getInvoiceName(), getTotalAmount(), getInvoiceStatus(), getNote(), getInvoiceCreateDate(), getPaymentStatus(), getPaymentDate());
     }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "invoiceId=" + invoiceId +
+                ", roomId=" + roomId +
+                ", invoiceName='" + invoiceName + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", invoiceStatus=" + invoiceStatus +
+                ", note='" + note + '\'' +
+                ", invoiceCreateDate=" + invoiceCreateDate +
+                ", paymentStatus=" + paymentStatus +
+                ", paymentDate=" + paymentDate +
+                '}';
+    }
+
 }

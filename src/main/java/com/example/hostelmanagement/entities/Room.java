@@ -29,6 +29,37 @@ public class Room {
     @Column(name = "roomStatus")
     private boolean roomStatus;
 
+    @Transient
+    private double price;
+    @Transient
+    private String roomName;
+    @Transient
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
     public int getRoomId() {
         return roomId;
     }
