@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Utility Type</title>
+</head>
+<body>
+<p><a href="/api/v1/User/logout">Logout</a></p>
+<form action="/api/v1/UtilityType/search" method="get">
+    Room Name <input type="text" name="utilityName" placeholder="Enter utility name" th:value="${utilityName}">
+    <button type="submit">Search</button>
+</form>
+<p th:text="${message}"></p>
+<table border="1">
+    <tr>
+        <th>Utility Type ID</th>
+        <th>Utility Name</th>
+        <th>Price Per Index</th>
+        <th>Hostel Id</th>
+        <th>Operation</th>
+        <th>Delete</th>
+    </tr>
+    <form action="/api/v1/UtilityType/insert" method="post">
+        <td><input type="text" value="utilityTypeId" readonly></td>
+        <td><input type="text" name="newUtilityName" placeholder="New utility name..."></td>
+        <td><input type="text" name="newPricePerIndex" placeholder="New price per index..."></td>
+        <td><input type="text" name="newHostelId" placeholder="New hostel id..."></td>
+        <td><button type="submit">Insert</button></td>
+        <td><button type="reset">Reset</button></td>
+    </form>
+    <tr th:each="utilityType: ${utilityTypes}">
+        <form method="get">
+            <td><input type="text" name="utilityTypeId"  th:value="${utilityType.utilityTypeId}" readonly></td>
+            <td><input type="text" name="utilityName"  th:value="${utilityType.utilityName}"></td>
+            <td><input type="text" name="pricePerIndex"  th:value="${utilityType.pricePerIndex}"></td>
+            <td><input type="text" name="hostelId"  th:value="${utilityType.hostelId}"></td>
+            <td><button formaction="/api/v1/UtilityType/update" type="submit" name="update" value="Update">Update</button></td>
+            <td><button formaction="/api/v1/UtilityType/delete" type="submit" name="delete" value="Delete">Delete</button></td>
+        </form>
+    </tr>
+
+</table>
+</body>
+</html>

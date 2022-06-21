@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Template Stylesheet -->
+    <link th:href="@{css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/api/v1/host/" class="navbar-brand mx-4 mb-3">
+                <img style="height: 10rem;" src="/img/logo.png" alt=""> HOMETRO
+            </a>
+            <div class="navbar-nav w-100">
+                <a href="/api/v1/host/" class="nav-item nav-link active"><i class="fa-solid fa-home me-2"></i>Trang
+                    chính</a>
+                <a href="/api/v1/RoomType/" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
+                    phòng</a>
+                <a href="/api/v1/hometro/service" class="nav-item nav-link"><i class="fa fa-house-signal me-2"></i>Dịch vụ</a>
+                <a href="/api/v1/hometro/electricity" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
+                    điện</a>
+                <a href="/api/v1/hometro/water" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
+                    nước</a>
+                <a href="/api/v1/hometro/history" class="nav-item nav-link"><i
+                        class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử</a>
+                <a href="/api/v1/hometro/contract" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
+                    đồng</a>
+                <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
+                    thu</a>
+                <div class="nav-item dropdown">
+                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
+                        <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0"   style="height: 60px;">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <form class="d-none d-md-flex ms-4 search" style="width: 370px;">
+                <input class="form-control border-0" type="search" placeholder="Search">
+            </form>
+        </nav>
+        <!-- Navbar End -->
+
+
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="">
+                        <div>
+                            <button class="btn btn-warning">Nhà trọ 1</button>
+                            <button class="btn btn-warning">Nhà trọ 2</button>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                            <thead>
+                            <tr class="text-dark">
+                                <th scope="col">Mã phòng</th>
+                                <th scope="col">Người thuê</th>
+                                <th scope="col">Ngày bắt đầu</th>
+                                <th scope="col">Ngày kết thúc</th>
+                                <th scope="col">Chỉ số điện cũ (kW)</th>
+                                <th scope="col">Chỉ số điện mới (kW)</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Lưu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr th:each="utility : ${utilities}">
+                                <form action="/api/v1/used-utility/dien/update" method="post">
+                                    <td th:text="${utility.roomId}"></td>
+                                    <td th:text="${utility.renterName}"></td>
+                                    <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
+                                    <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
+                                    <td><input name="oldIndex" type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
+                                    <td> <input name="newIndex" type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
+                                    <td th:text="${utility.pricePerIndex}"></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                    </td>
+                                </form>
+                            </tr>
+                            </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Form End -->
+
+
+        <!-- Footer Start -->
+
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>

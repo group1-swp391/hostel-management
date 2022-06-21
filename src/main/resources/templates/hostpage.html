@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host page</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+<!--     <link href="css/bootstrap.min.css" rel="stylesheet">-->
+
+    <!-- Template Stylesheet -->
+    <link href="css/hoststyle.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/api/v1/host/" class="navbar-brand mx-4 mb-3">
+                <img style="height: 10rem;" src="/img/logo.png" alt=""> HOMETRO
+            </a>
+            <div class="navbar-nav w-100">
+                <a href="/api/v1/host/" class="nav-item nav-link active"><i class="fa-solid fa-home me-2"></i>Trang
+                    chính</a>
+                <a href="/api/v1/RoomType/" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
+                    phòng</a>
+                <a href="/api/v1/hometro/service" class="nav-item nav-link"><i class="fa fa-house-signal me-2"></i>Dịch vụ</a>
+                <a href="/api/v1/hometro/electricity" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
+                    điện</a>
+                <a href="/api/v1/hometro/water" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
+                    nước</a>
+                <a href="/api/v1/hometro/history" class="nav-item nav-link"><i
+                        class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử</a>
+                <a href="/api/v1/hometro/contract" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
+                    đồng</a>
+                <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
+                    thu</a>
+                <div class="nav-item dropdown">
+                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
+                        <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0" style="height: 60px;">
+            <a href="/api/v1/host/" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <form action="/api/v1/host/room/search" method="get" class="d-none d-md-flex ms-4 search" style="width: 370px;">
+                <input class="form-control border-0" name="roomNumber" type="search" placeholder="Tìm kiếm phòng..." th:value="${roomNumber}">
+                <button type="submit" style="display: none;">Search</button>
+            </form>
+
+        </nav>
+        <!-- Navbar End -->
+
+
+
+
+
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="addhostel.html">
+                        <button class="btn btn-warning">Nhà trọ 1</button>
+                        <button class="btn btn-warning">Nhà trọ 2</button>
+                        <button class="btn btn-primary">+</button>
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+
+                            <th scope="col">Số phòng</th>
+                            <th scope="col">Loại phòng</th>
+                            <th scope="col">Người thuê trọ</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Hình ảnh</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Tuỳ chọn</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="room: ${rooms}">
+                            <form method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                <td><input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
+                                <td><input type="text" name="typeId" th:value="${room.roomName}" readonly></td>
+                                <td><input type="text" name="userName" th:value="${room.userName}"></td>
+                                <td><input type="text" name="price" th:value="${#numbers.formatDecimal(room.price, 0, 'COMMA', 2, 'POINT') + ' đ'}" readonly></td>
+                                <td><input type="file" name="image"><br><img style="width: 100px;" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" th:alt="${room.roomId}"></td>
+                                <td>
+                                    <select style="text-align: center;">
+                                        <option value="paid">Đã thanh toán</option>
+                                        <option value="unpaid">Chưa thanh toán</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save" formaction="/api/v1/host/room/update" type="submit" name="update"></button>
+                                    <button class="btn  btn-danger fa-solid fa-trash" formaction="/api/v1/host/room/delete" type="submit" name="delete"></button>
+                                    <button class="btn  btn-success fa-solid fa-file"></button>
+                                </td>
+                            </form>
+                        </tr>
+
+
+                        <tr>
+                            <form action="addroom.html">
+                                <th colspan="7">
+                                    <button class="btn btn-info">Thêm phòng</button>
+                                </th>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Recent Sales End -->
+
+
+        <!-- Widgets Start -->
+        <!-- <div class="container-fluid pt-4 px-4">
+            <div class="row g-4">
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-light rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h6 class="mb-0">Messages</h6>
+                            <a href="">Show All</a>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center pt-3">
+                            <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0">Jhon Doe</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                                <span>Short message goes here...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-light rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Calender</h6>
+                            <a href="">Show All</a>
+                        </div>
+                        <div id="calender"></div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-4">
+                    <div class="h-100 bg-light rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">To Do List</h6>
+                            <a href="">Show All</a>
+                        </div>
+                        <div class="d-flex mb-2">
+                            <input class="form-control bg-transparent" type="text" placeholder="Enter task">
+                            <button type="button" class="btn btn-primary ms-2">Add</button>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox" checked>
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span><del>Short task goes here...</del></span>
+                                    <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center pt-2">
+                            <input class="form-check-input m-0" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Short task goes here...</span>
+                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Widgets End -->
+
+
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a> -->
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>

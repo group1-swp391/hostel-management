@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Đăng nhập | HOMETRO</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- icofont -->
+    <link rel="stylesheet" href="/css/icofont.min.css" />
+    <!-- Slick slider -->
+    <link rel="stylesheet" href="/css/slick.css" />
+    <link rel="stylesheet" href="/css/slick-theme.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <!-- Style css-->
+    <link rel="stylesheet" href="/css/style.css" />
+    <!-- Responsive css-->
+    <link rel="stylesheet" href="/css/responsive.css" />
+    <style>
+        body {
+            background: linear-gradient(#141e30, #243b55);
+        }
+    </style>
+</head>
+
+<body style="background-color:rgb(252, 242, 248);">
+    <header id="full_nav">
+        <div class="header">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="/">
+                        <img src="/img/logo.png" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="icofont icofont-navigation-menu"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/api/v1/hometro/to-rentroom">Thuê phòng</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Dành cho người thuê</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <form>
+                        <input type="text" name="search" placeholder="Search..">
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="login-box">
+        <div th:if="${message != null}">
+        <div th:text="${message}" class="alert alert-primary" role="alert"> </div>
+        </div>
+        <h2>Đăng nhập</h2>
+        <form action="login" method="post">
+            <div class="user-box">
+                <input type="text" name="userName" required="">
+                <label>Tên đăng nhập</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="password" required="">
+                <label>Mật khẩu</label>
+            </div>
+            <button type="submit">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                ĐĂNG NHẬP
+            </button>
+        </form>
+    </div>
+
+</body>
+
+</html>

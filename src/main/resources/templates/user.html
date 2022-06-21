@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title>HOMETRO</title>
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- favicon -->
+	<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+		rel="stylesheet">
+	<!-- icofont -->
+	<link rel="stylesheet" href="/css/icofont.min.css" />
+	<!-- Slick slider -->
+	<link rel="stylesheet" href="/css/slick.css" />
+	<link rel="stylesheet" href="/css/slick-theme.css" />
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<!-- Style css-->
+	<link rel="stylesheet" href="/css/style.css" />
+	<!-- Responsive css-->
+	<link rel="stylesheet" href="/css/responsive.css" />
+</head>
+
+<body style="background-color:rgb(252, 242, 248);">
+	<!-- HEADER PART START -->
+	<header id="full_nav">
+		<div class="header">
+			<div class="container">
+				<nav class="navbar navbar-expand-lg navbar-light">
+					<a class="navbar-brand " href="/">
+						<img src="/img/logo.png" alt="">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<i class="icofont icofont-navigation-menu"></i>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mx-auto">
+							<li class="nav-item active">
+								<a class="nav-link" href="/api/v1/hometro/to-rentroom/">Thuê phòng</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="/"> Giành cho người thuê</a>
+							</li>
+						</ul>
+					</div>
+					<form>
+						<input type="text" name="search" placeholder="Search..">
+					</form>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<!-- HEADER PART END -->
+
+	<!-- BANNER PART START -->
+	<div class="full-banner">
+		<div class="container">
+			<div class="row banner-slider">
+				<div class="col-md-12">
+					<div class="banner-content">
+						<h1><span>Quản lý mọi lúc, mọi nơi</span></h1>
+						<h3>Chủ trọ có thể quản lý nhà trọ mọi lúc mọi nơi, dữ liệu được quản lý tập trung, bảo mật, và
+							an toàn tuyệt đối.</h3>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="banner-content">
+						<h1><span>Đơn giản & Dễ dùng</span></h1>
+						<h3>Giao diện đơn giản, thân thiện, thông minh giúp chủ trọ triển khai quản lý nhà trọ thật dễ
+							dàng và nhanh chóng</h3>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="banner-content">
+						<h1> <span>Tiết kiệm chi phí tối đa</span></h1>
+						<h3>Chỉ với 12.000 đồng/phòng, chủ trọ đã có thể áp dụng công nghệ tiên tiến vào quản lý nhà
+							trọ, căn hộ của mình.</h3>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- BANNER PART END -->
+
+	<!-- FEATURES PART START -->
+	<div class="full-features">
+		<div class="container">
+			<div class="row slider">
+				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+					<div class="features-box text-center">
+						<div class="features-icon-border">
+							<div class="features-icon">
+								<i class="icofont-people"></i>
+							</div>
+						</div>
+						<div class="features-text">
+							<h3>Quản lý khách thuê</h3>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+					<div class="features-box text-center">
+						<div class="features-icon-border">
+							<div class="features-icon">
+								<i class="icofont-page"></i>
+							</div>
+						</div>
+						<div class="features-text">
+							<h3>Quản lý hợp đồng</h3>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+					<div class="features-box text-center">
+						<div class="features-icon-border">
+							<div class="features-icon">
+								<i class="icofont-wifi"></i>
+							</div>
+						</div>
+						<div class="features-text">
+							<h3>Quản lý dịch vụ</h3>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+					<div class="features-box text-center">
+						<div class="features-icon-border">
+							<div class="features-icon">
+								<i class="icofont-bill"></i>
+							</div>
+						</div>
+						<div class="features-text">
+							<h3>Quản lý hóa đơn</h3>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
+					<div class="features-box text-center">
+						<div class="features-icon-border">
+							<div class="features-icon">
+								<i class="icofont-bed"></i>
+							</div>
+						</div>
+						<div class="features-text">
+							<h3>Quản lý phòng,thiết bị</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- FEATURES PART END -->
+
+	<!-- ABOUT US PART START -->
+	<div class="full-about" id="full-about" >
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="about-content">
+						<h3>HOMETRO.COM</h3>
+						<div class="about-details">
+							<p>Được ra đời dựa vào nhu cầu thực tế của các cá nhân, tổ chức cho thuê phòng trọ. Ứng dụng
+								quản lý phòng trọ được phát triển giúp cho người quản lý tính toán chính xác tiền phòng,
+								dịch vụ, tiết kiệm thời gian ghi chép, thống kê.</p>
+							<p>Phần mềm quản lý được nhà trọ có nhiều nhà/ khu vực, nhiều phòng. Thiết lập linh động đơn
+								giá dịch vụ, linh động về kỳ thu tiền.
+								Phần mềm được phát triển trên nền tảng web, sử dụng online, có thể truy cập bất kỳ nơi
+								nào có internet.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ABOUT US PART END -->
+
+	<div class="footer_bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-12">
+					<div class="footer_txt text-center">
+						<p>HOMETRO.COM</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<!-- Slick slider -->
+	<script src="/js/slick.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="/js/bootstrap.min.js"></script>
+	<!-- scripts -->
+	<script src="/js/scripts.js"></script>
+	<script>
+		$(".banner-slider").slick({
+			infinite: false,
+			autoplay: true,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			autoplaySpeed: 2000,
+			arrows: false,
+			dots: true,
+		});
+
+		$(".slider").slick({
+			infinite: false,
+			slidesToShow: 4,
+			slidesToScroll: 1,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			arrows: false,
+			dots: true,
+
+			// the magic
+			responsive: [{
+				breakpoint: 1500,
+				settings: {
+					slidesToShow: 4,
+					infinite: true
+				}
+
+			}, {
+
+				breakpoint: 1201,
+				settings: {
+					slidesToShow: 3,
+					dots: true
+				}
+
+			}, {
+
+				breakpoint: 991,
+				settings: {
+					slidesToShow: 2,
+					dots: true
+				}
+
+			}, {
+
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 1,
+					dots: true
+				}
+
+			}, {
+
+				breakpoint: 300,
+				settings: {
+					slidesToShow: 1,
+					dots: true
+				},
+			}]
+		});
+
+
+		$(".partner-slider").slick({
+			// normal options...
+			infinite: false,
+			slidesToShow: 5,
+			slidesToScroll: 2,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			infinite: true,
+			arrows: true,
+
+			// the magic
+			responsive: [{
+
+				breakpoint: 1500,
+				settings: {
+					slidesToShow: 4,
+					infinite: true
+				}
+
+			}, {
+
+				breakpoint: 1201,
+				settings: {
+					slidesToShow: 3,
+					dots: true
+				}
+
+			}, {
+
+				breakpoint: 991,
+				settings: {
+					slidesToShow: 2,
+					dots: true,
+					arrows: false,
+				}
+
+			}, {
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 2,
+					dots: true,
+					arrows: false
+				}
+
+			}]
+		});
+
+
+
+		$(".product-slider").slick({
+			// normal options...
+			infinite: false,
+			slidesToShow: 5,
+			slidesToScroll: 2,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			infinite: true,
+			arrows: true,
+
+			// the magic
+			responsive: [{
+
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 3,
+					infinite: true
+				}
+
+			}, {
+
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 2,
+					dots: true
+				}
+
+			}, {
+
+				breakpoint: 300,
+				settings: "unslick" // destroys slick
+
+			}]
+		});
+
+		//for testimonial
+		$('.testimonial-img').slick({
+			speed: 500,
+			arrows: false,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			asNavFor: '.testimonial-text',
+			centerMode: true,
+			centerPadding: 0,
+			responsive: [
+				{
+					breakpoint: 1200,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						centerMode: true,
+						focusOnSelect: true,
+						centerPadding: 0,
+					}
+				},
+				{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						centerMode: true,
+						focusOnSelect: true,
+						centerPadding: 0,
+					}
+				},
+				{
+					breakpoint: 575,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+						centerMode: true,
+						focusOnSelect: true,
+						centerPadding: 0,
+					}
+				}
+			]
+		});
+
+
+
+		$('.testimonial-text').slick({
+			infinite: false,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			infinite: true,
+			arrows: true,
+			centerPadding: 0,
+			dots: false,
+			speed: 1000,
+			asNavFor: '.testimonial-img',
+			prevArrow: '<i class="icofont-double-right"></i>',
+			nextArrow: '<i class="icofont-double-left"></i>',
+
+			responsive: [
+				{
+					breakpoint: 991,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+					}
+				},
+				{
+					breakpoint: 767,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+					}
+				}
+			]
+		});
+
+	</script>
+</body>
+
+</html>

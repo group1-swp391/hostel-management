@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hợp đồng</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/api/v1/host/" class="navbar-brand mx-4 mb-3">
+                <img style="height: 10rem;" src="/img/logo.png" alt=""> HOMETRO
+            </a>
+            <div class="navbar-nav w-100">
+                <a href="/api/v1/host/" class="nav-item nav-link active"><i class="fa-solid fa-home me-2"></i>Trang
+                    chính</a>
+                <a href="/api/v1/RoomType/" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
+                    phòng</a>
+                <a href="/api/v1/hometro/service" class="nav-item nav-link"><i class="fa fa-house-signal me-2"></i>Dịch vụ</a>
+                <a href="/api/v1/hometro/electricity" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
+                    điện</a>
+                <a href="/api/v1/hometro/water" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
+                    nước</a>
+                <a href="/api/v1/hometro/history" class="nav-item nav-link"><i
+                        class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử</a>
+                <a href="/api/v1/hometro/contract" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
+                    đồng</a>
+                <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
+                    thu</a>
+                <div class="nav-item dropdown">
+                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
+                        <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0"   style="height: 60px;">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <form class="d-none d-md-flex ms-4 search" style="width: 370px;">
+                <input class="form-control border-0" type="search" placeholder="Search">
+            </form>
+        </nav>
+        <!-- Navbar End -->
+
+
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="">
+                        <div>
+                            <button class="btn btn-warning">Nhà trọ 1</button>
+                            <button class="btn btn-warning">Nhà trọ 2</button>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th scope="col" th:text="ContractId">Contract Id</th>
+                                <th scope="col" th:text="StartDate">Start Date</th>
+                                <th scope="col" th:text="EndDate">End Date</th>
+                                <th scope="col" th:text="Deposit">Deposit</th>
+                                <th scope="col" th:text="UserID">User Id</th>
+                                <th scope="col" th:text="RoomID">Room Id</th>
+                                <th scope="col" th:text="Status">Status</th>
+                                <th scope="col" th:text="Created">Created</th>
+                                <th scope="col" th:text="LiquidationTime">Liquidation Time</th>
+                                <th scope="col" th:text="Action">@Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="contract: ${listContracts}">
+                                <tr>
+                                    <td th:text="${contract.contractId}"></td>
+                                    <td th:text="${#dates.format(contract.startDate, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${#dates.format(contract.endDate, 'dd-MM-yyyy')}"></td>
+                                    <td th:text="${contract.deposit}"></td>
+                                    <td th:text="${contract.userId}"></td>
+                                    <td th:text="${contract.roomId}"></td>
+                                    <td th:text="${contract.contractStatus}"></td>
+                                    <td th:text="${#dates.format(contract.createContractTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                                    <td th:text="${#dates.format(contract.contractLiquidationTime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+                                    <td>
+                                        <form th:action="@{/api/v1/contract/getContract/{contractid}(contractid=${contract.contractId})}" method="POST">
+                                            <button type="submit" class="btn btn-primary">Edit</button>
+                                        </form>
+
+                                        <form th:action="@{/api/v1/contract/liquidationContract?contractid={contractid}(contractid=${contract.contractId})}" method="POST">
+                                            <button type="submit" class="btn btn-warning">Liquidation</button>
+                                        </form>
+
+                                        <form th:action="@{/api/v1/contract/deleteContract?contractid={contractid}(contractid=${contract.contractId})}" method="POST">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            </th:block>
+                            </tbody>
+                    </table>
+                    </br>
+
+                    <div th:if="${message != null}">
+                        <div th:text="${message}" class="alert alert-primary" role="alert">
+                    </div>
+                    </div>
+                    <form th:action="@{/api/v1/contract/createContract}" method="POST">
+                        <h5>Create</h5>
+                        <br class="form-row">
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md-4">
+                                <label for="startDate">Start</label>
+                                <input name="startDate" id="startDate" class="form-control" type="date" />
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="endDate">End</label>
+                                <input name="endDate" id="endDate" class="form-control" type="date" />
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="userId">User Id</label>
+                                <input name="userId" type="text" class="form-control" id="userId">
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="roomId">Room Id</label>
+                                <input name="roomId" type="text" class="form-control" id="roomId">
+                            </div>
+                        </div>
+                        </br>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                    </br>
+
+                    <div th:if="${contract}">
+                        <h5>Update</h5>
+                        <form th:action="@{/api/v1/contract/updateContract/{contractid}(contractid=${contract.contractId})}" th:object="${contract}" method="POST">
+                            <br class="form-row">
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label for="contractId1">Contract ID</label>
+                                    <input name="contractId" id="contractId1" class="form-control" type="text" readonly th:field="*{contractId}"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="startDate1">Start</label>
+                                    <input name="startDate" id="startDate1" class="form-control" type="date" th:field="*{startDate}"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="endDate1">End</label>
+                                    <input name="endDate" id="endDate1" class="form-control" type="date" th:field="*{endDate}"/>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="userId1">User Id</label>
+                                    <input name="userId" type="text" class="form-control" id="userId1" th:field="*{userId}">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="roomId1">Room Id</label>
+                                    <input name="roomId" type="text" class="form-control" id="roomId1" th:field="*{roomId}">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="deposit1">Deposit</label>
+                                    <input name="deposit" type="text" class="form-control" id="deposit1" th:field="*{deposit}">
+                                </div>
+                            </div>
+                            </br>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Form End -->
+
+
+
+
+
+
+
+
+
+
+        </br> </br> </br>
+
+        <!-- Footer Start -->
+
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>

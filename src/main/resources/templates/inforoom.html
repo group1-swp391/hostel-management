@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Chi tiết phòng | HOMETRO</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- icofont -->
+    <link rel="stylesheet" href="/css/icofont.min.css" />
+    <!-- Slick slider -->
+    <link rel="stylesheet" href="/css/slick.css" />
+    <link rel="stylesheet" href="/css/slick-theme.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <!-- Style css-->
+    <link rel="stylesheet" href="/css/style.css" />
+    <!-- Responsive css-->
+    <link rel="stylesheet" href="/css/responsive.css" />
+
+
+
+    <link rel="stylesheet" type="text/css" href="/css/lightbox.min.css">
+    <script src="lightbox2/dist/js/lightbox-plus-jquery.min.js">
+    </script>
+</head>
+
+<body style="background-color:rgb(252, 242, 248);">
+
+
+    <header id="full_nav">
+        <div class="header">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="/">
+                        <img src="/img/logo.png" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="icofont icofont-navigation-menu"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/api/v1/hometro/to-rentroom">Thuê phòng</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Giành cho người thuê</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <form>
+                        <input type="text" name="search" placeholder="Search..">
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <!-- HEADER PART END -->
+
+
+    <!-- PRODUCT DETAILS PART START -->
+    <div class="product_details">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="product_img d-flex">
+                        <div class="thumbnail">
+                            <img class="mySlides" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}">
+<!--                            <img class="mySlides" src="/img/xyz.jpg">-->
+<!--                            <img class="mySlides" src="/img/cde.jpg">-->
+                            <button class="image-button button-left" onclick="plusDivs(-1)">&#10094;</button>
+                            <button class="image-button button-right" onclick="plusDivs(1)">&#10095;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="producudetails_content">
+                        <h3 th:text="'Phòng '+ ${room.roomNumber} +'- đủ tiện nghi - thoải mái tự do'"></h3>
+                        <div class="customer_review">
+                            <ul>
+                                <li>
+                                    <i class="icofont-star"></i>
+                                    <i class="icofont-star"></i>
+                                    <i class="icofont-star"></i>
+                                    <i class="icofont-star"></i>
+                                    <i class="icofont-star"></i>
+                                </li>
+                            </ul>
+                        </div>
+                        <strong th:text="${#numbers.formatDecimal(room.price, 0, 'COMMA', 2, 'POINT')}+'đ/tháng- 25 m2'"></strong>
+                        <p>Tân Phước, Phường 6, Quận 10, Tp Hồ Chí Minh</p>
+                        <form action="/api/v1/rentroom/booking">
+                            <button class="btn btn-primary"> Đặt lịch</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PRODUCT DETAILS PART END -->
+
+    <!-- PRODUCT TABBER START -->
+    <div class="product_tabber">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs nav_custom" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link nav-link-custom active" id="description-tab" data-toggle="tab"
+                                href="#description" role="tab" aria-controls="description"
+                                aria-selected="true">CHI TIẾT PHÒNG</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel"
+                            aria-labelledby="description-tab">
+                            <br>
+                            Cho thuê căn hộ mini tại trung tâm Q10 - giờ tự do - vô cùng thoải mái và riêng biệt (như
+                            ảnh).</br>
+                            - Nhận phòng vào đầu tháng 6.</br>
+                            - Diện tích: >25m2</br>
+                            - Vị trí: nằm gần chợ Nguyễn Tri Phương, khu đi xuyên thông ra Nguyễn Kim, Ba Tháng Hai,
+                            Nguyễn Tri Phương, Nhật Tảo, Vĩnh Viễn, gần SVĐ Thống Nhất, Khu Bệnh Viện Y Dược/Phạm Ngọc
+                            Thạch/Chợ Rẫy/Hùng Vương. Ngay gần trường ĐH Kinh Tế.</br>
+                            - Tiện nghi: Toilet riêng bên ngoài phòng, ban công riêng thông thoáng, lối lên phòng riêng
+                            biệt như 1 chung cư độc lập, khu giặt phơi đồ rộng rãi. Phòng có sẵn bếp, sofa, giường nệm,
+                            tủ lạnh inverter mới, tủ quần áo, bàn làm việc, máy giặt mới sịn, máy lạnh inverter tiết
+                            kiệm điện.....</br>
+                            - Ưu tiên sinh viên, NVVP, gia đình ở ổn định, trật tự...</br>
+                            - Nuôi thú cưng thoải mái, Nuôi mèo tặng hạt tặng cát luôn.</br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PRODUCT TABBER END -->
+
+
+    <!-- BEST SELLER PART START -->
+    <div class="full-bestSeller">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-left">
+                    <h3 class="section-title">Related Product</h3>
+                </div>
+            </div>
+
+            <div class="row mt-5 product-slider">
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-1.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">nhà trọ 2</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-2.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 3</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-3.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 4</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-4.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 5</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-5.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 6</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-6.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 7</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-7.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 8</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-8.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="productdetails.html">PHÒNG TRỌ 9</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+
+                            </div>
+
+
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BEST SELLER PART END -->
+
+
+    <!-- FOOTER TOP PART START -->
+    < <!-- FOOTER TOP PART END -->
+
+        <!-- FOOTER BOTTOM PART START -->
+        <div class="footer_bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-12">
+                        <div class="footer_txt text-center">
+                            <p>HOMETRO.COM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FOOTER BOTTOM PART END -->
+
+        <!-- jQuery -->
+        <script src="/js/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="/js/bootstrap.min.js"></script>
+        <!-- Slick slider -->
+        <script src="/js/slick.min.js"></script>
+        <!-- scripts -->
+        <script src="/js/scripts.js"></script>
+        <script>
+
+            $(".product-slider").slick({
+                // normal options...
+                infinite: false,
+                slidesToShow: 4,
+                slidesToScroll: 2,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                infinite: true,
+                arrows: true,
+
+                // the magic
+                responsive: [{
+                    breakpoint: 1500,
+                    settings: {
+                        slidesToShow: 4,
+                        infinite: true
+                    }
+
+                }, {
+
+                    breakpoint: 1201,
+                    settings: {
+                        slidesToShow: 2,
+                        dots: true
+                    }
+
+                }, {
+
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 2,
+                        dots: true
+                    }
+
+                }, {
+
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        dots: true
+                    }
+
+                }, {
+
+                    breakpoint: 300,
+                    settings: {
+                        slidesToShow: 1,
+                        dots: true
+                    },
+
+                }]
+            });
+        </script>
+
+        <script>
+            var slideIndex = 1;
+            showDivs(slideIndex);
+
+            function plusDivs(n) {
+                showDivs(slideIndex += n);
+            }
+
+            function currentDiv(n) {
+                showDivs(slideIndex = n);
+            }
+
+            function showDivs(n) {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                var dots = document.getElementsByClassName("image-badge");
+                if (n > x.length) { slideIndex = 1 }
+                if (n < 1) { slideIndex = x.length }
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" badge-white", "");
+                }
+                x[slideIndex - 1].style.display = "block";
+                dots[slideIndex - 1].className += " badge-white";
+            }
+        </script>
+
+
+</body>
+
+</html>

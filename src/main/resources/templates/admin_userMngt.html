@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management - Admin</title>
+</head>
+<body>
+<a href="/api/v1/hostel/">Hostel Manager</a>
+<form action="/api/v1/User/search" method="get">
+  <input type="text" name="userName" placeholder="Enter userName..." th:value="${userName}"/>
+  <button type="submit">Search</button>
+</form>
+<p th:text="${message}"></p>
+<table border="1">
+  <tr>
+      <th>Full Name</th>
+    <th>User Name</th>
+      <th>Gender</th>
+      <th>Date of Birth</th>
+      <th>Phone</th>
+      <th>Email</th>
+    <th>Document Id</th>
+    <th>Document front side</th>
+    <th>Document back side</th>
+      <th>Role ID</th>
+  </tr>
+  <tr th:each="user: ${users}">
+      <td th:text="${user.fullName}"></td>
+    <td th:text="${user.userName}"></td>
+      <td th:text="${user.gender}"></td>
+      <td th:text="${user.dateOfBirth}"></td>
+      <td th:text="${user.phone}"></td>
+      <td th:text="${user.email}"></td>
+    <td th:text="${user.documentId}"></td>
+    <td><img style="width: 100px;" th:src="@{${'/api/v1/User/imageFront/'+user.userId}}" alt="Document front side"></td>
+    <td><img style="width: 100px;" th:src="@{${'/api/v1/User/imageBack/'+user.userId}}" alt="Document back side"></td>
+      <td th:text="${user.roleId}"></td>
+  </tr>
+  <a th:href="@{login.html?id=${userId}}"></a>
+</table>
+</body>
+</html>

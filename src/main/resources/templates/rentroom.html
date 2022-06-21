@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title>Phòng thuê | HOMETRO</title>
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- favicon -->
+	<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+	<link
+		href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+		rel="stylesheet">
+	<!-- icofont -->
+	<link rel="stylesheet" href="/css/icofont.min.css" />
+	<!-- Slick slider -->
+	<link rel="stylesheet" href="/css/slick.css" />
+	<link rel="stylesheet" href="/css/slick-theme.css" />
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<!-- Style css-->
+	<link rel="stylesheet" href="/css/style.css" />
+	<!-- Responsive css-->
+	<link rel="stylesheet" href="/css/responsive.css" />
+
+	<link rel="stylesheet" type="text/css" href="/css/lightbox.min.css">
+	<script src="/js/lightbox-plus-jquery.min.js"></script>
+
+</head>
+
+<body style="background-color:rgb(252, 242, 248);">
+
+	<header id="full_nav">
+		<div class="header">
+			<div class="container">
+				<nav class="navbar navbar-expand-lg navbar-light">
+					<a class="navbar-brand " href="/">
+						<img src="/img/logo.png" alt="">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<i class="icofont icofont-navigation-menu"></i>
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mx-auto">
+							<li class="nav-item active">
+								<a class="nav-link" href="/api/v1/hometro/to-rentroom">Thuê phòng</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="/">Giành cho người thuê</a>
+							</li>
+
+						</ul>
+					</div>
+					<form action="/api/v1/hometro/search" method="get">
+						<input type="text" name="roomNumber" placeholder="Enter your room number..." th:value="${roomNumber}">
+						<button type="submit" style="display: none;">Search</button>
+					</form>
+				</nav>
+			</div>
+		</div>
+	</header>
+
+	<div class="container">
+		<div class="dropdown">
+			<button value="Hồ Chí Minh" class="dropbtn">HỒ CHÍ MINH</button>
+		</div>
+		<div class="dropdown">
+			<button value="QUẬN HUYỆN" class="dropbtn">QUẬN HUYỆN</button>
+			<div id="QUẬN HUYỆN" class="dropdown-content">
+				<a href="#">Tất cả quận</a>
+				<a href="#">Quận 1</a>
+				<a href="#">Quận 2</a>
+				<a href="#">Quận 3</a>
+				<a href="#">Quận 4</a>
+				<a href="#">Quận 5</a>
+				<a href="#">Quận 6</a>
+				<a href="#">Quận 8</a>
+				<a href="#">Quận 9</a>
+				<a href="#">Quận 10</a>
+				<a href="#">Quận 11</a>
+				<a href="#">Quận 12</a>
+				<a href="#">Quận Tân Bình</a>
+				<a href="#">Quận Phú Nhuận</a>
+				<a href="#">Quận Bình Tân</a>
+				<a href="#">Thành phố Thủ Đức</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<button value="Khoảng giá" class="dropbtn">Khoảng giá</button>
+			<div id="Khoảng giá" class="dropdown-content">
+				<a href="#">Tất cả giá</a>
+				<a href="#">Dưới 4tr</a>
+				<a href="#">Từ 4tr-6tr</a>
+				<a href="#">Trên 6tr</a>
+			</div>
+		</div>
+	</div>
+	<div style="margin-left:210px;margin-top:20px">
+		<h3> Phòng cho thuê ở Hồ Chí Minh</h3>
+	</div>
+	<div style="margin-left:210px;margin-top:20px">
+		<h4> Có 689 phòng trống từ 103 kết quả</h4>
+	</div>
+
+	<div class="full-bestSeller" id="product">
+		<div class="container">
+			<div class="row mt-5">
+
+				<div th:each="room: ${rooms}" class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
+					<div class="product">
+						<div class="product-img">
+							<img style="height: 167px; width: 233px" class="w-100" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}"	 alt="">
+						</div>
+						<div class="product-content">
+							<div class="product-details position-bottom-left">
+								<h3 class="product-name"><a th:href="@{${'/api/v1/rentroom/'+room.roomId+'/info-room'}}" th:text="'Phòng '+ ${room.roomNumber}"></a></h3>
+								<span class="product-price" th:text="${#numbers.formatDecimal(room.price, 0, 'COMMA', 2, 'POINT') + ' đ'}"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- FOOTER TOP PART START -->
+	< <!-- FOOTER TOP PART END -->
+
+		<!-- FOOTER BOTTOM PART START -->
+		<div class="footer_bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-12">
+						<div class="footer_txt text-center">
+							<p>Copyright ©2022 All rights reserved | This website is made with  by HOMETRO</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- FOOTER BOTTOM PART END -->
+
+		<!-- jQuery -->
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="/js/bootstrap.min.js"></script>
+		<!-- Slick slider -->
+		<script src="/js/slick.min.js"></script>
+		<!-- scripts -->
+		<script src="/js/scripts.js"></script>
+		<script>
+			/* Thêm hoặc xóa class show ra khỏi phần tử */
+			function myFunction(id) {
+				document.getElementById(id).classList.toggle("show");
+			}
+			//lấy tất cả các button menu
+			var buttons = document.getElementsByClassName('dropbtn');
+			//lấy tất cả các thẻ chứa menu con
+			var contents = document.getElementsByClassName('dropdown-content');
+			//lặp qua tất cả các button menu và gán sự kiện
+			for (var i = 0; i < buttons.length; i++) {
+				buttons[i].addEventListener("click", function () {
+					//lấy value của button
+					var id = this.value;
+					//ẩn tất cả các menu con đang được hiển thị
+					for (var i = 0; i < contents.length; i++) {
+						contents[i].classList.remove("show");
+					}
+					//hiển thị menu vừa được click
+					myFunction(id);
+				});
+			}
+			//nếu click ra ngoài các button thì ẩn tất cả các menu con
+			window.addEventListener("click", function () {
+				if (!event.target.matches('.dropbtn')) {
+					for (var i = 0; i < contents.length; i++) {
+						contents[i].classList.remove("show");
+					}
+				}
+			});
+		</script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Đăng kí | HOMETRO</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <!-- icofont -->
+  <link rel="stylesheet" href="/css/icofont.min.css" />
+  <!-- Slick slider -->
+  <link rel="stylesheet" href="/css/slick.css" />
+  <link rel="stylesheet" href="/css/slick-theme.css" />
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <!-- Style css-->
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Responsive css-->
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+
+<body style="background-color:rgb(252, 242, 248);">
+  <!-- HEADER PART START -->
+  <header id="full_nav">
+    <div class="header">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="icofont icofont-navigation-menu"></i>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/api/v1/hometro/to-rentroom">Thuê phòng</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/">Giành cho người thuê</a>
+              </li>
+
+            </ul>
+          </div>
+          <form>
+						<input type="text" name="search" placeholder="Search..">
+					</form>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="signup__container">
+
+    <div class="container__child signup__form">
+      <form action="#">
+        <div class="form-group">
+          <label for="username">Tên đăng nhập</label>
+          <input class="form-control" type="text" name="userName" id="username" placeholder="Tên đăng nhập" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Mật khẩu</label>
+          <input class="form-control" type="password" name="password" id="password" placeholder="********" required />
+        </div>
+        <div class="form-group">
+          <label for="passwordRepeat">Nhập lại mật khẩu</label>
+          <input class="form-control" type="password" name="confirmPassword" id="passwordRepeat" placeholder="********"
+            required />
+        </div>
+        <div class="form-group">
+          <label>Giới tính</label>
+          <input type="radio" id="male" name="gender" value="Male">
+          <label for="male">Nam</label>
+          <input type="radio" id="female" name="gender" value="Female">
+          <label for="female">Nữ</label>
+        </div>
+        <div class="form-group">
+          <label for="bỉthdate">Ngày tháng năm sinh</label>
+          <input type="date" class="form-control" id="bỉthdate" name="dateOfBirth" required />
+        </div>
+        <div class="form-group">
+          <label for="mail">Email</label>
+          <input type="email" class="form-control" id="mail" name="email" placeholder="abcxyz@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Số điện thoại</label>
+          <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" required />
+        </div>
+        <div class="form-group">
+          <label for="docId">Số CCCD/CMND</label>
+          <input type="text" class="form-control" id="docId" name="documentId" placeholder="Số CCCD/CMND" required />
+        </div>
+        <div class="form-group">
+          <label for="frontdoc">Mặt trước CCCD/CMND</label>
+          <input type="file" class="form-control" id="frontdoc" name="documentFrontSide" required />
+        </div>
+        <div class="form-group">
+          <label for="backdoc">Mặt  CCCD/CMND</label>
+          <input type="file" class="form-control" id="backdoc" name="documentBackSide" required />
+        </div>
+        <input type="hidden" name="roleId" value="3">
+        <div class="m-t-lg">
+          <ul class="list-inline">
+            <li>
+              <input class="btn btn--form" type="submit" value="Đăng kí" />
+            </li>
+          </ul>
+        </div>
+        <p th:text="${error}"></p>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

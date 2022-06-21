@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/account.css">
+</head>
+
+<body>
+    <input type="checkbox" id="sidebar-toggle">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3 class="brand">
+                <span>Hometro</span>
+            </h3>
+            <label for="sidebar-toggle" class="fa-solid fa-bars"></label>
+        </div>
+        <div class="sidebar-menu">
+            <li>
+                <a href="/home">
+                    <span class="fa-solid fa-house"></span>
+                    <span>Trang chủ</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/api/v1/user/show-info">
+                    <span class="fa-solid fa-user"></span>
+                    <span th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Tài khoản'"></span>
+                </a>
+            </li>
+            <li>
+                <a href="/api/v1/user/logout">
+                    <span class="fa-solid fa-arrow-right-from-bracket"></span>
+                    <span>Đăng xuất</span>
+                </a>
+            </li>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <header>
+<!--            <div class="search-wrapper">-->
+<!--                <span class="fa-solid fa-magnifying-glass"></span>-->
+<!--                <input type="text" placeholder="Search">-->
+<!--            </div>-->
+            <div class="social-icons">
+                <span class="fa-solid fa-bell"></span>
+                <span class="fa-solid fa-comment-alt"></span>
+            </div>
+        </header>
+
+        <main>
+            <div class="card-single">
+                <div class="card-body">
+                    <p th:text="${message}"></p>
+                    <form enctype="multipart/form-data" method="post">
+                        <h1>Thông tin cá nhân</h1>
+                        <h2>Họ và tên</h2>
+                        <input type="text" class="input" name="fullName" th:value="${#session?.getAttribute('LOGIN_USER').getFullName()}">
+                        <h2>Tên tài khoản</h2>
+                        <input type="text" class="input" name="userName" th:value="${#session?.getAttribute('LOGIN_USER').getUserName()}">
+                        <h2>Ngày sinh</h2>
+                        <input type="date" class="input" name="dateOfBirth" th:value="${#session?.getAttribute('LOGIN_USER').getDateOfBirth()}">
+                        <h2>Giới tính</h2>
+                        <div th:switch="${#session?.getAttribute('LOGIN_USER').getGender()}">
+                            <div th:case="true">
+                                <label for="male" class="radio-inline"><input type="radio" id="male" checked name="gender" value="Male"> Nam</label>
+
+                                <label for="female" class="radio-inline"><input type="radio" id="female" name="gender" value="Female">Nữ</label>
+                            </div>
+                            <div th:case="false">
+                                <label for="male" class="radio-inline"><input type="radio" id="male" name="gender" value="Male"> Nam</label>
+
+                                <label for="female" class="radio-inline"><input type="radio" id="female" checked name="gender" value="Female">Nữ</label>
+                            </div>
+                        </div>
+                        <h2>Số điện thoại</h2>
+                        <input type="text" class="input" name="phone" th:value="${#session?.getAttribute('LOGIN_USER').getPhone()}">
+                        <h2>Email</h2>
+                        <input type="text" class="input" name="email" th:value="${#session?.getAttribute('LOGIN_USER').getEmail()}">
+                        <h2>CMND/CCCD</h2>
+                        <input type="text" class="input" name="documentId" th:value="${#session?.getAttribute('LOGIN_USER').getDocumentId()}">
+                        <h2>Mặt trước CMND/CCCD</h2>
+                        <input type="file" name="documentFrontSide"><br>
+                        <div class="image-preview" id="imagePreview">
+                            <img class="image-preview__image" th:src="@{${'/api/v1/user/imageFront/'+#session?.getAttribute('LOGIN_USER').getUserId()}}" alt="Document front side">
+<!--                            <span class="image-preview__default-text">Image Preview</span>-->
+                        </div>
+                        <h2>Mặt sau CMND/CCCD</h2>
+
+                        <input type="file" name="documentBackSide"><br>
+                        <div class="image-preview-two" id="imagePreviewTwo">
+                            <img class="image-preview__image__2" th:src="@{${'/api/v1/user/imageBack/'+#session?.getAttribute('LOGIN_USER').getUserId()}}" alt="Document back side">
+<!--                            <span class="image-preview__default-text__2">Image Preview</span>-->
+                        </div>
+
+                        <button type="submit" formaction="/api/v1/user/update" class="btn btn-warning">Chỉnh sửa</button>
+                        <a href="/api/v1/user/change-password" class="btn btn-warning">Đổi mật khẩu</a>
+                    </form>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+    <script>
+        const inpFile = document.getElementById("inpFile");
+        const previewContainer = document.getElementById("imagePreview");
+        const previewImage = previewContainer.querySelector(".image-preview__image");
+        const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+
+        inpFile.addEventListener("change", function () {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                previewDefaultText.style.display = "none";
+                previewImage.style.display = "block";
+
+                reader.addEventListener("load", function () {
+                    console.log(this);
+                    previewImage.setAttribute("src", this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script>
+        const inpFileTwo = document.getElementById("inpFileTwo");
+        const previewContainerTwo = document.getElementById("imagePreviewTwo");
+        const previewImageTwo = previewContainerTwo.querySelector(".image-preview__image__2");
+        const previewDefaultTextTwo = previewContainerTwo.querySelector(".image-preview__default-text__2");
+
+        inpFileTwo.addEventListener("change", function () {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                previewDefaultTextTwo.style.display = "none";
+                previewImageTwo.style.display = "block";
+
+                reader.addEventListener("load", function () {
+                    console.log(this);
+                    previewImageTwo.setAttribute("src", this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

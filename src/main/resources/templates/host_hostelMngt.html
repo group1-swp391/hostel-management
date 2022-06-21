@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hostel - Host</title>
+</head>
+<body>
+<p><a href="/api/v1/User/logout">Logout</a></p>
+<form action="/api/v1/hostel/search" method="get">
+    Hostel Name <input type="text" name="hostelName" placeholder="Enter your hostelName" th:value="${hostelName}">
+    <button type="submit">Search</button>
+</form>
+    <p th:text="${message}"></p>
+    <table border="1">
+        <tr>
+            <th>Hostel ID</th>
+            <th>Hostel Name</th>
+            <th>Address</th>
+            <th>Quantity</th>
+            <th>Image</th>
+            <th>Operation</th>
+            <th>Delete</th>
+        </tr>
+        <form action="/api/v1/hostel/insert" method="post" enctype="multipart/form-data">
+            <td><input type="text" value="hostelId" readonly></td>
+            <td><input type="text" name="newHostelName" placeholder="New hostel name..."></td>
+            <td><input type="text" name="newAddress" placeholder="New address..."></td>
+            <td><input type="text" name="newQuantity" placeholder="New quantity..."></td>
+            <td><input type="file" name="newHostelImg"></td>
+            <td><button type="submit">Insert</button></td>
+            <td><button type="reset">Reset</button></td>
+        </form>
+
+            <tr th:each="hostel: ${hostels}">
+                <form method="post" enctype="multipart/form-data">
+                    <td><input type="text" name="hostelId"  th:value="${hostel.hostelId}" readonly></td>
+                    <td><input type="text" name="hostelName"  th:value="${hostel.hostelName}"></td>
+                    <td><input type="text" name="address"  th:value="${hostel.address}"></td>
+                    <td><input type="text" name="roomQuantity"  th:value="${hostel.roomQuantity}"></td>
+                    <td><img style="width: 100px;" th:src="@{${'/api/v1/hostel/image/'+hostel.hostelId}}" th:alt="${hostel.hostelId}"><br>
+                        <input type="file" name="hostelImg"></td>
+                    <td><button formaction="/api/v1/hostel/update" type="submit" name="update" value="Update">Update</button></td>
+                    <td><button formaction="/api/v1/hostel/delete" type="submit" name="delete" value="Delete">Delete</button></td>
+                </form>
+            </tr>
+
+    </table>
+</body>
+</html>

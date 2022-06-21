@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Type</title>
+</head>
+<body>
+<p><a href="/api/v1/User/logout">Logout</a></p>
+<form action="/api/v1/ServiceType/search" method="get">
+    Room Name <input type="text" name="serviceName" placeholder="Enter service name" th:value="${serviceName}">
+    <button type="submit">Search</button>
+</form>
+<p th:text="${message}"></p>
+<table border="1">
+    <tr>
+        <th>Service Type ID</th>
+        <th>Service Name</th>
+        <th>Price</th>
+        <th>Hostel Id</th>
+        <th>Operation</th>
+        <th>Delete</th>
+    </tr>
+    <form action="/api/v1/ServiceType/insert" method="post">
+        <td><input type="text" value="serviceTypeId" readonly></td>
+        <td><input type="text" name="newServiceName" placeholder="New service name..."></td>
+        <td><input type="text" name="newPrice" placeholder="New price..."></td>
+        <td><input type="text" name="newHostelId" placeholder="New hostel id..."></td>
+        <td><button type="submit">Insert</button></td>
+        <td><button type="reset">Reset</button></td>
+    </form>
+    <tr th:each="serviceType: ${serviceTypes}">
+        <form method="get">
+            <td><input type="text" name="serviceTypeId"  th:value="${serviceType.serviceTypeId}" readonly></td>
+            <td><input type="text" name="serviceName"  th:value="${serviceType.serviceName}"></td>
+            <td><input type="text" name="price"  th:value="${serviceType.price}"></td>
+            <td><input type="text" name="hostelId"  th:value="${serviceType.hostelId}"></td>
+            <td><button formaction="/api/v1/ServiceType/update" type="submit" name="update" value="Update">Update</button></td>
+            <td><button formaction="/api/v1/ServiceType/delete" type="submit" name="delete" value="Delete">Delete</button></td>
+        </form>
+    </tr>
+
+</table>
+</body>
+</html>
