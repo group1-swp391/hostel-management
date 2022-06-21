@@ -50,11 +50,11 @@
                     </form>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Danh sách phòng</h6>
+                    <h6 class="mb-0">Chỉ số điện hàng tháng</h6>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-
+                    <table id="electricity" class="table text-start align-middle table-bordered table-hover mb-0">
+                        <form action="/api/v1/used-utility/dien/update" method="post">
                             <thead>
                             <tr class="text-dark">
                                 <th scope="col">Mã phòng</th>
@@ -68,22 +68,21 @@
                             </tr>
                             </thead>
                             <tbody>
-
                             <tr th:each="utility : ${utilities}">
-                                <form action="/api/v1/used-utility/dien/update" method="post">
-                                    <td th:text="${utility.roomId}"></td>
-                                    <td th:text="${utility.renterName}"></td>
-                                    <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
-                                    <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
-                                    <td><input name="oldIndex" type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
-                                    <td> <input name="newIndex" type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
-                                    <td th:text="${utility.pricePerIndex}"></td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
-                                    </td>
-                                </form>
+                                <td th:text="${utility.roomId}"></td>
+                                <td th:text="${utility.renterName}"></td>
+                                <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
+                                <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
+                                <td><input type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
+                                <td> <input type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
+                                <td th:text="${utility.pricePerIndex}"></td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
                             </tr>
                             </tbody>
+                        </form>
+
                     </table>
                 </div>
             </div>
@@ -111,7 +110,15 @@
 <script src="lib/tempusdominus/js/moment.min.js"></script>
 <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!--JQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('#electricity').DataTable();
+    });
+</script>
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 </body>
