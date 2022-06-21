@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,33 @@ public class InvoiceController {
     private RoomRepository roomRepository;
     @Autowired
     private InvoiceRepository invoiceRepository;
+
+    @RequestMapping(value = "")
+    public String getInvoiceSite(ModelMap mm, HttpSession session) {
+        return getAllInvoices(mm, session);
+    }
+
+    @RequestMapping(value = "getAllInvoice")
+    public String getAllInvoices(ModelMap mm, HttpSession session) {
+        List<Invoice> listinvoices = invoiceRepository.findAllByInvoiceStatusIsTrue();
+        List<Invoice> invoices = invoiceRepository.findAll();
+//        try {
+//            User accSession = (User) session.getAttribute("LOGIN_USER");
+//            for (Invoice invoice: listinvoices) {
+//                Room room = roomRepository.getRoomByRoomId(invoice.getRoomId());
+//                if (room != null) {
+//                    Hostel hostel = hostelRepository.getHostelByHostelId(room.getHostelId());
+//                    if (accSession.getUserId() ==  hostel.getOwnerHostelId()) {
+//                        invoices.add(invoice);
+//                    }
+//                }
+//            }
+//        } catch (Exception ex) {
+//
+//        }
+        mm.put("invoices", invoices);
+        return "history";
+    }
 
     @RequestMapping(value = "/callBillByRoomId")
     public String callBillByRoomId(ModelMap mm,
@@ -83,7 +111,7 @@ public class InvoiceController {
                     java.util.Date date = new Date();
                     Timestamp ts = new Timestamp(date.getTime());
 
-                    Invoice invoice = new Invoice(roomId, invoiceName, (double) 0, true, note, ts, null);
+                    Invoice invoice = new Invoice(roomId, invoiceName, (double) 0, true, note, ts, false,null);
                     invoiceRepository.save(invoice);
 
                     double total = 0;

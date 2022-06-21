@@ -39,8 +39,11 @@ public class HometroController {
         return "inforoom";
     }
 
-    @RequestMapping(value = "history")
-    public String historySite() { return "history"; }
+    @RequestMapping(value = "invoice")
+    public String historySite() { return "redirect:/api/v1/invoice/"; }
+
+    @RequestMapping(value = "roomcharge")
+    public String getRoomChargeSite() { return "redirect:/api/v1/roomcharge/"; }
 
     @RequestMapping(value = "electricity")
     public String electricitySite() { return "redirect:/api/v1/used-utility/dien"; }

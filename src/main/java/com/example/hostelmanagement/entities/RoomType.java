@@ -156,4 +156,7 @@ public class RoomType {
         this.roomName = roomName;
         this.roomTypeStatus = roomTypeStatus;
     }
+
+
+
 }
