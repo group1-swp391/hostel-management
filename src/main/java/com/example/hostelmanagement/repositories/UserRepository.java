@@ -1,7 +1,7 @@
 package com.example.hostelmanagement.repositories;
 
 import com.example.hostelmanagement.models.Contract;
-import com.example.hostelmanagement.models.TblInvoiceEntity;
+import com.example.hostelmanagement.models.Invoice;
 import com.example.hostelmanagement.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +22,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true,value = "SELECT * FROM tbl_Contracts c where c.userID = :userID AND c.contractID = :contractID" )
     public Contract getContract(@Param("userID") int userID,@Param("contractID") int contractID);
     @Query(nativeQuery = true,value = "select i.paymentDate, i.totalAmount,i.invoiceID,i.invoiceCreateDate,i.invoiceID,i.invoiceName,i.invoiceStatus,i.note from tbl_Contracts c join tbl_Invoice i on c.roomID = i.roomID where c.userID = :userID AND c.contractID = :contractID  " )
-    public List<TblInvoiceEntity> getHistoryBillByUserID(@Param("userID") int userID,@Param("contractID") int contractID);
+    public List<Invoice> getHistoryBillByUserID(@Param("userID") int userID, @Param("contractID") int contractID);
 
 }

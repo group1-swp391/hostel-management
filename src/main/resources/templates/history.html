@@ -8,9 +8,9 @@
 <p th:text="${message}"></p>
 <table>
     <th>userID</th>
-    <tr th:each="contract: ${listHistory}">
+    <tr th:each="contract: ${listContract}">
         <td th:text="${contract.id}"> </td>
-        <a th:href="@{/api/v1/User/historycontract/{id}(id=${#session?.getAttribute('LOGIN_USER').getUserId()})/{id}(id=${contract.id})}" >contract</a>
+        <a th:href="@{/api/v1/Contract/historycontract/{id}(id=${#session?.getAttribute('LOGIN_USER').getUserId()})/{id}(id=${contract.id})}" >contract</a>
     </tr>
 </table>
 </body>

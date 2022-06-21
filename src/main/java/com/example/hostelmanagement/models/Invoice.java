@@ -2,11 +2,12 @@ package com.example.hostelmanagement.models;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_Invoice", schema = "dbo", catalog = "Hostel_Management")
-public class TblInvoiceEntity {
+public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "invoiceID")
@@ -31,8 +32,10 @@ public class TblInvoiceEntity {
     private Date invoiceCreateDate;
     @Basic
     @Column(name = "paymentDate")
+
+
     private Date paymentDate;
-    public TblInvoiceEntity (){
+    public Invoice(){
 
     }
 
@@ -104,7 +107,7 @@ public class TblInvoiceEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TblInvoiceEntity that = (TblInvoiceEntity) o;
+        Invoice that = (Invoice) o;
         return invoiceId == that.invoiceId && roomId == that.roomId && Double.compare(that.totalAmount, totalAmount) == 0 && invoiceStatus == that.invoiceStatus && Objects.equals(invoiceName, that.invoiceName) && Objects.equals(note, that.note) && Objects.equals(invoiceCreateDate, that.invoiceCreateDate) && Objects.equals(paymentDate, that.paymentDate);
     }
 

@@ -1,10 +1,9 @@
 package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.models.Contract;
-import com.example.hostelmanagement.models.TblInvoiceEntity;
+import com.example.hostelmanagement.models.Invoice;
 import com.example.hostelmanagement.models.User;
 import com.example.hostelmanagement.repositories.UserRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -115,7 +114,7 @@ public class UserController {
     @GetMapping(value = "historybill/{iduser}/{idcontract}")
     public String viewAllHistoryBill(@PathVariable(name = "iduser",required = false) int iduser,@PathVariable(name = "idcontract",required = false) int idcontract,HttpSession session,ModelMap mm){
         try {
-            List<TblInvoiceEntity> bill = userRepository.getHistoryBillByUserID(iduser,idcontract);
+            List<Invoice> bill = userRepository.getHistoryBillByUserID(iduser,idcontract);
             mm.put("historybill",bill);
         }catch (Exception e){
             e.printStackTrace();
