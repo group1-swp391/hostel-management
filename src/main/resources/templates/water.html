@@ -71,16 +71,18 @@
                         </thead>
                         <tbody>
                         <tr th:each="utility : ${utilities}">
-                            <td th:text="${utility.roomId}"></td>
-                            <td th:text="${utility.renterName}"></td>
-                            <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
-                            <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
-                            <td><input type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
-                            <td> <input type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
-                            <td th:text="${utility.pricePerIndex}"></td>
-                            <td>
-                                <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
-                            </td>
+                            <form action="/api/v1/used-utility/dien/update" method="post">
+                                <td th:text="${utility.roomId}"></td>
+                                <td th:text="${utility.renterName}"></td>
+                                <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
+                                <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
+                                <td><input type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
+                                <td> <input type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
+                                <td th:text="${utility.pricePerIndex}"></td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
                         </tr>
                         </tbody>
                     </table>

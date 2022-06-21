@@ -52,9 +52,9 @@
 								<a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'show-info':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
 							</li>
 
-							<li th:unless="${!session.isEmpty()}" class="nav-item">
-								<a th:if="${#session?.getAttribute('LOGIN_USER').getRoleId() == 1}" class="nav-link" href="/admin">ADMIN PANEL</a>
-							</li>
+<!--							<li th:unless="${session.isEmpty()}" class="nav-item">-->
+<!--								<a th:if="${#session?.getAttribute('LOGIN_USER').getRoleId() == 1}" class="nav-link" href="/admin">ADMIN PANEL</a>-->
+<!--							</li>-->
 
 							<li th:if="${session.isEmpty()}" class="nav-item">
 								<a class="nav-link" href="/api/v1/user/register">Đăng kí</a>

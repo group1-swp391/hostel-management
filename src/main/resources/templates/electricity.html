@@ -54,7 +54,7 @@
                 </div>
                 <div class="table-responsive">
                     <table id="electricity" class="table text-start align-middle table-bordered table-hover mb-0">
-                        <form action="/api/v1/used-utility/dien/update" method="post">
+
                             <thead>
                             <tr class="text-dark">
                                 <th scope="col">Mã phòng</th>
@@ -69,6 +69,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="utility : ${utilities}">
+                                <form action="/api/v1/used-utility/dien/update" method="post">
                                 <td th:text="${utility.roomId}"></td>
                                 <td th:text="${utility.renterName}"></td>
                                 <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
@@ -79,9 +80,10 @@
                                 <td>
                                     <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
                                 </td>
+                                </form>
                             </tr>
                             </tbody>
-                        </form>
+
 
                     </table>
                 </div>
