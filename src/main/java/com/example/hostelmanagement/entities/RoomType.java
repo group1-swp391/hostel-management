@@ -2,9 +2,10 @@ package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Set;
 
 @Entity
-@Table(name = "tbl_RoomType", schema = "dbo", catalog = "Hostel_Management")
+@Table(name = "tbl_RoomType", schema = "dbo", catalog = "dlszowqj8t87ry7")
 public class RoomType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -31,6 +32,15 @@ public class RoomType {
     @Basic
     @Column(name = "roomTypeStatus")
     private boolean roomTypeStatus;
+
+    @OneToMany(mappedBy = "roomType")
+    private Set<Room> room;
+    public Set<Room> getRoom() {
+        return room;
+    }
+    public void setRoom(Set<Room> room) {
+        this.room = room;
+    }
 
     public int getTypeId() {
         return typeId;

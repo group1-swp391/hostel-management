@@ -16,6 +16,9 @@ go
 alter table tbl_Users
     alter column username null
 go
+alter table tbl_Invoice
+    add invoiceStatus bit null
+go
 
 
 INSERT INTO tbl_Users(userName,password,fullName,dateOfBirth,gender,phone,email,documentID,roleID,userStatus) values ('admin','admin','Hung','2009-01-01',1,'0387788999','admin@hometro.com','9999',1,1)

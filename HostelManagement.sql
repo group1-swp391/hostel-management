@@ -1,6 +1,6 @@
-create database Hostel_Management
+create database Hostel_Management8
 go
-use Hostel_Management
+use Hostel_Management8
 go
 
 GO
@@ -18,12 +18,12 @@ go
 Create table tbl_Users(
 	userID int IDENTITY(1,1) PRIMARY KEY,
 	userName varchar(20) UNIQUE,
-	password varchar(20) NOT NULL,
-	fullName nvarchar(50) NOT NULL,
-	dateOfBirth date NOT NULL,
+	password varchar(20) ,
+	fullName nvarchar(50) ,
+	dateOfBirth date ,
 	gender bit,
-	phone char(10) UNIQUE NOT NULL,
-	email varchar(50) UNIQUE NOT NULL,
+	phone char(10) UNIQUE ,
+	email varchar(50) UNIQUE ,
 	documentID char(12) UNIQUE,
 	documentFrontSide image,
 	documentBackSide image,
@@ -31,6 +31,7 @@ Create table tbl_Users(
 	userStatus bit NOT NULL,
 	REGTIME smalldatetime DEFAULT CURRENT_TIMESTAMP,
 )
+
 go
 go
 select * from tbl_Users
@@ -38,12 +39,10 @@ go
 CREATE TABLE tbl_Hostel(
 	hostelID  int IDENTITY(1,1) PRIMARY KEY,
 	ownerHostelID int NOT NULL,
-	address varchar(255) not null,
-	hostelName varchar(50) not null,
-	room_quantity int not null,
-	hostelImg image,
+	address nvarchar(255) not null,
+	hostelName nvarchar(50) not null,
 	hostelStatus bit not null,
-	
+
 	CONSTRAINT FK_userManage FOREIGN KEY (ownerHostelID) REFERENCES tbl_Users(userID)
 )
 go
@@ -54,11 +53,11 @@ go
 Create table tbl_RoomType(
 	typeID int IDENTITY(1,1) PRIMARY KEY,
 	hostelID int NOT NULL,
-	description varchar(200) not null,
+	description nvarchar(200) not null,
 	price float NOT NULL,
 	depositPrice float not null,
 	roomTImg image,
-	roomName varchar (100) not null,
+	roomName nvarchar (100) not null,
 	roomTypeStatus bit not null, 
 
 	CONSTRAINT FK_roomType
@@ -67,18 +66,15 @@ Create table tbl_RoomType(
 )
 GO
 
-
-go
 Create table tbl_Room(
 	roomID int IDENTITY(1,1) PRIMARY KEY,
 	roomNumber int NOT NULL,
 	UserID int,
 	typeID int NOT NULL,
-	hostelID int NOT NULL,
+
 	image image,
 	roomStatus bit NOT NULL,
-	FOREIGN KEY (hostelID)
-	REFERENCES tbl_Hostel(hostelID),
+	
 	CONSTRAINT FK_roomUser
 	FOREIGN KEY (userID)
 	REFERENCES tbl_Users(userID),
@@ -97,11 +93,12 @@ go
 Create table tbl_Invoice(
 	invoiceID int IDENTITY(1,1) PRIMARY KEY,
 	roomID int not null,
-	invoiceName varchar(50) not null,
+	invoiceName nvarchar(50) not null,
 	totalAmount float not null,
 	invoiceStatus bit not null,
-	note varchar(255),
+	note nvarchar(255),
 	invoiceCreateDate smalldatetime default CURRENT_TIMESTAMP,
+	paymentStatus bit not null,
 	paymentDate smalldatetime,
 
 	CONSTRAINT FK_InvoiceRoom
@@ -119,6 +116,8 @@ create table tbl_Contracts(
 	userID int not null,
 	roomID int not null,
 	contractStatus bit not null,
+	depositPaymentStatus bit,
+
 	createContractTime smalldatetime DEFAULT CURRENT_TIMESTAMP,
 	contractLiquidationTime smalldatetime,
 
@@ -136,7 +135,7 @@ go
 GO
 CREATE TABLE tbl_ServiceType(
 	serviceTypeID int IDENTITY(1,1) PRIMARY KEY,
-	serviceName varchar(50) not null,
+	serviceName nvarchar(50) not null,
 	price float,
 	hostelID int,
 	CONSTRAINT FK_ServiceTypeHostelID FOREIGN KEY (hostelID) REFERENCES tbl_Hostel(hostelID)
@@ -146,7 +145,7 @@ GO
 go
 CREATE TABLE tbl_UtilityType(
 	utilityTypeID int IDENTITY(1,1) PRIMARY KEY,
-	utilityName varchar(50) not null,
+	utilityName nvarchar(50) not null,
 	pricePerIndex float,
 	hostelID int,
 	CONSTRAINT FK_UtilityTypehostelID FOREIGN KEY (hostelID) REFERENCES tbl_Hostel(hostelID)
@@ -164,6 +163,7 @@ CREATE TABLE tbl_UsedUtility(
 	newIndex int not null,
 	pricePerIndex float not null,
 	invoiceID int,
+
 	CONSTRAINT FK_UsedUtilityUtilityID
 	FOREIGN KEY (utilityTypeID)
 	REFERENCES tbl_UtilityType(utilityTypeID),
@@ -185,6 +185,7 @@ Create table tbl_UsedService(
 	usedQuantity int not null,
 	price float  not null,
 	invoiceID int,
+
 	CONSTRAINT FK_ServiceServiceType
 	FOREIGN KEY (servicetypeID)
 	REFERENCES tbl_ServiceType(serviceTypeID),
@@ -203,9 +204,13 @@ create table tbl_roomCharge(
 	roomID int not null,
 	startDate datetime not null,
 	endDate datetime not null,
+	price float not null,
 	invoiceID int not null,
+	
+	CONSTRAINT FK_roomChargeInvoice
 	FOREIGN KEY (invoiceID)
 	REFERENCES tbl_Invoice(invoiceID),
+
 	CONSTRAINT FK_roomCharge
 	FOREIGN KEY (roomID)
 	REFERENCES tbl_Room(roomID),
@@ -217,17 +222,16 @@ create table tbl_Booking(
     userID int not null,
     roomID int not null,
     appointmentDate datetime not null,
-    startDate datetime not null,
-    endDate datetime not null,
-    isBookingAccept bit not null,
-    depositPaymentStatus bit not null,
-    invoiceID int,
-    constraint FK_bookingInvoice FOREIGN KEY (invoiceID) REFERENCES tbl_Invoice(invoiceID),
+   
+	email varchar(50),
+	phone char(10),
+
     constraint FK_bookingRoom FOREIGN KEY (roomID) REFERENCES tbl_Room(roomID),
     constraint FK_bookingUser FOREIGN KEY (userID) REFERENCES tbl_Users(userID)
 )
 
-insert into tbl_UtilityType(utilityName, pricePerIndex, hostelID) VALUES('Dien', 3700, 1), ('Nuoc', 2600, 1), ('Dien', 3500, 3), ('Nuoc', 2300, 3);
+
+--insert into tbl_UtilityType(utilityName, pricePerIndex, hostelID) VALUES('Dien', 3700, 1), ('Nuoc', 2600, 1), ('Dien', 3500, 3), ('Nuoc', 2300, 3);
 
 GO
 CREATE FUNCTION addPrice(@utilityTypeID INT)

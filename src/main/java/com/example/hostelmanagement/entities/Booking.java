@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tbl_Booking", schema = "dbo", catalog = "Hostel_Management")
+@Table(name = "tbl_Booking", schema = "dbo", catalog = "dlszowqj8t87ry7")
 public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -20,31 +20,14 @@ public class Booking {
     @Basic
     @Column(name = "appointmentDate")
     private Date appointmentDate;
-    @Basic
-    @Column(name = "startDate")
-    private Date startDate;
-    @Basic
-    @Column(name = "endDate")
-    private Date endDate;
-    @Basic
-    @Column(name = "isBookingAccecpt")
-    private Boolean isBookingAccecpt;
-    @Basic
-    @Column(name = "bookingStatus")
-    private Boolean bookingStatus;
-
 
     public Booking() {
     }
 
-    public Booking(Integer userId, Integer roomId, Date appointmentDate, Date startDate, Date endDate, Boolean isBookingAccecpt, Boolean bookingStatus) {
+    public Booking(Integer userId, Integer roomId, Date appointmentDate) {
         this.userId = userId;
         this.roomId = roomId;
         this.appointmentDate = appointmentDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isBookingAccecpt = isBookingAccecpt;
-        this.bookingStatus = bookingStatus;
     }
 
     public Integer getBookingId() {
@@ -79,50 +62,17 @@ public class Booking {
         this.appointmentDate = appointmentDate;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Boolean getBookingAccecpt() {
-        return isBookingAccecpt;
-    }
-
-    public void setBookingAccecpt(Boolean bookingAccecpt) {
-        isBookingAccecpt = bookingAccecpt;
-    }
-
-    public Boolean getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(Boolean bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Booking)) return false;
         Booking booking = (Booking) o;
-        return Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getUserId(), booking.getUserId()) && Objects.equals(getRoomId(), booking.getRoomId()) && Objects.equals(getAppointmentDate(), booking.getAppointmentDate()) && Objects.equals(getStartDate(), booking.getStartDate()) && Objects.equals(getEndDate(), booking.getEndDate()) && Objects.equals(isBookingAccecpt, booking.isBookingAccecpt) && Objects.equals(getBookingStatus(), booking.getBookingStatus());
+        return Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getUserId(), booking.getUserId()) && Objects.equals(getRoomId(), booking.getRoomId()) && Objects.equals(getAppointmentDate(), booking.getAppointmentDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBookingId(), getUserId(), getRoomId(), getAppointmentDate(), getStartDate(), getEndDate(), isBookingAccecpt, getBookingStatus());
+        return Objects.hash(getBookingId(), getUserId(), getRoomId(), getAppointmentDate());
     }
 
     @Override
@@ -132,10 +82,6 @@ public class Booking {
                 ", userId=" + userId +
                 ", roomId=" + roomId +
                 ", appointmentDate=" + appointmentDate +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", isBookingAccecpt=" + isBookingAccecpt +
-                ", bookingStatus=" + bookingStatus +
                 '}';
     }
 }

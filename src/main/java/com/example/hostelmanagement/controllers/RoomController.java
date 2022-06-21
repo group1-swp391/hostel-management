@@ -6,6 +6,7 @@ import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.RoomRepository;
 import com.example.hostelmanagement.repositories.RoomTypeRepository;
 import com.example.hostelmanagement.utils.Utils;
+import org.aspectj.bridge.IMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,20 @@ public class RoomController {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
 
+    @PostMapping(value = "test")
+    public String test(ModelMap mm) throws IOException {
+        Room room1 = roomRepository.getRoomByRoomId(1);
+
+        room1.getRoomType().getHostelId();
+
+        return "test2";
+    }
+
     @PostMapping(value = "insert")
     public String insertRoom(ModelMap mm, HttpSession session, @RequestParam("newRoomNumber") int newRoomNumber, @RequestParam("newTypeId") int newTypeId, @RequestParam("hostelId") int hostelId, @RequestParam("newImage") Part newImage) throws IOException {
         try {
             User loginUser = (User) session.getAttribute("LOGIN_USER");
-            roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId,hostelId, Utils.getByteImage(newImage),true));
+            //roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId,hostelId, Utils.getByteImage(newImage),true));
             mm.put("message", "Insert new room successfully!");
         }catch (Exception e) {
             mm.put("message", "Insert new room failed!");

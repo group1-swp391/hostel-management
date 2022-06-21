@@ -15,5 +15,6 @@ public class Utils {
         RoomType roomType = roomTypeRepository.findById(room.getTypeId()).get();
         room.setPrice(roomType.getPrice());
         room.setRoomName(roomType.getRoomName());
+
     }
 }

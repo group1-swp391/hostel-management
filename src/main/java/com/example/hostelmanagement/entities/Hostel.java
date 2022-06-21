@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "tbl_Hostel", schema = "dbo", catalog = "Hostel_Management")
+@Table(name = "tbl_Hostel", schema = "dbo", catalog = "dlszowqj8t87ry7")
 public class Hostel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

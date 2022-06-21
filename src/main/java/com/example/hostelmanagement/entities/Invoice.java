@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tbl_Invoice", schema = "dbo", catalog = "Hostel_Management")
+@Table(name = "tbl_Invoice", schema = "dbo", catalog = "dlszowqj8t87ry7")
 public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -40,6 +40,8 @@ public class Invoice {
     @Basic
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp paymentDate;
+
+
 
     public Invoice() {
     }

@@ -19,6 +19,30 @@ go
 alter table tbl_Invoice
     add invoiceStatus bit null
 go
+alter table tbl_Booking
+    drop column startDate
+go
+
+alter table tbl_Booking
+    drop column endDate
+go
+
+alter table tbl_Booking
+    drop column isBookingAccept
+go
+
+alter table tbl_Booking
+    drop column depositPaymentStatus
+go
+
+alter table tbl_Booking
+drop FK_bookingInvoice
+go
+alter table tbl_Booking
+    drop column invoiceID
+go
+
+
 
 
 INSERT INTO tbl_Users(userName,password,fullName,dateOfBirth,gender,phone,email,documentID,roleID,userStatus) values ('admin','admin','Hung','2009-01-01',1,'0387788999','admin@hometro.com','9999',1,1)

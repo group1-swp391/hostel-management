@@ -3,7 +3,7 @@ package com.example.hostelmanagement.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_ServiceType", schema = "dbo", catalog = "Hostel_Management")
+@Table(name = "tbl_ServiceType", schema = "dbo", catalog = "dlszowqj8t87ry7")
 public class ServiceType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
