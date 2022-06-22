@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <th:block th:insert="~{roomtype :: link}"></th:block>
+    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Template Stylesheet -->
+
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div th:insert="~{roomtype :: div.fragment-1}"></div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <div th:insert="~{roomtype :: div.fragment-2}"></div>
+
+        <!-- Navbar End -->
+
+
+        <!-- Table Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="">
+                        <div>
+                            <button class="btn btn-warning">Nhà trọ 1</button>
+                            <button class="btn btn-warning">Nhà trọ 2</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col">ID</th>
+                            <th scope="col">Room ID</th>
+                            <th scope="col">Ngày bắt đầu</th>
+                            <th scope="col">Ngày kết thúc</th>
+                            <th scope="col">Tiền</th>
+                            <th scope="col">Mã hóa đơn</th>
+                            <th scope="col">Lưu</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="row : ${roomcharges}">
+                            <td th:text="${row.roomChargeId}"></td>
+                            <td th:text="${row.roomId}"></td>
+                            <td><input type="date" name="startDate" th:value="${row.startDate}"></td>
+                            <td><input type="date" name="endDate" th:value="${row.endDate}"></td>
+                            <td><input type="text" th:value="${row.price}"></td>
+                            <td> <input type="text" th:value="${row.invoiceId}"></td>
+                            <td>
+                                <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+
+</div>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
+
+</html>

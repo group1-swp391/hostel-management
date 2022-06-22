@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host page</title>
+    <th:block th:insert="~{roomtype :: link}"></th:block>
+    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+    <!-- Customized Bootstrap Stylesheet -->
+<!--     <link href="css/bootstrap.min.css" rel="stylesheet">-->
+
+    <!-- Template Stylesheet -->
+    <link href="css/hoststyle.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    <div th:insert="~{roomtype :: div.fragment-1}"></div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <div th:insert="~{roomtype :: div.fragment-2}"></div>
+        <!-- Navbar End -->
+
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="addhostel.html">
+                        <button class="btn btn-warning">Nhà trọ 1</button>
+                        <button class="btn btn-warning">Nhà trọ 2</button>
+                        <button class="btn btn-primary">+</button>
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div class="table-responsive">
+                    <table id="example" class="table text-start align-middle table-bordered table-hover mb-0" style="width:100%">
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col">Số phòng</th>
+                            <th scope="col">Loại phòng</th>
+                            <th scope="col">Người thuê trọ</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Hình ảnh</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Tuỳ chọn</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="room: ${rooms}">
+                            <form method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                <td><input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
+                                <td><input type="text" name="typeId" th:value="${room.roomNumber}" readonly></td>
+                                <td><input type="text" name="userName" th:value="${room.roomNumber}"></td>
+                                <td><input type="text" name="price" th:value="${#numbers.formatDecimal(room.roomNumber, 0, 'COMMA', 2, 'POINT') + ' đ'}" readonly></td>
+                                <td><input type="file" name="image"><br><img style="width: 100px;" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" th:alt="${room.roomId}"></td>
+                                <td>
+                                    <select style="text-align: center;">
+                                        <option value="paid">Đã thanh toán</option>
+                                        <option value="unpaid">Chưa thanh toán</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save" formaction="/api/v1/host/room/update" type="submit" name="update"></button>
+                                    <button class="btn  btn-danger fa-solid fa-trash" formaction="/api/v1/host/room/delete" type="submit" name="delete"></button>
+                                </td>
+                            </form>
+                            <td>
+                                <form method="GET" th:action="@{/api/v1/invoice/callBillByRoomId}">
+                                    <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                    <label for="invoiceName">Invoice Name</label>
+                                    <input type="text" name="invoiceName" id="invoiceName">
+                                    <label for="note">Note</label>
+                                    <input type="text" name="note" id="note">
+                                    <button class="btn  btn-success fa-solid fa-file" type="submit" name="callBill"></button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <form action="addroom.html">
+                                <th colspan="7">
+                                    <button class="btn btn-info">Thêm phòng</button>
+                                </th>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a> -->
+</div>
+
+<!-- JavaScript Libraries -->
+
+<!-- Template Javascript -->
+
+***********************************-->
+<!-- Required vendors -->
+
+
+</body>
+
+</html>

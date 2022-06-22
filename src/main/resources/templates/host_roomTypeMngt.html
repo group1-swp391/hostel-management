@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Type - Host</title>
+</head>
+<body>
+    <p><a href="/api/v1/user/logout">Logout</a></p>
+    <form action="/api/v1/RoomType/search" method="get">
+        Room Name <input type="text" name="roomName" placeholder="Enter your room name" th:value="${roomName}">
+        <button type="submit">Search</button>
+    </form>
+    <p th:text="${message}"></p>
+    <table border="1">
+        <tr>
+            <th>Type ID</th>
+            <th>Room Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Deposit Price</th>
+            <th>Image</th>
+            <th>Operation</th>
+            <th>Delete</th>
+        </tr>
+        <form action="/api/v1/RoomType/insert" method="post" enctype="multipart/form-data">
+            <td><input type="text" value="typeId" readonly></td>
+            <td><input type="text" name="newRoomName" placeholder="New room name..."></td>
+            <td><input type="text" name="newDescription" placeholder="New description..."></td>
+            <td><input type="text" name="newPrice" placeholder="New price..."></td>
+            <td><input type="hidden" name="hostelId" value="2"></td>
+            <td><input type="text" name="newDepositPrice" placeholder="New deposit price..."></td>
+            <td><input type="file" name="newRoomTImg"></td>
+            <td><button type="submit">Insert</button></td>
+            <td><button type="reset">Reset</button></td>
+        </form>
+
+        <tr th:each="roomType: ${roomTypes}">
+            <form method="get">
+                <td><input type="text" name="typeId"  th:value="${roomType.typeId}" readonly></td>
+                <td><input type="text" name="roomName"  th:value="${roomType.roomName}"></td>
+                <td><input type="text" name="description"  th:value="${roomType.description}"></td>
+                <td><input type="text" name="price"  th:value="${roomType.price}"></td>
+                <td><input type="text" name="depositPrice"  th:value="${roomType.depositPrice}"></td>
+                <td><button formaction="/api/v1/RoomType/update" type="submit" name="update" value="Update">Update</button></td>
+                <td><button formaction="/api/v1/RoomType/delete" type="submit" name="delete" value="Delete">Delete</button></td>
+            </form>
+        </tr>
+
+    </table>
+</body>
+</html>
