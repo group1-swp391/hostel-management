@@ -2,7 +2,6 @@ package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_Booking", schema = "dbo", catalog = "Hostel_Management")
@@ -10,48 +9,28 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "bookingId")
-    private Integer bookingId;
+    private int bookingId;
     @Basic
     @Column(name = "userID")
     private Integer userId;
     @Basic
     @Column(name = "roomID")
-    private Integer roomId;
+    private int roomId;
     @Basic
     @Column(name = "appointmentDate")
     private Date appointmentDate;
     @Basic
-    @Column(name = "startDate")
-    private Date startDate;
+    @Column(name = "email")
+    private String email;
     @Basic
-    @Column(name = "endDate")
-    private Date endDate;
-    @Basic
-    @Column(name = "isBookingAccecpt")
-    private Boolean isBookingAccecpt;
-    @Basic
-    @Column(name = "bookingStatus")
-    private Boolean bookingStatus;
+    @Column(name = "phone")
+    private String phone;
 
-
-    public Booking() {
-    }
-
-    public Booking(Integer userId, Integer roomId, Date appointmentDate, Date startDate, Date endDate, Boolean isBookingAccecpt, Boolean bookingStatus) {
-        this.userId = userId;
-        this.roomId = roomId;
-        this.appointmentDate = appointmentDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isBookingAccecpt = isBookingAccecpt;
-        this.bookingStatus = bookingStatus;
-    }
-
-    public Integer getBookingId() {
+    public int getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(Integer bookingId) {
+    public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }
 
@@ -63,11 +42,11 @@ public class Booking {
         this.userId = userId;
     }
 
-    public Integer getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Integer roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
@@ -79,63 +58,56 @@ public class Booking {
         this.appointmentDate = appointmentDate;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
-
-    public Boolean getBookingAccecpt() {
-        return isBookingAccecpt;
-    }
-
-    public void setBookingAccecpt(Boolean bookingAccecpt) {
-        isBookingAccecpt = bookingAccecpt;
-    }
-
-    public Boolean getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(Boolean bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Booking)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         Booking booking = (Booking) o;
-        return Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getUserId(), booking.getUserId()) && Objects.equals(getRoomId(), booking.getRoomId()) && Objects.equals(getAppointmentDate(), booking.getAppointmentDate()) && Objects.equals(getStartDate(), booking.getStartDate()) && Objects.equals(getEndDate(), booking.getEndDate()) && Objects.equals(isBookingAccecpt, booking.isBookingAccecpt) && Objects.equals(getBookingStatus(), booking.getBookingStatus());
+
+        if (bookingId != booking.bookingId) return false;
+        if (roomId != booking.roomId) return false;
+        if (userId != null ? !userId.equals(booking.userId) : booking.userId != null) return false;
+        if (appointmentDate != null ? !appointmentDate.equals(booking.appointmentDate) : booking.appointmentDate != null)
+            return false;
+        if (email != null ? !email.equals(booking.email) : booking.email != null) return false;
+        if (phone != null ? !phone.equals(booking.phone) : booking.phone != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBookingId(), getUserId(), getRoomId(), getAppointmentDate(), getStartDate(), getEndDate(), isBookingAccecpt, getBookingStatus());
+        int result = bookingId;
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + roomId;
+        result = 31 * result + (appointmentDate != null ? appointmentDate.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        return result;
     }
 
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "bookingId=" + bookingId +
-                ", userId=" + userId +
-                ", roomId=" + roomId +
-                ", appointmentDate=" + appointmentDate +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", isBookingAccecpt=" + isBookingAccecpt +
-                ", bookingStatus=" + bookingStatus +
-                '}';
+    public Booking(Integer userId, int roomId, Date appointmentDate, String email, String phone) {
+        this.userId = userId;
+        this.roomId = roomId;
+        this.appointmentDate = appointmentDate;
+        this.email = email;
+        this.phone = phone;
     }
 }

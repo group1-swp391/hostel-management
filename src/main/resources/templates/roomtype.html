@@ -116,7 +116,6 @@
                     </div>
 
                     <div class="table-responsive">
-                        <form action="">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead>
                                     <tr class="text-dark">
@@ -126,21 +125,19 @@
                                         <th scope="col">Giá cọc</th>
                                         <th scope="col">Số lượng</th>
                                         <th scope="col">Còn trống</th>
-                                        <th scope="col">Hình ảnh</th>
                                         <th scope="col">Tuỳ chọn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="roomType: ${roomTypes}">
-                                        <form method="get">
+                                        <form method="post">
                                             <input type="hidden" name="typeId"  th:value="${roomType.typeId}">
                                             <td><input type="text" name="roomName"  th:value="${roomType.roomName}"></td>
                                             <td><input type="text" name="description"  th:value="${roomType.description}"></td>
-                                            <td><input type="text" name="price"  th:value="${#numbers.formatDecimal(roomType.price, 0, 'COMMA', 2, 'POINT') + ' đ'}"></td>
+                                            <td><input type="text" name="price"  th:value="${roomType.price}"></td>
                                             <td><input type="text" name="depositPrice"  th:value="${roomType.depositPrice}"></td>
                                             <td>7</td>
                                             <td>8</td>
-                                            <td><input type="file" name="roomTImg"></td>
                                             <td>
                                                 <button formaction="/api/v1/RoomType/update" type="submit" name="update" class="btn btn-primary fa-solid fa-save"></button>
                                                 <button formaction="/api/v1/RoomType/delete" type="submit" name="delete" class="btn btn-danger fa-solid fa-trash"></button>
@@ -158,7 +155,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </form>
 
                     </div>
                 </div>

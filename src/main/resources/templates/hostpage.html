@@ -62,7 +62,6 @@
                             <th scope="col">Người thuê trọ</th>
                             <th scope="col">Giá</th>
                             <th scope="col">Hình ảnh</th>
-                            <th scope="col">Trạng thái thanh toán</th>
                             <th scope="col">Tuỳ chọn</th>
                         </tr>
                         </thead>
@@ -75,12 +74,7 @@
                                 <td><input type="text" name="userName" th:value="${room.userName}"></td>
                                 <td><input type="text" name="price" th:value="${#numbers.formatDecimal(room.price, 0, 'COMMA', 2, 'POINT') + ' đ'}" readonly></td>
                                 <td><input type="file" name="image"><br><img style="width: 100px;" th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" th:alt="${room.roomId}"></td>
-                                <td>
-                                    <select style="text-align: center;">
-                                        <option value="paid">Đã thanh toán</option>
-                                        <option value="unpaid">Chưa thanh toán</option>
-                                    </select>
-                                </td>
+
                                 <td>
                                     <button class="btn btn-primary fa-solid fa-save" formaction="/api/v1/host/room/update" type="submit" name="update"></button>
                                     <button class="btn  btn-danger fa-solid fa-trash" formaction="/api/v1/host/room/delete" type="submit" name="delete"></button>

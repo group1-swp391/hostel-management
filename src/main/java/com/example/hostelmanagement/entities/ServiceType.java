@@ -75,17 +75,7 @@ public class ServiceType {
         return result;
     }
 
-    public ServiceType() {
-    }
-
     public ServiceType(String serviceName, Double price, Integer hostelId) {
-        this.serviceName = serviceName;
-        this.price = price;
-        this.hostelId = hostelId;
-    }
-
-    public ServiceType(int serviceTypeId, String serviceName, Double price, Integer hostelId) {
-        this.serviceTypeId = serviceTypeId;
         this.serviceName = serviceName;
         this.price = price;
         this.hostelId = hostelId;

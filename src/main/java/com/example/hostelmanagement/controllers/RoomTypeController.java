@@ -21,7 +21,7 @@ public class RoomTypeController {
     private RoomTypeRepository roomTypeRepository;
 
     @GetMapping(value = "/")
-    public String hostIndex() {
+    public String roomTypeIndex() {
 
         return "redirect:search?roomName=";
     }
@@ -29,7 +29,7 @@ public class RoomTypeController {
     @PostMapping(value = "insert")
     public String insertRoomType(ModelMap mm, @RequestParam("hostelId") int hostelId, @RequestParam("newRoomName") String newRoomName, @RequestParam("newDescription") String newDescription, @RequestParam("newPrice") double newPrice, @RequestParam("newDepositPrice") double newDepositPrice, @RequestParam("newRoomTImg") Part newRoomTImg) {
         try {
-            roomTypeRepository.save(new RoomType(hostelId, newDescription, newPrice, newDepositPrice, Utils.getByteImage(newRoomTImg), newRoomName, true));
+            roomTypeRepository.save(new RoomType(hostelId, newDescription, newPrice, newDepositPrice, newRoomName, true));
             mm.put("message", "Insert new hostel successfully!");
         }catch (Exception e) {
             mm.put("message", "Insert new hostel failed!");
@@ -37,7 +37,7 @@ public class RoomTypeController {
         return "roomtype";
     }
 
-    @GetMapping(value = "delete")
+    @PostMapping (value = "delete")
     public String deleteRoomType(ModelMap mm, @RequestParam(value = "typeId") int typeId) {
         try {
             RoomType roomType = roomTypeRepository.findById(typeId).get();
@@ -51,21 +51,20 @@ public class RoomTypeController {
             return "roomtype";
         }
     }
-    @GetMapping(value = "update")
-    public String updateRoomType(ModelMap mm, @RequestParam(value = "typeId") int typeId, @RequestParam("roomName") String roomName, @RequestParam("description") String description, @RequestParam("price") double price, @RequestParam("depositPrice") double depositPrice, @RequestParam("roomTImg") Part roomTImg) {
+    @PostMapping(value = "update")
+    public String updateRoomType(ModelMap mm, @RequestParam(value = "typeId") int typeId, @RequestParam("roomName") String roomName, @RequestParam("description") String description, @RequestParam("price") double price, @RequestParam("depositPrice") double depositPrice) {
         try {
             RoomType roomType = roomTypeRepository.findById(typeId).get();
             roomType.setRoomName(roomName);
             roomType.setDescription(description);
             roomType.setPrice(price);
             roomType.setDepositPrice(depositPrice);
-            roomType.setRoomTImg(Utils.getByteImage(roomTImg));
             roomTypeRepository.save(roomType);
             mm.put("message","Update room type successfully");
         } catch (Exception e) {
             mm.put("message", "Update room type failed");
         } finally {
-            return "roomtype";
+            return roomTypeIndex();
         }
     }
 

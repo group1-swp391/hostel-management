@@ -1,7 +1,6 @@
 package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.Room;
-
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.RoomRepository;
 
@@ -35,7 +34,7 @@ public class RoomController {
     public String insertRoom(ModelMap mm, HttpSession session, @RequestParam("newRoomNumber") int newRoomNumber, @RequestParam("newTypeId") int newTypeId, @RequestParam("hostelId") int hostelId, @RequestParam("newImage") Part newImage) throws IOException {
         try {
             User loginUser = (User) session.getAttribute("LOGIN_USER");
-            roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId,hostelId, Utils.getByteImage(newImage),true));
+            roomRepository.save(new Room(newRoomNumber, loginUser.getUserId(), newTypeId, Utils.getByteImage(newImage),true));
             mm.put("message", "Insert new room successfully!");
         }catch (Exception e) {
             mm.put("message", "Insert new room failed!");

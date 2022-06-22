@@ -2,9 +2,7 @@ package com.example.hostelmanagement.controllers;
 
 
 import com.example.hostelmanagement.entities.ServiceType;
-import com.example.hostelmanagement.entities.UtilityType;
 import com.example.hostelmanagement.repositories.ServiceTypeRepository;
-import com.example.hostelmanagement.repositories.UtilityTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

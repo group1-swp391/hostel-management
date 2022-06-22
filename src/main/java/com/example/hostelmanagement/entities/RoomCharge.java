@@ -2,7 +2,6 @@ package com.example.hostelmanagement.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_roomCharge", schema = "dbo", catalog = "Hostel_Management")
@@ -10,10 +9,10 @@ public class RoomCharge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "roomChargeID")
-    private Integer roomChargeId;
+    private int roomChargeId;
     @Basic
     @Column(name = "roomID")
-    private Integer roomId;
+    private int roomId;
     @Basic
     @Column(name = "startDate")
     private Date startDate;
@@ -21,36 +20,25 @@ public class RoomCharge {
     @Column(name = "endDate")
     private Date endDate;
     @Basic
-    @Column(name = "invoiceID")
-    private Integer invoiceId;
-    @Basic
     @Column(name = "price")
-    private float price;
+    private double price;
+    @Basic
+    @Column(name = "invoiceID")
+    private int invoiceId;
 
-    public RoomCharge() {
-    }
-
-    public RoomCharge(Integer roomId, Date startDate, Date endDate, Integer invoiceId, float price) {
-        this.roomId = roomId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.invoiceId = invoiceId;
-        this.price = price;
-    }
-
-    public Integer getRoomChargeId() {
+    public int getRoomChargeId() {
         return roomChargeId;
     }
 
-    public void setRoomChargeId(Integer roomChargeId) {
+    public void setRoomChargeId(int roomChargeId) {
         this.roomChargeId = roomChargeId;
     }
 
-    public Integer getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Integer roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
@@ -70,44 +58,50 @@ public class RoomCharge {
         this.endDate = endDate;
     }
 
-    public Integer getInvoiceId() {
-        return invoiceId;
-    }
-
-    public void setInvoiceId(Integer invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(int invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RoomCharge)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         RoomCharge that = (RoomCharge) o;
-        return Float.compare(that.getPrice(), getPrice()) == 0 && Objects.equals(getRoomChargeId(), that.getRoomChargeId()) && Objects.equals(getRoomId(), that.getRoomId()) && Objects.equals(getStartDate(), that.getStartDate()) && Objects.equals(getEndDate(), that.getEndDate()) && Objects.equals(getInvoiceId(), that.getInvoiceId());
+
+        if (roomChargeId != that.roomChargeId) return false;
+        if (roomId != that.roomId) return false;
+        if (Double.compare(that.price, price) != 0) return false;
+        if (invoiceId != that.invoiceId) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRoomChargeId(), getRoomId(), getStartDate(), getEndDate(), getInvoiceId(), getPrice());
-    }
-
-    @Override
-    public String toString() {
-        return "RoomCharge{" +
-                "roomChargeId=" + roomChargeId +
-                ", roomId=" + roomId +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", invoiceId=" + invoiceId +
-                ", price=" + price +
-                '}';
+        int result;
+        long temp;
+        result = roomChargeId;
+        result = 31 * result + roomId;
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + invoiceId;
+        return result;
     }
 }

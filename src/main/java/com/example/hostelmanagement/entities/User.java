@@ -168,22 +168,22 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        User users = (User) o;
 
-        if (userId != user.userId) return false;
-        if (roleId != user.roleId) return false;
-        if (userStatus != user.userStatus) return false;
-        if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (fullName != null ? !fullName.equals(user.fullName) : user.fullName != null) return false;
-        if (dateOfBirth != null ? !dateOfBirth.equals(user.dateOfBirth) : user.dateOfBirth != null) return false;
-        if (gender != null ? !gender.equals(user.gender) : user.gender != null) return false;
-        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (documentId != null ? !documentId.equals(user.documentId) : user.documentId != null) return false;
-        if (!Arrays.equals(documentFrontSide, user.documentFrontSide)) return false;
-        if (!Arrays.equals(documentBackSide, user.documentBackSide)) return false;
-        if (regtime != null ? !regtime.equals(user.regtime) : user.regtime != null) return false;
+        if (userId != users.userId) return false;
+        if (roleId != users.roleId) return false;
+        if (userStatus != users.userStatus) return false;
+        if (userName != null ? !userName.equals(users.userName) : users.userName != null) return false;
+        if (password != null ? !password.equals(users.password) : users.password != null) return false;
+        if (fullName != null ? !fullName.equals(users.fullName) : users.fullName != null) return false;
+        if (dateOfBirth != null ? !dateOfBirth.equals(users.dateOfBirth) : users.dateOfBirth != null) return false;
+        if (gender != null ? !gender.equals(users.gender) : users.gender != null) return false;
+        if (phone != null ? !phone.equals(users.phone) : users.phone != null) return false;
+        if (email != null ? !email.equals(users.email) : users.email != null) return false;
+        if (documentId != null ? !documentId.equals(users.documentId) : users.documentId != null) return false;
+        if (!Arrays.equals(documentFrontSide, users.documentFrontSide)) return false;
+        if (!Arrays.equals(documentBackSide, users.documentBackSide)) return false;
+        if (regtime != null ? !regtime.equals(users.regtime) : users.regtime != null) return false;
 
         return true;
     }
@@ -207,8 +207,7 @@ public class User {
         return result;
     }
 
-    public User(int userId, String userName, String password, String fullName, Date dateOfBirth, Boolean gender, String phone, String email, String documentId, byte[] documentFrontSide, byte[] documentBackSide, int roleId, boolean userStatus, Date regtime) {
-        this.userId = userId;
+    public User(String userName, String password, String fullName, Date dateOfBirth, Boolean gender, String phone, String email, String documentId, byte[] documentFrontSide, byte[] documentBackSide, int roleId, boolean userStatus) {
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
@@ -221,10 +220,10 @@ public class User {
         this.documentBackSide = documentBackSide;
         this.roleId = roleId;
         this.userStatus = userStatus;
-        this.regtime = regtime;
     }
 
-    public User(String userName, String password, String fullName, Date dateOfBirth, Boolean gender, String phone, String email, String documentId, byte[] documentFrontSide, byte[] documentBackSide, int roleId, boolean userStatus, Date regtime) {
+    public User(int userId, String userName, String password, String fullName, Date dateOfBirth, Boolean gender, String phone, String email, String documentId, byte[] documentFrontSide, byte[] documentBackSide, int roleId, boolean userStatus, Date regtime) {
+        this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;

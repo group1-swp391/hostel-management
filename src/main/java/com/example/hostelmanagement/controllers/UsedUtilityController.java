@@ -26,7 +26,7 @@ public class UsedUtilityController {
 //    }
     @GetMapping(value = {"{utility-name}", "{utility-name}/search"})
     public String getElectricity(@PathVariable("utility-name") String name, @RequestParam(value = "roomId", required = false) String roomId, ModelMap mm) {
-        String utilityName = "Dien";
+        String utilityName = name;
         List<UsedUtility> utilities = usedUtilityRepository.findAllByUtilityName(utilityName);
         if (roomId!=null&&!"".equals(roomId)) {
             utilities = usedUtilityRepository.findAllByRoomId(utilityName, Integer.parseInt(roomId));

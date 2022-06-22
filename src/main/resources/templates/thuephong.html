@@ -21,13 +21,25 @@
 	<!-- bootstrap -->
 	<link rel="stylesheet" href="/css/bootstrap.min.css" />
 	<!-- Style css-->
-	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="css/nicepage.css" />
+	<link rel="stylesheet" href="css/Page-2.css" />
 	<!-- Responsive css-->
 	<link rel="stylesheet" href="/css/responsive.css" />
 
 	<link rel="stylesheet" type="text/css" href="/css/lightbox.min.css">
 	<script src="/js/lightbox-plus-jquery.min.js"></script>
+	<script class="u-script" type="text/javascript" src="/js/nicepage.js" defer=""></script>
+	<meta name="generator" content="Nicepage 4.12.23, nicepage.com">
+	<link id="u-theme-google-font" rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+	<link id="u-page-google-font" rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i">
 
+	<script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": ""
+}</script>
 </head>
 
 <body style="background-color:rgb(252, 242, 248);">
@@ -48,19 +60,19 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav mx-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="thuephong.html">Thuê phòng</a>
+								<a style="color:white"class="nav-link" href="thuephong.html">Thuê phòng</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+								<a style="color:white"class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="dangki.html">Đăng kí</a>
+								<a style="color:white"class="nav-link" href="dangki.html">Đăng kí</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="user.html">Giành cho người thuê</a>
+								<a style="color:white"class="nav-link" href="user.html">Giành cho người thuê</a>
 							</li>
 
 						</ul>
@@ -75,7 +87,14 @@
 
 	<div class="container">
 		<div class="dropdown">
-			<button value="Hồ Chí Minh" class="dropbtn">HỒ CHÍ MINH</button>
+			<button value="Thành phố" class="dropbtn">Tỉnh thành </button>
+			<div id="Thành phố" class="dropdown-content">
+				<a href="#">Hồ Chí Minh</a>
+				<a href="#">Hà Nội</a>
+				<a href="#">Hải Phòng</a>
+				<a href="#">Bình Thuận</a>
+				<a href="#">Lâm Đồng</a>
+			</div>
 		</div>
 		<div class="dropdown">
 			<button value="QUẬN HUYỆN" class="dropbtn">QUẬN HUYỆN</button>
@@ -115,127 +134,41 @@
 		<h4> Có 689 phòng trống từ 103 kết quả</h4>
 	</div>
 
-	<div class="full-bestSeller" id="product">
-		<div class="container">
-			<div class="row mt-5">
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 1</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
-				</div>
+	<section class="u-align-center u-clearfix u-grey-5 u-section-1" id="sec-85e1">
+		<div class="u-clearfix u-sheet u-valign-middle u-sheet-1" style="margin-left: 200px;margin-right: 200px;margin-bottom: 50px;">
+			<div class="u-expanded-width u-list u-list-1">
+				<div class="u-repeater u-repeater-1">
 
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 2</a></h3>
-								<span class="product-price">Gía phòng</span>
+					<div class="u-container-style u-list-item u-repeater-item u-video-cover u-white u-list-item-1">
+						<div class="u-container-layout u-similar-container u-container-layout-1">
+							<img alt="" class="u-expanded-width u-image u-image-default u-image-1"
+								src="img/australian-modern-bedroom-interior-nature-window_31965-3690.jpg">
+							<div
+								class="u-align-center u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-xl u-group u-video-cover u-group-1">
+								<div class="u-container-layout u-valign-top u-container-layout-2">
+									<h4 class="u-custom-font u-font-roboto-condensed u-text u-text-2">Nhà trọ Hoàng Nam
+									</h4>
+									<h6 class="u-text u-text-palette-1-base u-text-6">44m<sup>2</sup> </h6>
+									<p class="u-text u-text-4">Tố Hữu, Phường Hòa Cường Nam, Quận Hải Châu, Đà Nẵng.</p>
+									<a href="chitietphong.html"
+										class="u-border-2 u-border-grey-25 u-btn u-btn-rectangle u-button-style u-none u-text-body-color u-btn-1">Xem
+										phòng</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 3</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
-				</div>
 
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 4</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
+					
 				</div>
-
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 5</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 6</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 7</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
-					<div class="product">
-						<div class="product-img">
-							<img class="w-100" src="/img/product-1.jpg" alt="">
-						</div>
-						<div class="product-content">
-							<div class="product-details position-bottom-left">
-								<h3 class="product-name"><a href="chitietphong.html">Phòng 8</a></h3>
-								<span class="product-price">Gía phòng</span>
-							</div>
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
-	</div>
+
+		
+	</section>
 
 
 	<!-- FOOTER TOP PART START -->
-	< <!-- FOOTER TOP PART END -->
+	 <!-- FOOTER TOP PART END -->
 
 		<!-- FOOTER BOTTOM PART START -->
 		<div class="footer_bottom">
@@ -250,7 +183,9 @@
 			</div>
 		</div>
 		<!-- FOOTER BOTTOM PART END -->
-
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<!-- jQuery -->
 		<script src="/js/jquery-3.2.1.min.js"></script>
 		<!-- Bootstrap JS -->

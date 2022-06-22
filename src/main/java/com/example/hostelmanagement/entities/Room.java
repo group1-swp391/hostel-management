@@ -20,9 +20,6 @@ public class Room {
     @Column(name = "typeID")
     private int typeId;
     @Basic
-    @Column(name = "hostelID")
-    private int hostelId;
-    @Basic
     @Column(name = "image")
     private byte[] image;
     @Basic
@@ -30,18 +27,20 @@ public class Room {
     private boolean roomStatus;
 
     @Transient
+    private String userName;
+    @Transient
     private double price;
     @Transient
     private String roomName;
     @Transient
-    private String userName;
+    private int hostelId;
 
-    public String getUserName() {
-        return userName;
+    public int getHostelId() {
+        return hostelId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setHostelId(int hostelId) {
+        this.hostelId = hostelId;
     }
 
     public double getPrice() {
@@ -58,6 +57,14 @@ public class Room {
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getRoomId() {
@@ -92,14 +99,6 @@ public class Room {
         this.typeId = typeId;
     }
 
-    public int getHostelId() {
-        return hostelId;
-    }
-
-    public void setHostelId(int hostelId) {
-        this.hostelId = hostelId;
-    }
-
     public byte[] getImage() {
         return image;
     }
@@ -126,7 +125,6 @@ public class Room {
         if (roomId != room.roomId) return false;
         if (roomNumber != room.roomNumber) return false;
         if (typeId != room.typeId) return false;
-        if (hostelId != room.hostelId) return false;
         if (roomStatus != room.roomStatus) return false;
         if (userId != null ? !userId.equals(room.userId) : room.userId != null) return false;
         if (!Arrays.equals(image, room.image)) return false;
@@ -140,30 +138,15 @@ public class Room {
         result = 31 * result + roomNumber;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + typeId;
-        result = 31 * result + hostelId;
         result = 31 * result + Arrays.hashCode(image);
         result = 31 * result + (roomStatus ? 1 : 0);
         return result;
     }
 
-    public Room() {
-    }
-
-    public Room(int roomNumber, Integer userId, int typeId, int hostelId, byte[] image, boolean roomStatus) {
+    public Room(int roomNumber, Integer userId, int typeId, byte[] image, boolean roomStatus) {
         this.roomNumber = roomNumber;
         this.userId = userId;
         this.typeId = typeId;
-        this.hostelId = hostelId;
-        this.image = image;
-        this.roomStatus = roomStatus;
-    }
-
-    public Room(int roomId, int roomNumber, Integer userId, int typeId, int hostelId, byte[] image, boolean roomStatus) {
-        this.roomId = roomId;
-        this.roomNumber = roomNumber;
-        this.userId = userId;
-        this.typeId = typeId;
-        this.hostelId = hostelId;
         this.image = image;
         this.roomStatus = roomStatus;
     }

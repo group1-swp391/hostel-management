@@ -261,7 +261,7 @@ button:hover {
     padding-bottom: 0;
     margin-right: 0rem;
     width: 75px;
-    height: 75px ;
+    height: 75px;
     margin-top: 0px;
 }
 
@@ -411,15 +411,15 @@ button:hover {
 }
 
 .banner-content h1 span {
-    color: #1d8007;
+    color: white;
     font-weight: 600;
 }
 
 .banner-content h3 {
-    color: #fff;
+    color: black;
     font-size: 55px;
     font-weight: 600;
-    background-color: #03262c;
+    /* background-color: rgb(239, 239, 239); */
     display: inline-block;
     padding-left: 20px;
     padding-right: 20px;
@@ -697,6 +697,7 @@ button:hover {
     padding: 20px 10px;
     position: relative;
     transition: all 0.3s;
+    border-radius: 5%;
 }
 
 .product-content {
@@ -2180,11 +2181,6 @@ h2 {
     color: #fff;
     background: #111;
     border-radius: remy(35px);
-
-    &:focus,
-    &:hover {
-        background: lighten(#111, 13%);
-    }
 }
 
 .signup__link {
@@ -2259,8 +2255,7 @@ h2 {
     font-size: 12px;
 }
 
-/*.login-box form a*/
-.login-box form button {
+.login-box form a {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
@@ -2271,13 +2266,10 @@ h2 {
     overflow: hidden;
     transition: .5s;
     margin-top: 40px;
-    letter-spacing: 4px;
-    background: rgb(3, 38, 44);
-    border: none;
+    letter-spacing: 4px
 }
 
-/*.login-box a:hover*/
-.login-box button:hover {
+.login-box a:hover {
     background: #03e9f4;
     color: #fff;
     border-radius: 5px;
@@ -2287,14 +2279,12 @@ h2 {
         0 0 100px #03e9f4;
 }
 
-/*.login-box a span*/
-.login-box button span {
+.login-box a span {
     position: absolute;
     display: block;
 }
 
-/*.login-box a span:nth-child(1)*/
-.login-box button span:nth-child(1) {
+.login-box a span:nth-child(1) {
     top: 0;
     left: -100%;
     width: 100%;
@@ -2314,8 +2304,7 @@ h2 {
     }
 }
 
-/*.login-box a span:nth-child(2)*/
-.login-box button span:nth-child(2) {
+.login-box a span:nth-child(2) {
     top: -100%;
     right: 0;
     width: 2px;
@@ -2336,8 +2325,7 @@ h2 {
     }
 }
 
-/*.login-box a span:nth-child(3)*/
-.login-box button span:nth-child(3) {
+.login-box a span:nth-child(3) {
     bottom: 0;
     right: -100%;
     width: 100%;
@@ -2358,8 +2346,7 @@ h2 {
     }
 }
 
-/*.login-box a span:nth-child(4)*/
-.login-box button span:nth-child(4) {
+.login-box a span:nth-child(4) {
     bottom: -100%;
     left: 0;
     width: 2px;
@@ -2389,12 +2376,14 @@ h2 {
 
 /* Dropdown Button */
 .dropbtn {
-    background-color: rgb(3, 38, 44);
+    background-color: rgb(94, 123, 111);
     color: white;
     padding: 16px;
     font-size: 16px;
+    width: 200px;
     border: none;
     cursor: pointer;
+    border-radius: 5%;
 }
 
 /* ĐỔi màu nền khi hover và focus Dropdown button */
@@ -2552,10 +2541,307 @@ h2 {
     }
 }
 
-.why{
+.why {
     text-align: center;
-    color:black;
+    color: black;
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
+
+/*footer*/
+.context-dark,
+.bg-gray-dark,
+.bg-primary {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-classic a,
+.footer-classic a:focus,
+.footer-classic a:active {
+    color: #ffffff;
+}
+
+.nav-list li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.nav-list li a:hover:before {
+    margin-left: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 23px;
+    font: 900 13px/1 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    color: rgba(243, 234, 234, 0.5);
+}
+
+.social-container .col {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-list li a:before {
+    content: "\f14f";
+    font: 400 21px/1 "Material Design Icons";
+    color: #4d6de6;
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: -28px;
+    margin-right: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .22s ease;
+}
+
+/* Credit to https://bootsnipp.com/snippets/2eMK5 */
+
+
+
+
+.why-box {
+    background-color: rgb(94, 123, 111);
+    border: 1.5px solid #56a746;
+    padding: 100px 0px;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+    height: 20px;
+    border-radius: 5%;
+}
+
+
+.why-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    color: rgb(176, 212, 184);
+    font-size: 37px;
+    margin-top: -90px;
+    margin-left: 155px;
+}
+
+.why-text {
+    text-align: center;
+    margin-right: 30px;
+    /* margin-left: 100px; */
+}
+
+
+.hc-box {
+    background-color: white;
+    border: 1.5px solid #56a746;
+    padding: 100px 0px;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+    height: 250px;
+    border-radius: 5%;
+}
+
+
+.hc-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    color: rgb(85, 190, 192);
+    font-size: 37px;
+    margin-top: -90px;
+    margin-left: 110px;
+}
+
+.hc-text {
+    text-align: center;
+    margin-right: 30px;
+}
+
+
+.ch-box {
+    padding: 100px 0px;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+    height: 250px;
+}
+
+
+.ch-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    color: rgb(2, 135, 127);
+    font-size: 37px;
+    margin-top: -90px;
+    margin-left: 130px;
+}
+
+.ch-text {
+    text-align: center;
+    color: black;
+    margin-right: 70px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.dropbtnuser {
+    background-color: rgb(3, 38, 44);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    width: auto;
+    border: none;
+    cursor: pointer;
+    border-radius: 5%;
+}
+
+/* ĐỔi màu nền khi hover và focus Dropdown button */
+.dropbtnuser:hover,
+.dropbtnuser:focus {
+    background-color: rgb(5, 71, 82);
+}
+
+/* Định dạng các thẻ bao bọc các menu */
+.dropdownuser {
+    margin-top: -12px;
+    position: relative;
+    display: inline-block;
+
+
+}
+
+/* Dropdown Content, mặc định sẽ được ẩn đi */
+.dropdownuser-content {
+    overflow: auto;
+    display: none;
+    position: absolute;
+    height: 180px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Định dạng các thẻ a là các menu con */
+.dropdownuser-content a {
+    color: black;
+    overflow-y: 10px;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Thay đổi màu nền khi các menu con được hover */
+.dropdownuser-content a:hover {
+    background-color: #f1f1f1
+}
+
+/* Hiển thị menu, ta sẽ dùng javascript để thêm class này vào các nôi dung cần được hiển thị */
+.show {
+    display: block;
+}
+
+
+
+
+
+.card-single {
+    background: #fff;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 2px 5px 20px rgba(119, 119, 119, .5);
+    width: 70%;
+}
+
+.card-single h1{
+    font-family: "Montserrat", sans-serif;
+    color:#7ed386 ;
+    font-size: 1.5rem;
+}
+
+.card-single h2 {
+    color: #777;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-left: 2px;
+    padding-top: 5px;
+}
+
+.input {
+    border: 0;
+    border-bottom: 1px solid #3fb6a8;
+    width: 70%;
+    font-family: "Montserrat", sans-serif;
+    font-size: 100%;
+    padding: 7px;
+    color: #070707;
+    outline: none;
+}
+
+.image-preview{
+    width: 300px;
+    min-height: 100px;
+    border: 2px solid #dddddd;
+    margin-top: 15px;
+
+    /* display text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.image-preview__image {
+    display: none;
+    width: 100%;
+}
+
+.image-preview-two{
+    width: 300px;
+    min-height: 100px;
+    border: 2px solid #dddddd;
+    margin-top: 15px;
+
+    /* display text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.image-preview__image__2 {
+    display: none;
+    width: 100%;
+}

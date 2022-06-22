@@ -99,7 +99,7 @@ public class ContractController {
                 try {
                     double deposit = roomType.getDepositPrice();
 
-                    Contracts contract = new Contracts(startDate, endDate, deposit, userId, roomId, true, ts, null);
+                    Contracts contract = new Contracts(startDate, endDate, deposit, userId, roomId, true, null, null, ts);
                     contract = contractRepository.save(contract);
 
                     mm.put("message",  "Create success contract id: " + contract.getContractId());
@@ -119,10 +119,10 @@ public class ContractController {
     public String deleteContract(@RequestParam("contractid") int contractid, ModelMap mm, HttpSession session) {
 
         Contracts contract = contractRepository.findById(contractid).get();
-        if (contract != null && contract.getContractStatus()) {
+        if (contract != null && contract.isContractStatus()) {
             contract.setContractStatus(false);
             contract = contractRepository.save(contract);
-            if(!contract.getContractStatus())
+            if(!contract.isContractStatus())
                 mm.put("message", "Delete Success Contract ID: " + contract.getContractId());
         } else {
             mm.put("message", "Not found contract id");
@@ -137,7 +137,7 @@ public class ContractController {
 
         Contracts contract = contractRepository.findById(contractid).get();
 
-        if (contract != null && contract.getContractStatus() && contract.getContractLiquidationTime() == null) {
+        if (contract != null && contract.isContractStatus() && contract.getContractLiquidationTime() == null) {
 
             java.util.Date date = new java.util.Date();
             Timestamp ts = new Timestamp(date.getTime());
@@ -159,7 +159,7 @@ public class ContractController {
                                     ModelMap mm, HttpSession session) {
         try {
             Contracts contract = contractRepository.findById(contractid).get();
-            if (contract.getContractStatus()) {
+            if (contract.isContractStatus()) {
 
 
                 mm.put("contract", contract);

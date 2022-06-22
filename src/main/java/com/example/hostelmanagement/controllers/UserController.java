@@ -91,7 +91,7 @@ public class UserController {
             mm.put("error", "Register failed");
             return "register";
         }
-        userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, Utils.getByteImage(documentFrontSide), Utils.getByteImage(documentBackSide), roleId, true, new Date(System.currentTimeMillis())));
+        userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, Utils.getByteImage(documentFrontSide), Utils.getByteImage(documentBackSide), roleId, true));
         return "login";
     }
 

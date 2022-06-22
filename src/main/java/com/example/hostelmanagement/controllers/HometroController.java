@@ -1,18 +1,7 @@
 package com.example.hostelmanagement.controllers;
 
-import com.example.hostelmanagement.entities.Room;
-import com.example.hostelmanagement.repositories.ContractRepository;
-import com.example.hostelmanagement.repositories.RoomRepository;
-import com.example.hostelmanagement.repositories.RoomTypeRepository;
-import com.example.hostelmanagement.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "api/v1/hometro")

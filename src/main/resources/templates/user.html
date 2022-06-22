@@ -44,19 +44,19 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav mx-auto">
 							<li class="nav-item active">
-								<a class="nav-link" href="/api/v1/hometro/to-rentroom/">Thuê phòng</a>
+								<a style="color:white"class="nav-link" href="/api/v1/hometro/to-rentroom/">Thuê phòng</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+								<a style="color:white"class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+								<a style="color:white"class="nav-link" href="/api/v1/user/register">Đăng kí</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="/"> Giành cho người thuê</a>
+								<a style="color:white"class="nav-link" href="/"> Giành cho người thuê</a>
 							</li>
 						</ul>
 					</div>
@@ -74,146 +74,280 @@
 		<div class="container">
 			<div class="row banner-slider">
 				<div class="col-md-12">
-					<div class="banner-content">
-						<h1><span>Quản lý mọi lúc, mọi nơi</span></h1>
-						<h3>Chủ trọ có thể quản lý nhà trọ mọi lúc mọi nơi, dữ liệu được quản lý tập trung, bảo mật, và
-							an toàn tuyệt đối.</h3>
+					<div class="banner-content"style="margin-left:200px;margin-bottom: 100px;">
+						<h1><span>HOMETRO.COM</span></h1>
+						<h3>Xây dựng không gian sống tiêu chuẩn</h3>
 					</div>
 				</div>
 
-				<div class="col-md-12">
-					<div class="banner-content">
-						<h1><span>Đơn giản & Dễ dùng</span></h1>
-						<h3>Giao diện đơn giản, thân thiện, thông minh giúp chủ trọ triển khai quản lý nhà trọ thật dễ
-							dàng và nhanh chóng</h3>
-					</div>
-				</div>
-
-				<div class="col-md-12">
-					<div class="banner-content">
-						<h1> <span>Tiết kiệm chi phí tối đa</span></h1>
-						<h3>Chỉ với 12.000 đồng/phòng, chủ trọ đã có thể áp dụng công nghệ tiên tiến vào quản lý nhà
-							trọ, căn hộ của mình.</h3>
-
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
-	<!-- BANNER PART END -->
+	
 
-	<!-- FEATURES PART START -->
-	<div class="full-features">
+	<h3 class="why" >Tại sao nên chọn HOMETRO ?</h3>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<div>
+					<h4>Không gian sống tiêu chuẩn với mức giá hợp lý</h4>
+				</div>
+				<div></div>
+				<div>
+					<h5>Hometro cung cấp các căn hộ khép kín tọa lạc tại các vị trí thuận lợi với mức giá hợp lí nhưng
+						vẫn đảm bảo đầy đủ các thiết bị nội thất và dịch vụ thiết yếu.</h5>
+				</div>
+
+			</div>
+			<div class="col-sm-6">
+				<img src="/img/Capture.PNG" alt="">
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<img src="/img/Capture.PNG" alt="">
+			</div>
+			<div class="col-sm-6">
+				<div >
+					<h4>Thông tin cập nhật liên tục và chính xác</h4>
+				</div>
+				<div >
+					<h5>Thông tin chi tiết và hình ảnh về các dự án căn hộ cũng như các dịch vụ tiện ích luôn được cập
+						nhật
+						liên tục và chính xác bởi APLUS..</h5>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="container" style="margin-bottom: 100px;">
+		<div class="row">			
+			<div class="col-sm-6">
+				<div >
+					<h4>Dễ dàng đặt lịch xem phòng</h4>
+				</div>
+				<div >
+					<h5>Dễ dàng đặt lịch tư vấn và xem phòng vào các khung giờ phù hợp cùng với đại diện của APLUS.</h5>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<img src="/img/Capture.PNG" alt="">
+			</div>
+
+		</div>
+	</div>
+
+	<div class="full-bestSeller">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-left">
+                    <h3 class="section-title" style="text-align: center;">Một số dự án tiêu biểu </h3>
+					<h3></h3>
+                </div>
+            </div>
+
+            <div class="row mt-5 product-slider">
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-1.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="chitietphong.html">nhà trọ 2</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-2.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="chitietphong.html">PHÒNG TRỌ 3</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-3.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="chitietphong.html">PHÒNG TRỌ 4</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-4.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="chitietphong.html">PHÒNG TRỌ 5</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-5.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="chitietphong.html">PHÒNG TRỌ 6</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-12">
+                    <div class="product">
+                        <div class="product-img">
+                            <img class="w-100" src="/img/product-6.jpg" alt="">
+                        </div>
+                        <div class="product-content">
+                            <div class="product-details position-bottom-left">
+                                <h3 class="product-name"><a href="chitietphong.html">PHÒNG TRỌ 7</a></h3>
+                                <strong>GIÁ PHÒNG</strong>
+                            </div>
+
+                            <div class="icons position-center">
+                                <div class="rounded-icon">
+                                    <i class="icofont-eye"></i>
+                                </div>
+
+                                <div class="rounded-icon">
+                                    <i class="icofont-heart-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!------ Include the above in your HEAD tag ---------->
+
+	<footer class="section footer-classic context-dark bg-image" style="background: #03262c;">
 		<div class="container">
-			<div class="row slider">
-				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
-					<div class="features-box text-center">
-						<div class="features-icon-border">
-							<div class="features-icon">
-								<i class="icofont-people"></i>
-							</div>
-						</div>
-						<div class="features-text">
-							<h3>Quản lý khách thuê</h3>
-						</div>
+			<div class="row row-30">
+				<div class="col-md-4 col-xl-5">
+					<div class="pr-xl-4"><a class="brand" href="index.html"><img class="brand-logo-light"
+								src="/img/logo.png" alt="" width="75" height="75"
+								srcset="https://dummyimage.com/140x37/f1f1f1/000.jpg 2x"></a>
+						<p>HOMETRO.COM Phần mềm quản lý nhà trọ siêu cấp vip pro .</p>
+						<!-- Rights-->
+						<p class="rights"><span>©  </span><span
+								class="copyright-year">2022</span><span> </span><span>Company</span><span>
+								- </span><span>All rights reserved | This website is made with by HOMETRO</span></p>
 					</div>
 				</div>
-
-
-				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
-					<div class="features-box text-center">
-						<div class="features-icon-border">
-							<div class="features-icon">
-								<i class="icofont-page"></i>
-							</div>
-						</div>
-						<div class="features-text">
-							<h3>Quản lý hợp đồng</h3>
-						</div>
-					</div>
+				<div class="col-md-4">
+					<h5>Địa chỉ</h5>
+					<dl class="contact-list">
+						<dt>Địa chỉ:</dt>
+						<dd>Lô E2a-7, Đường D1 Khu Công nghệ cao, P.Long Thạnh Mỹ, TP Thủ Đức, TP.HCM</dd>
+					</dl>
+					<dl class="contact-list">
+						<dt>Email:</dt>
+						<dd><a href="mailto:#">hometro@email.com</a></dd>
+					</dl>
+					<dl class="contact-list">
+						<dt>Phones:</dt>
+						<dd><a href="tel:#">01234455667</a> <span>or</span> <a href="tel:#">8799712312</a>
+						</dd>
+					</dl>
 				</div>
-
-				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
-					<div class="features-box text-center">
-						<div class="features-icon-border">
-							<div class="features-icon">
-								<i class="icofont-wifi"></i>
-							</div>
-						</div>
-						<div class="features-text">
-							<h3>Quản lý dịch vụ</h3>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
-					<div class="features-box text-center">
-						<div class="features-icon-border">
-							<div class="features-icon">
-								<i class="icofont-bill"></i>
-							</div>
-						</div>
-						<div class="features-text">
-							<h3>Quản lý hóa đơn</h3>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-md-12 col-lg-12 col-xl-12 mb-4">
-					<div class="features-box text-center">
-						<div class="features-icon-border">
-							<div class="features-icon">
-								<i class="icofont-bed"></i>
-							</div>
-						</div>
-						<div class="features-text">
-							<h3>Quản lý phòng,thiết bị</h3>
-						</div>
-					</div>
+				<div class="col-md-4 col-xl-3">
+					<h5>Quick Link </h5>
+					<ul class="nav-list">
+						<li><a href="index.html">Trang chủ </a></li>
+						<li><a href="dangnhap.html">Đăng nhập </a></li>
+						<li><a href="dangki.html">Đăng kí </a></li>
+						<li><a href="thuephong.html">Thuê phòng</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- FEATURES PART END -->
-
-	<!-- ABOUT US PART START -->
-	<div class="full-about" id="full-about" >
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="about-content">
-						<h3>HOMETRO.COM</h3>
-						<div class="about-details">
-							<p>Được ra đời dựa vào nhu cầu thực tế của các cá nhân, tổ chức cho thuê phòng trọ. Ứng dụng
-								quản lý phòng trọ được phát triển giúp cho người quản lý tính toán chính xác tiền phòng,
-								dịch vụ, tiết kiệm thời gian ghi chép, thống kê.</p>
-							<p>Phần mềm quản lý được nhà trọ có nhiều nhà/ khu vực, nhiều phòng. Thiết lập linh động đơn
-								giá dịch vụ, linh động về kỳ thu tiền.
-								Phần mềm được phát triển trên nền tảng web, sử dụng online, có thể truy cập bất kỳ nơi
-								nào có internet.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- ABOUT US PART END -->
-
-	<div class="footer_bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 col-sm-12 col-12">
-					<div class="footer_txt text-center">
-<<<<<<< HEAD
-						<p>Copyright ©2022 All rights reserved | This website is made with by HOMETRO</p>
-=======
-						<p>HOMETRO.COM</p>
->>>>>>> origin/hungbx4
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	</footer>
 
 	<!-- jQuery -->
 	<script src="/js/jquery-3.2.1.min.js"></script>
