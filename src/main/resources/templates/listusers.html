@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/account.css">
+</head>
+
+<body>
+
+<input type="checkbox" id="sidebar-toggle">
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h3 class="brand">
+            <span>Hometro</span>
+        </h3>
+        <label for="sidebar-toggle" class="fa-solid fa-bars"></label>
+    </div>
+
+    <div class="sidebar-menu">
+        <li>
+            <a href="/home">
+                <span class="fa-solid fa-house"></span>
+                <span>Trang chủ</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/api/v1/user/show-info">
+                <span class="fa-solid fa-user"></span>
+                <span th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Tài khoản'"></span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/api/v1/user/logout">
+                <span class="fa-solid fa-arrow-right-from-bracket"></span>
+                <span>Đăng xuất</span>
+            </a>
+        </li>
+
+    </div>
+</div>
+
+
+<div class="main-content">
+    <header>
+        <!--            <div class="search-wrapper">-->
+        <!--                <span class="fa-solid fa-magnifying-glass"></span>-->
+        <!--                <input type="text" placeholder="Search">-->
+        <!--            </div>-->
+        <div class="social-icons">
+            <span class="fa-solid fa-bell"></span>
+            <span class="fa-solid fa-comment-alt"></span>
+        </div>
+    </header>
+
+    <body>
+    <p>List Users</p>
+
+    <div th:text="${message}" class="alert alert-primary" role="alert"> </div>
+    <table id="table1" class="table">
+        <thead class="table-light">
+        <tr>
+            <th th:text="UserId">userId</th>
+            <th th:text="UserName">userName</th>
+            <th th:text="Password">password</th>
+            <th th:text="DOB">dateOfBirth</th>
+            <th th:text="Gender">gender</th>
+            <th th:text="Email">email</th>
+            <th th:text="Password">password</th>
+            <th th:text="FullName">fullName</th>
+            <th th:text="Phone">phone</th>
+            <th th:text="DocumentID">documentId</th>
+            <th th:text="RoleID">roleId</th>
+            <th th:text="Status">userStatus</th>
+            <th th:text="Regtime">regtime</th>
+            <th th:text="Action">@Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${listUsers}">
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.dateOfBirth}"></td>
+            <td th:text="${user.gender} ? 'Male' : 'Fermale'"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.fullName}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.documentId}"></td>
+            <td th:text="${user.roleId}"></td>
+            <td th:text="${user.userStatus} ? 'Active' : 'Deactive' "></td>
+            <td th:text="${#dates.format(user.regtime, 'dd-MM-yyyy hh:mm:ss')}"></td>
+
+
+            <td>
+                <form th:action="@{/api/v1/Admin/getUser/{userid}(userid=${user.userId})}" method="POST">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+
+
+                <form th:action="@{/api/v1/Admin/deleteUser?userid={userid}(userid=${user.userId})}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    </br>
+
+    <div th:if="${user}">
+        <h3 >Update</h3>
+        <form th:action="@{/api/v1/Admin/updateUser/{userid}(userid=${user.userId})}" th:object="${user}" method="POST">
+            <br class="form-row">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="userid">User Id</label>
+                    <input id="userId" class="form-control" type="text" readonly th:field="*{userId}"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="username">Username</label>
+                    <input name="username" id="username" class="form-control" type="text" th:field="*{userName}"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="password">Password</label>
+                    <input name="password" id="password" class="form-control" type="text" th:field="*{password}"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="fullname">Full Name</label>
+                    <input name="fullname" id="fullname" class="form-control" type="text" th:field="*{fullName}"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="dob">DOB</label>
+                    <input name="dob" id="dob" class="form-control" type="date" th:field="*{dateOfBirth}"/>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="gender">Gender:</label>
+
+                    <select id="gender" name="gender" th:field="*{gender}">
+                        <option th:selected="*{gender==true}" th:value="true" th:text="Male"></option>
+                        <option th:selected="*{gender==false}" th:value="false" th:text="Female"></option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone</label>
+                    <input name="phone" type="text" class="form-control" id="phone" th:field="*{phone}">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="email">Email</label>
+                    <input name="email" type="email" class="form-control" id="email" th:field="*{email}">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="documentId">Document ID</label>
+                    <input name="documentId" type="text" class="form-control" id="documentId" th:field="*{documentId}">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="roleId">Role Id</label>
+                    <input name="roleId" type="text" class="form-control" id="roleId" th:field="*{roleId}">
+                </div>
+
+
+            </div>
+            </br>
+
+
+
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+    </body>
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#table1').DataTable();
+    });
+</script>
+<script>
+    const inpFile = document.getElementById("inpFile");
+    const previewContainer = document.getElementById("imagePreview");
+    const previewImage = previewContainer.querySelector(".image-preview__image");
+    const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+
+    inpFile.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            previewDefaultText.style.display = "none";
+            previewImage.style.display = "block";
+
+            reader.addEventListener("load", function () {
+                console.log(this);
+                previewImage.setAttribute("src", this.result);
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<script>
+    const inpFileTwo = document.getElementById("inpFileTwo");
+    const previewContainerTwo = document.getElementById("imagePreviewTwo");
+    const previewImageTwo = previewContainerTwo.querySelector(".image-preview__image__2");
+    const previewDefaultTextTwo = previewContainerTwo.querySelector(".image-preview__default-text__2");
+
+    inpFileTwo.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            previewDefaultTextTwo.style.display = "none";
+            previewImageTwo.style.display = "block";
+
+            reader.addEventListener("load", function () {
+                console.log(this);
+                previewImageTwo.setAttribute("src", this.result);
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+
+</script>
+</body>
+
+</html>

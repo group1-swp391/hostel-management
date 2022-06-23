@@ -1,0 +1,244 @@
+.sticky {
+	position: fixed;
+	width: 100%;
+	left: 0;
+	top: 0;
+	z-index: 999;
+	border-color: #080808;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .8);
+	transition: all 0.3s;
+}
+
+
+.header {
+	position: absolute;
+	width: 100%;
+	top: 20px;
+	left: 0;
+	z-index: 2;
+}
+
+.navbar {
+	background: url(../img/header-bg.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	padding: 10px 50px;
+}
+
+.navbar-brand {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-right: 0rem;
+	width: 75px;
+	height: 75px;
+	margin-top: 0px;
+}
+
+.navbar-brand img {
+
+	width: 75px;
+	height: 75px;
+
+}
+
+.navbar-light .navbar-toggler {
+	color: rgb(255, 255, 255);
+	border-color: rgb(255, 255, 255);
+	outline: transparent;
+}
+
+.navbar-light .navbar-nav .active>.nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link {
+	color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link {
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 16px;
+	font-weight: 600;
+	position: relative;
+	padding: 5px 20px;
+	margin: 0px 2px;
+	z-index: 1;
+}
+
+.navbar-light .navbar-nav .nav-link::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 0;
+	width: 100%;
+	background: linear-gradient(to right, #0f7404, #5cb917);
+	visibility: hidden;
+	opacity: 0;
+	z-index: -1;
+	transition: all 0.3s;
+	border-radius: 3px;
+}
+
+.navbar-light .navbar-nav .nav-link:focus::before,
+.navbar-light .navbar-nav .nav-link:hover::before {
+	height: 100%;
+	visibility: visible;
+	opacity: 1;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+	color: #fafafa;
+}
+
+.header-content {
+	display: inline-block;
+	display: flex;
+}
+
+.header_contact {
+	display: inline-block;
+}
+
+.header_contact span {
+	color: #60cd12;
+	display: block;
+	font-weight: 700;
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+.header_contact span.phone_no {
+	color: #fff;
+	font-size: 16px;
+}
+
+.header_icon {
+	height: 45px;
+	width: 45px;
+	text-align: center;
+	background-color: #13424a;
+	border-radius: 50%;
+	margin-left: 30px;
+}
+
+.header_icon i {
+	color: #fff;
+	font-size: 24px;
+	line-height: 1.9;
+}
+
+.header_icon {
+	display: inline-block;
+	position: relative;
+}
+
+.header_icon .cart_no {
+	position: absolute;
+	top: 0px;
+	right: -5px;
+	height: 18px;
+	width: 18px;
+	text-align: center;
+	background-color: #51af14;
+	border-radius: 50%;
+	font-size: 10px;
+	font-weight: 600;
+	color: #fff;
+	line-height: 1.9;
+}
+
+.dropdown-menu {
+	background-color: #dfebed;
+}
+
+.dropdown-item {
+	color: #ffffff;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+	color: #ffffff;
+	text-decoration: none;
+	background-color: #1d8007;
+}
+
+
+
+
+
+.card-single {
+    background: #fff;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 2px 5px 20px rgba(119, 119, 119, .5);
+    width: 70%;
+}
+
+.card-single h1{
+    font-family: "Montserrat", sans-serif;
+    color:#7ed386 ;
+    font-size: 1.5rem;
+}
+
+.card-single h2 {
+    color: #777;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-left: 2px;
+    padding-top: 5px;
+}
+
+.input {
+    border: 0;
+    border-bottom: 1px solid #3fb6a8;
+    width: 70%;
+    font-family: "Montserrat", sans-serif;
+    font-size: 100%;
+    padding: 7px;
+    color: #070707;
+    outline: none;
+}
+
+.image-preview{
+    width: 300px;
+    min-height: 100px;
+    border: 2px solid #dddddd;
+    margin-top: 15px;
+
+    /* display text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.image-preview__image {
+    display: none;
+    width: 100%;
+}
+
+.image-preview-two{
+    width: 300px;
+    min-height: 100px;
+    border: 2px solid #dddddd;
+    margin-top: 15px;
+
+    /* display text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.image-preview__image__2 {
+    display: none;
+    width: 100%;
+}

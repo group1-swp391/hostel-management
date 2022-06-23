@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Customized Bootstrap Stylesheet -->
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Template Stylesheet -->
+    <th:block th:insert="~{roomtype :: link}"></th:block>
+    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+</head>
+
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+    <!-- Spinner End -->
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/api/v1/host/" class="navbar-brand mx-4 mb-3">
+                <img style="height: 10rem;" src="/img/logo.png" alt=""> HOMETRO
+            </a>
+            <div class="navbar-nav w-100">
+                <a href="/api/v1/host/" class="nav-item nav-link"><i class="fa-solid fa-home me-2"></i>Trang
+                    chính</a>
+                <a href="/api/v1/RoomType/" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
+                    phòng</a>
+                <a href="/api/v1/hometro/roomcharge" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Tiền
+                    phòng</a>
+                <a href="/api/v1/hometro/service" class="nav-item nav-link"><i class="fa fa-house-signal me-2"></i>Dịch vụ</a>
+                <a href="/api/v1/hometro/electricity" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
+                    điện</a>
+                <a href="/api/v1/hometro/water" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
+                    nước</a>
+                <a href="/api/v1/hometro/invoice" class="nav-item nav-link active"><i
+                        class="fa-solid fa-clock-rotate-left me-2"></i>Hóa đơn</a>
+                <a href="/api/v1/hometro/contract" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
+                    đồng</a>
+                <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
+                    thu</a>
+                <div class="nav-item dropdown">
+                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
+                        <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <div th:insert="~{roomtype :: div.fragment-2}"></div>
+
+        <!-- Navbar End -->
+
+
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="">
+                        <div>
+                            <button class="btn btn-warning">Nhà trọ 1</button>
+                            <button class="btn btn-warning">Nhà trọ 2</button>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Danh sách phòng</h6>
+                </div>
+                <div th:if="${message != null}">
+                    <div th:text="${message}" class="alert alert-primary" role="alert"> </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col">Mã hóa đơn</th>
+                            <th scope="col">ID Phòng</th>
+                            <th scope="col">Tên hóa đơn</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col">Ghi chú</th>
+                            <th scope="col">Ngày tạo</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Ngày thanh toán</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="row : ${invoices}">
+                            <form action="/api/v1/invoice/update" method="post">
+                                <td th:text="${row.invoiceId}"></td>
+                                <td th:text="${row.roomId}"></td>
+                                <td><input type="text" name="invoiceName" th:value="${row.invoiceName}"></td>
+                                <td><input type="text" name="totalAmount" th:value="${row.totalAmount}"></td>
+                                <td><input name="note" type="text" th:value="${row.note}"></td>
+                                <td> <input readonly name="invoiceCreateDate" type="text" th:value="${row.invoiceCreateDate}"></td>
+                                <td><input type="text" name="paymentStatus" th:value="${row.paymentStatus}"></td>
+                                <td><input readonly type="text" name="paymentDate" th:value="${row.paymentDate}"></td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Form End -->
+
+
+        <!-- Footer Start -->
+
+        <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Đăng tin | HOMETRO</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- icofont -->
+    <link rel="stylesheet" href="/css/icofont.min.css" />
+    <!-- Slick slider -->
+    <link rel="stylesheet" href="/css/slick.css" />
+    <link rel="stylesheet" href="/css/slick-theme.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <!-- Style css-->
+    <link rel="stylesheet" href="/css/booking.css" />
+    <!-- Responsive css-->
+    <link rel="stylesheet" href="/css/responsive.css" />
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- HEADER PART START -->
+    <header id="full_nav">
+        <div class="header">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="user.html">
+                        <img src="/img/logo.png" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="icofont icofont-navigation-menu"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/api/v1/hometro/to-rentroom">Thuê phòng</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'showInfo':'login')}" th:text="${#session?.getAttribute('LOGIN_USER')} ? ${#session.getAttribute('LOGIN_USER').getUserName()}:'Đăng nhập'"></a>
+                            </li>
+
+                            <li th:if="${session.containsKey('LOGIN_USER')}" class="nav-item">
+                                <a class="nav-link" href="/api/v1/user/register">Đăng kí</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Dành cho người thuê</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <form>
+                        <input type="text" name="search" placeholder="Search..">
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="booking-form">
+						<form method="POST" th:action="@{/api/v1/booking/createBooking}">
+
+							<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="roomId" class="form-control" type="text" th:value="${param.roomId}"required>
+                                        <span class="form-label">Room Id</span>
+                                    </div>
+                                </div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input name="appointmentDate" class="form-control" type="date" required>
+										<span class="form-label">Ngày xem phòng</span>
+									</div>
+								</div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="startDate" class="form-control" type="date" required>
+                                        <span class="form-label">Ngày dự kiến thuê</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="endDate" class="form-control" type="date" required>
+                                        <span class="form-label">Ngày dự kiến trả</span>
+                                    </div>
+                                </div>
+
+							</div>
+							<div class="form-btn">
+								<button class="submit-btn" type="submit">Đặt lịch</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../static/js/jquery.min.js"></script>
+	<script>
+		$('.form-control').each(function () {
+			floatedLabel($(this));
+		});
+
+		$('.form-control').on('input', function () {
+			floatedLabel($(this));
+		});
+
+		function floatedLabel(input) {
+			var $field = input.closest('.form-group');
+			if (input.val()) {
+				$field.addClass('input-not-empty');
+			} else {
+				$field.removeClass('input-not-empty');
+			}
+		}
+	</script>
+
+
+    
+    
+
+
+
+
+</body>
+
+</html>
