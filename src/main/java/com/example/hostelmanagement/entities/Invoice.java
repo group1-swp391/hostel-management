@@ -51,8 +51,8 @@ public class Invoice {
     private Collection<UsedService> usedServicesByInvoiceId;
     @OneToMany(mappedBy = "invoiceByInvoiceId")
     private Collection<UsedUtility> tblUsedUtilitiesByInvoiceId;
-    @OneToMany(mappedBy = "invoiceByInvoiceId")
-    private Collection<RoomCharge> roomChargesByInvoiceId;
+//    @OneToMany(mappedBy = "invoiceByInvoiceId")
+//    private Collection<RoomCharge> roomChargesByInvoiceId;
 
 
 }

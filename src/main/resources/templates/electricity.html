@@ -87,7 +87,6 @@
                 </div>
                 <div class="table-responsive">
                     <table id="electricity" class="table text-start align-middle table-bordered table-hover mb-0">
-
                             <thead>
                             <tr class="text-dark">
                                 <th scope="col">Mã phòng</th>
@@ -97,27 +96,45 @@
                                 <th scope="col">Chỉ số điện cũ (kW)</th>
                                 <th scope="col">Chỉ số điện mới (kW)</th>
                                 <th scope="col">Giá</th>
+                                <th scope="col">Tổng Tiền</th>
                                 <th scope="col">Lưu</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="utility : ${utilities}">
-                                <form action="/api/v1/used-utility/dien/update" method="post">
+                                <form method="post">
                                 <td th:text="${utility.roomId}"></td>
                                 <td th:text="${utility.roomByRoomId.roomTypeByTypeId.hostelByHostelId.hostelName}"></td>
-                                <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
-                                <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
-                                <td><input type="text" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
-                                <td> <input type="text" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
+                                    <input name="usedUtilityId" type="hidden" th:value="${utility.usedUtilityId}"  style="text-align: center; width: 100px;">
+                                    <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
+                                    <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
+                                <td><input type="text" name="oldIndex" th:value="${utility.oldIndex}"  style="text-align: center; width: 100px;"></td>
+                                <td> <input type="text" name="newIndex" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
                                 <td th:text="${utility.pricePerIndex}"></td>
-                                <td>
-                                    <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                    <td th:text="(${utility.newIndex}-${utility.oldIndex})*${utility.pricePerIndex}"></td>
+
+                                    <td>
+                                    <button formaction="/api/v1/used-utility/dien/update" type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                    <button formaction="/api/v1/used-utility/dien/delete" type="submit" class="btn btn-danger fa-solid fa-trash"></button>
                                 </td>
                                 </form>
                             </tr>
                             </tbody>
-
-
+                        <tr>
+                        <form th:action="@{/api/v1/used-utility/dien/insert}" method="post">
+                            <td><input type="text" name="roomId"></td>
+                            <td></td>
+                            <td><input type="date" name="startDate"></td>
+                            <td><input type="date" name="endDate" ></td>
+                            <td><input type="text" name="oldIndex"  style="text-align: center; width: 100px;"></td>
+                            <td> <input type="text" name="newIndex" style="text-align: center; width: 100px;"></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                            </td>
+                        </form>
+                        </tr>
                     </table>
                 </div>
             </div>

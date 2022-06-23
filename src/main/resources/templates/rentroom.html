@@ -157,10 +157,10 @@
 							<div
 								class="u-align-center u-container-style u-expanded-width-lg u-expanded-width-md u-expanded-width-xl u-group u-video-cover u-group-1">
 								<div class="u-container-layout u-valign-top u-container-layout-2">
-									<h4 class="u-custom-font u-font-roboto-condensed u-text u-text-2">Nhà trọ Hoàng Nam
+									<h4 class="u-custom-font u-font-roboto-condensed u-text u-text-2" th:text="${room.roomTypeByTypeId.hostelByHostelId.hostelName}">
 									</h4>
-									<h6 class="u-text u-text-palette-1-base u-text-6">44m<sup>2</sup> </h6>
-									<p class="u-text u-text-4">Tố Hữu, Phường Hòa Cường Nam, Quận Hải Châu, Đà Nẵng.</p>
+									<h6 class="u-text u-text-palette-1-base u-text-6" th:text="${room.roomTypeByTypeId.roomName}"> </h6>
+									<p class="u-text u-text-4" th:text="${room.roomTypeByTypeId.hostelByHostelId.address}"></p>
 									<a th:href="@{${'/api/v1/rentroom/'+room.roomId+'/info-room'}}"
 										class="u-border-2 u-border-grey-25 u-btn u-btn-rectangle u-button-style u-none u-text-body-color u-btn-1">Xem
 										phòng</a>

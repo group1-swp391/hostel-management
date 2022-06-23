@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -27,41 +27,8 @@
     </div> -->
     <!-- Spinner End -->
 
-
     <!-- Sidebar Start -->
-    <div class="sidebar pe-4 pb-3">
-        <nav class="navbar bg-light navbar-light">
-            <a href="/api/v1/host/" class="navbar-brand mx-4 mb-3">
-                <img style="height: 10rem;" src="/img/logo.png" alt=""> HOMETRO
-            </a>
-            <div class="navbar-nav w-100">
-                <a href="/api/v1/host/" class="nav-item nav-link"><i class="fa-solid fa-home me-2"></i>Trang
-                    chính</a>
-                <a href="/api/v1/RoomType/" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
-                    phòng</a>
-                <a href="/api/v1/hometro/roomcharge" class="nav-item nav-link active"><i class="fa-solid fa-people-roof me-2"></i>Tiền
-                    phòng</a>
-                <a href="/api/v1/hometro/service" class="nav-item nav-link"><i class="fa fa-house-signal me-2"></i>Dịch vụ</a>
-                <a href="/api/v1/hometro/electricity" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
-                    điện</a>
-                <a href="/api/v1/hometro/water" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
-                    nước</a>
-                <a href="/api/v1/hometro/invoice" class="nav-item nav-link"><i
-                        class="fa-solid fa-clock-rotate-left me-2"></i>Hóa đơn</a>
-                <a href="/api/v1/hometro/contract" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
-                    đồng</a>
-                <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
-                    thu</a>
-                <div class="nav-item dropdown">
-                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
-                    <div class="dropdown-menu bg-transparent border-0">
-                        <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
-                        <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+    <div th:insert="~{roomtype :: div.fragment-1}"></div>
     <!-- Sidebar End -->
 
 
@@ -82,7 +49,6 @@
                             <button class="btn btn-warning">Nhà trọ 1</button>
                             <button class="btn btn-warning">Nhà trọ 2</button>
                         </div>
-
                     </form>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-4">
@@ -103,17 +69,33 @@
                         </thead>
                         <tbody>
                         <tr th:each="row : ${roomcharges}">
-                            <td th:text="${row.roomChargeId}"></td>
-                            <td th:text="${row.roomId}"></td>
-                            <td><input type="date" name="startDate" th:value="${row.startDate}"></td>
-                            <td><input type="date" name="endDate" th:value="${row.endDate}"></td>
-                            <td><input type="text" th:value="${row.price}"></td>
-                            <td> <input type="text" th:value="${row.invoiceId}"></td>
-                            <td>
-                                <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
-                            </td>
+                            <form method="post">
+                                <td><input name="roomChargeId" type="hidden" th:value="${row.roomChargeId}"></td>
+                                <td th:text="${row.roomId}"></td>
+                                <td><input type="date" name="startDate" th:value="${row.startDate}"></td>
+                                <td><input type="date" name="endDate" th:value="${row.endDate}"></td>
+                                <td><input type="text" name="price" th:value="${row.price}"></td>
+
+                                <td>
+                                    <button formaction="/api/v1/roomcharge/update" type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                    <button formaction="/api/v1/roomcharge/delete" type="submit" class="btn btn-danger fa-solid fa-trash"></button>
+                                </td>
+                            </form>
                         </tr>
                         </tbody>
+                        <tr>
+                            <form method="post" th:action="@{/api/v1/roomcharge/insert}">
+                                <td></td>
+                                <td><input name="roomId" type="text" ></td>
+                                <td><input type="date" name="startDate"></td>
+                                <td><input type="date" name="endDate"></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
                     </table>
                 </div>
             </div>

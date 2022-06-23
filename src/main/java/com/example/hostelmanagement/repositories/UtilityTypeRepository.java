@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface UtilityTypeRepository extends JpaRepository<UtilityType, Integer> {
-    List<UtilityType> findAllByUtilityNameContains(String utilityName);
-
+    List<UtilityType> findAllByUtilityNameContainsIgnoreCase(String utilityName);
+    UtilityType findFirstByUtilityNameContainsIgnoreCase(String utilityName);
     List<UtilityType> findAllByHostelId(int hostelId);
 
     @Query(nativeQuery = true, value = "SELECT dbo.addPrice(:utilityTypeId)")

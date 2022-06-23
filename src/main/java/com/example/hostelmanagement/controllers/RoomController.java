@@ -85,7 +85,7 @@ public class RoomController {
 
     @GetMapping(value = {"/","search"})
     public String getAllRooms(@RequestParam(value = "roomNumber", required = false) String roomNumber, ModelMap mm, HttpSession session) {
-        mm.put("roomNumber", roomNumber);
+
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             mm.put("message", "Need login first");

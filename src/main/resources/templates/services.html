@@ -5,51 +5,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loại phòng</title>
-    <th:block th:insert="~{roomtype :: link}"></th:block>
-    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+    <title>Dịch vụ</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
 <div class="container-xxl position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-    <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div> -->
+<!--    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
+<!--        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">-->
+<!--            <span class="sr-only">Loading...</span>-->
+<!--        </div>-->
+<!--    </div>-->
     <!-- Spinner End -->
 
 
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
-            <a href="/api/v1/host/" class="navbar-brand mx-4 mb-3">
-                <img style="height: 10rem;" src="/img/logo.png" alt=""> HOMETRO
+            <a href="index.html" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>HOMETRO</h3>
             </a>
             <div class="navbar-nav w-100">
-                <a href="/api/v1/host/" class="nav-item nav-link"><i class="fa-solid fa-home me-2"></i>Trang
+                <a href="index.html" class="nav-item nav-link active"><i
+                        class="fa-solid fa-house-flag me-2"></i>Trang
                     chính</a>
-                <a href="/api/v1/RoomType/" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
+                <a href="hostel.html" class="nav-item nav-link"><i class="fa-solid fa-house-chimney me-2"></i>Nhà
+                    trọ</a>
+                <a href="roomtype.html" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Loại
                     phòng</a>
-                <a href="/api/v1/hometro/roomcharge" class="nav-item nav-link"><i class="fa-solid fa-people-roof me-2"></i>Tiền
-                    phòng</a>
-                <a href="/api/v1/hometro/service" class="nav-item nav-link active"><i class="fa fa-house-signal me-2"></i>Dịch vụ</a>
-                <a href="/api/v1/hometro/electricity" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
+
+                <a href="services.html" class="nav-item nav-link"><i class="fa-solid fa-house-signal me-2"></i>Dịch
+                    vụ</a>
+                <a href="electricity.html" class="nav-item nav-link"><i class="fa-solid fa-bolt me-2"></i>Chỉ số
                     điện</a>
-                <a href="/api/v1/hometro/water" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
+                <a href="water.html" class="nav-item nav-link"><i class="fa-solid fa-droplet me-2"></i>Chỉ số
                     nước</a>
-                <a href="/api/v1/hometro/invoice" class="nav-item nav-link"><i
-                        class="fa-solid fa-clock-rotate-left me-2"></i>Hóa đơn</a>
-                <a href="/api/v1/hometro/contract" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
+                <a href="invoice.html" class="nav-item nav-link"><i
+                        class="fa-solid fa-file-invoice-dollar me-2"></i>Hoá đơn</a>
+                <a href="contract.html" class="nav-item nav-link"><i class="fa-solid fa-file-contract me-2"></i>Hợp
                     đồng</a>
-                <a href="/api/v1/hometro/money" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
+                <a href="money.html" class="nav-item nav-link"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
                     thu</a>
                 <div class="nav-item dropdown">
-                    <a href="/api/v1/user/show-info" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                            class="fa-solid fa-user-tie me-2"></i>Tài khoản</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="/api/v1/user/show-info" class="dropdown-item">Thông tin cá nhân</a>
-                        <a href="/api/v1/user/logout" class="dropdown-item">Đăng xuất</a>
+                        <a href="updateprofile.html" class="dropdown-item">Chỉnh sửa thông tin</a>
+                        <a href="signup.html" class="dropdown-item">Đổi mật khẩu</a>
+                        <a href="signin.html" class="dropdown-item">Đăng xuất</a>
                     </div>
                 </div>
             </div>
@@ -71,7 +84,6 @@
             <form class="d-none d-md-flex ms-4 search" style="width: 370px;">
                 <input class="form-control border-0" type="search" placeholder="Search">
             </form>
-
         </nav>
         <!-- Navbar End -->
 
@@ -79,7 +91,7 @@
         <!-- Table Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <form action="addservices.html">
+                <form action="addservices">
                     <button class="btn btn-info">Thêm dịch vụ</button>
                 </form>
             </div>
@@ -122,22 +134,159 @@
                         </form>
                     </div>
                 </div>
+            </div>
 
+        </div>
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4 row">
+                <!-- <div class="d-flex align-items-center justify-content-between mb-4">
+                    <form action="">
+                        <div>
+                            <button class="btn btn-warning">Nhà trọ 1</button>
+                            <button class="btn btn-warning">Nhà trọ 2</button>
+                        </div>
+                    </form>
+                </div> -->
+                <div class="col-md-8">
+                    <input type="text" id="search" class="form-control" placeholder="Tìm dịch vụ của phòng theo tên nhà trọ hoặc mã phòng">
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" id="all" class="btn btn-warning">Tất cả</button>
+                        <button type="button" id="wifi" class="btn btn-info">Wifi</button>
+                        <button type="button" id="giuxe" class="btn btn-success">Giữ xe</button>
+                        <button type="button" id="rac" class="btn btn-primary">Rác</button>
+                    </div>
+                </div>
+                <br></br>
+                <!-- <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Dịch vụ các phòng</h6>
+                </div> -->
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col" style="width: 250px;">Tên nhà trọ</th>
+                            <th scope="col" style="width: 103px;">Mã phòng</th>
+                            <th scope="col" style="width: 110px;">Ngày bắt đầu</th>
+                            <th scope="col" style="width: 110px;">Ngày kết thúc</th>
+                            <th scope="col">Tên dịch vụ</th>
+                            <th scope="col" style="width: 110px;">Giá</th>
+                            <th scope="col">Lưu</th>
+                        </tr>
+                        </thead>
+                        <tbody id="services">
+                        <tr class="timkiem rac wifi giuxe">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ Quốc Hoàng</td>
+                                <td class="maphong">01</td>
+                                <td><input type="date"></td>
+                                <td><input type="date" ></td>
 
+                                <td> <input type="text" value="Rác + Wifi + Giữ xe" style="text-align: center; width: 100%;">
+                                </td>
+                                <td><input type="text" value="100.000" style= "text-align: center; width: 100px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+
+                        <tr class="timkiem rac wifi">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ Đăng Khoa</td>
+                                <td class="maphong">02</td>
+                                <td><input type="date"></td>
+                                <td><input type="date"></td>
+                                </td>
+                                <td> <input type="text" value="Rác + Wifi" style="text-align: center; width: 100%;">
+                                </td>
+                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+
+                        <tr class="timkiem wifi">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ Quốc Hoàng</td>
+                                <td class="maphong">03</td>
+                                <td><input type="date"></td>
+                                <td><input type="date"></td>
+                                </td>
+                                <td> <input type="text" value="Wifi" style="text-align: center; width: 100%;">
+                                </td>
+                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+
+                        <tr class="timkiem rac giuxe">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ Đăng Khoa</td>
+                                <td class="maphong">04</td>
+                                <td><input type="date"></td>
+                                <td><input type="date"></td>
+                                </td>
+                                <td> <input type="text" value="Rác + Giữ xe" style="text-align: center; width: 100%;">
+                                </td>
+                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+
+                        <tr class="timkiem rac">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ Quốc Hoàng</td>
+                                <td class="maphong">05</td>
+                                <td><input type="date"></td>
+                                <td><input type="date"></td>
+                                </td>
+                                <td> <input type="text" value="Rác" style="text-align: center; width: 100%;">
+                                </td>
+                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+
+                        <tr class="timkiem rac">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ Đăng Khoa</td>
+                                <td class="maphong">06</td>
+                                <td><input type="date"></td>
+                                <td><input type="date"></td>
+                                </td>
+                                <td> <input type="text" value="Rác" style="text-align: center; width: 100%;">
+                                </td>
+                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                            </form>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
             </div>
         </div>
-        <!-- Table End -->
-
-
-        <!-- Footer Start -->
-
-        <!-- Footer End -->
     </div>
     <!-- Content End -->
 
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
 <!-- JavaScript Libraries -->
@@ -153,6 +302,28 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        var $btns = $('.btn').click(function () {
+            if (this.id == 'all') {
+                $('#services > tr').fadeIn(450);
+            } else {
+                var $el = $('.' + this.id).fadeIn(450);
+                $('#services > tr').not($el).hide();
+            }
+            $btns.removeClass('active');
+            $(this).addClass('active');
+        })
+
+        var $search = $("#search").on('input', function () {
+            $btns.removeClass('active');
+            var matcher = new RegExp($(this).val(), 'gi');
+            $('.timkiem').show().not(function () {
+                return matcher.test($(this).find('.tennhatro, .maphong').text())
+            }).hide();
+        })
+    })
+</script>
 </body>
 
 </html>

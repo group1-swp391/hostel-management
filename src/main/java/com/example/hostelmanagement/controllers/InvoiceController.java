@@ -152,98 +152,100 @@ public class InvoiceController {
     }
 
 
-//    @RequestMapping(value = "/callBillAllRoomByHostelId")
-//    public RedirectView callBillByHostelId(ModelMap mm,
-//                                           @RequestParam int hostelId,
-//                                           @RequestParam String invoiceName,
-//                                           @RequestParam(required = false, defaultValue = "") String note,
-//                                           HttpSession session,
-//                                           RedirectAttributes attributes) {
-//        User accSession = (User) session.getAttribute("LOGIN_USER");
-//
-//        if (accSession != null) {
-//            //CHECK Authorization owner room
-//            int owner = accSession.getUserId();
-//
-//            Hostel hostel = hostelRepository.findById(hostelId)
-//                    .orElseThrow(() -> new IllegalArgumentException("Invalid hostel Id:" + hostelId));
-//
-//            if (owner == hostel.getOwnerHostelId()) {
-//
-//                Collection<RoomType> roomTypes = hostel.getRoomTypesByHostelId();
-//                List<Room> rooms = new ArrayList<>();
-//                for (RoomType roomType : roomTypes) {
-//                    Collection<Room> roomCollection = roomType.getRoomsByTypeId();
-//                    for (Room room : roomCollection) {
-//                        rooms.add(room);
-//                    }
-//
-//                }
-//                int countInvoice = 0;
-//                for (Room room : rooms) {
-//                    List<RoomCharge> roomChargeList = roomChargeRepository.getAllByRoomIdAndInvoiceIdNull(room.getRoomId());
-//                    List<UsedService> usedServiceList = usedServiceRepository.findAllByInvoiceIdNullAndRoomId(room.getRoomId());
-//                    List<UsedUtility> usedUtilityList = usedUtilityRepository.findAllByInvoiceIdNullAndRoomId(room.getRoomId());
-//
-//                    if (roomChargeList.isEmpty() && usedServiceList.isEmpty() && usedUtilityList.isEmpty()) {
-//                        attributes.addAttribute("message", "Nothing to invoice");
-//                        return new RedirectView("/api/v1/host/");
-//                    } else {
-//                        java.util.Date date = new Date();
-//                        Timestamp ts = new Timestamp(date.getTime());
-//
-//
-//                        Invoice invoice = Invoice.builder()
-//                                .roomId(room.getRoomId())
-//                                .invoiceName(invoiceName)
-//                                .totalAmount((double) 0)
-//                                .invoiceStatus(true)
-//                                .paymentStatus(false)
-//                                .note(note)
-//                                .invoiceCreateDate(ts)
-//                                .build();
-//                        invoiceRepository.save(invoice);
-//
-//                        double total = 0;
-//
-//                        for (RoomCharge roomCharge : roomChargeList) {
-//                            total += roomCharge.getPrice();
-//
-//                            roomCharge.setInvoiceId(invoice.getInvoiceId());
-//                            roomCharge = roomChargeRepository.save(roomCharge);
-//                        }
-//
-//                        for (UsedService usedService : usedServiceList) {
-//                            total += usedService.getPrice() * (double) usedService.getUsedQuantity();
-//
-//                            usedService.setInvoiceId(invoice.getInvoiceId());
-//                            usedService = usedServiceRepository.save(usedService);
-//                        }
-//
-//                        for (UsedUtility usedUtility : usedUtilityList) {
-//                            total += usedUtility.getPricePerIndex() * (double) (usedUtility.getNewIndex() - usedUtility.getOldIndex());
-//
-//                            usedUtility.setInvoiceId(invoice.getInvoiceId());
-//                            usedUtility = usedUtilityRepository.save(usedUtility);
-//                        }
-//
-//                        invoice.setTotalAmount(total);
-//                        invoice = invoiceRepository.save(invoice);
-//                        if (invoice != null)
-//                            countInvoice++;
-//                    }
-//
-//                    attributes.addAttribute("message", "Create success " + countInvoice + " invoice! to hostel id" + hostelId);
-//
-//                    return new RedirectView("/api/v1/invoice/");
-//                }
-//            } else {
-//                return new RedirectView("/api/v1/host/");
-//            }
-//        } else {
-//            attributes.addAttribute("message", "Need login first");
-//            return new RedirectView("error");
-//        }
-//    }
+    @RequestMapping(value = "/callBillAllRoomByHostelId")
+    public RedirectView callBillByHostelId(ModelMap mm,
+                                           @RequestParam int hostelId,
+                                           @RequestParam String invoiceName,
+                                           @RequestParam(required = false, defaultValue = "") String note,
+                                           HttpSession session,
+                                           RedirectAttributes attributes) {
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+
+        if (accSession != null) {
+            //CHECK Authorization owner room
+            int owner = accSession.getUserId();
+
+            Hostel hostel = hostelRepository.findById(hostelId)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid hostel Id:" + hostelId));
+
+            if (owner == hostel.getOwnerHostelId()) {
+
+                Collection<RoomType> roomTypes = hostel.getRoomTypesByHostelId();
+                List<Room> rooms = new ArrayList<>();
+                for (RoomType roomType : roomTypes) {
+                    Collection<Room> roomCollection = roomType.getRoomsByTypeId();
+                    for (Room room : roomCollection) {
+                        rooms.add(room);
+                    }
+
+                }
+                int countInvoice = 0;
+                for (Room room : rooms) {
+                    List<RoomCharge> roomChargeList = roomChargeRepository.getAllByRoomIdAndInvoiceIdNull(room.getRoomId());
+                    List<UsedService> usedServiceList = usedServiceRepository.findAllByInvoiceIdNullAndRoomId(room.getRoomId());
+                    List<UsedUtility> usedUtilityList = usedUtilityRepository.findAllByInvoiceIdNullAndRoomId(room.getRoomId());
+
+                    if (roomChargeList.isEmpty() && usedServiceList.isEmpty() && usedUtilityList.isEmpty()) {
+                        attributes.addAttribute("message", "Nothing to invoice");
+                        return new RedirectView("/api/v1/host/");
+                    } else {
+                        java.util.Date date = new Date();
+                        Timestamp ts = new Timestamp(date.getTime());
+
+
+                        Invoice invoice = Invoice.builder()
+                                .roomId(room.getRoomId())
+                                .invoiceName(invoiceName)
+                                .totalAmount((double) 0)
+                                .invoiceStatus(true)
+                                .paymentStatus(false)
+                                .note(note)
+                                .invoiceCreateDate(ts)
+                                .build();
+                        invoiceRepository.save(invoice);
+
+                        double total = 0;
+
+                        for (RoomCharge roomCharge : roomChargeList) {
+                            total += roomCharge.getPrice();
+
+                            roomCharge.setInvoiceId(invoice.getInvoiceId());
+                            roomCharge = roomChargeRepository.save(roomCharge);
+                        }
+
+                        for (UsedService usedService : usedServiceList) {
+                            total += usedService.getPrice() * (double) usedService.getUsedQuantity();
+
+                            usedService.setInvoiceId(invoice.getInvoiceId());
+                            usedService = usedServiceRepository.save(usedService);
+                        }
+
+                        for (UsedUtility usedUtility : usedUtilityList) {
+                            total += usedUtility.getPricePerIndex() * (double) (usedUtility.getNewIndex() - usedUtility.getOldIndex());
+
+                            usedUtility.setInvoiceId(invoice.getInvoiceId());
+                            usedUtility = usedUtilityRepository.save(usedUtility);
+                        }
+
+                        invoice.setTotalAmount(total);
+                        invoice = invoiceRepository.save(invoice);
+                        if (invoice != null)
+                            countInvoice++;
+                    }
+
+                    attributes.addAttribute("message", "Create success " + countInvoice + " invoice! to hostel id" + hostelId);
+
+                    return new RedirectView("/api/v1/invoice/");
+                }
+            } else {
+                return new RedirectView("/api/v1/host/");
+            }
+        } else {
+            attributes.addAttribute("message", "Need login first");
+            return new RedirectView("error");
+        }
+        return new RedirectView("error");
+
+    }
 
 }

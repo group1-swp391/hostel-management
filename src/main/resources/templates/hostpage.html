@@ -84,11 +84,11 @@
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Danh sách phòng</h6>
                 </div>
-                <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <div class="table-responsive" style="width: 100%">
+                    <table  class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                         <tr class="text-dark">
-
+                            <th scope="col">ID</th>
                             <th scope="col">Số phòng</th>
                             <th scope="col">Loại phòng</th>
                             <th scope="col">Nhà trọ</th>
@@ -101,6 +101,7 @@
                         <tbody>
                         <tr th:each="room: ${rooms}">
                             <form method="post" enctype="multipart/form-data">
+                                <td th:text="${room.roomId}"></td>
                                 <input type="hidden" name="roomId" th:value="${room.roomId}">
                                 <td><input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
                                 <td th:text="${'ID ' + room.roomTypeByTypeId.typeId + ' ' +room.roomTypeByTypeId.roomName}"></td>
@@ -128,7 +129,7 @@
 
 
                         <tr>
-                            <form action="addroom.html">
+                            <form action="/api/v1/hometro/addroom">
                                 <th colspan="7">
                                     <button class="btn btn-info">Thêm phòng</button>
                                 </th>

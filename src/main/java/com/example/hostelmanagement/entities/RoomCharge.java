@@ -32,13 +32,15 @@ public class RoomCharge {
     private double price;
     @Basic
     @Column(name = "invoiceID")
-    private int invoiceId;
+    private Integer invoiceId;
+
+
     @ManyToOne
     @JoinColumn(name = "roomID", referencedColumnName = "roomID", insertable = false, updatable = false)
     private Room roomByRoomId;
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
 
-    @JoinColumn(name = "invoiceID", referencedColumnName = "invoiceID", insertable = false, updatable = false)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoiceID", referencedColumnName = "invoiceID", insertable = false, updatable = false, nullable = false)
     private Invoice invoiceByInvoiceId;
 
 }

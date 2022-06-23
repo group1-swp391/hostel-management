@@ -14,13 +14,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "api/v1/hostel/")
+@RequestMapping(value = "api/v1/hostel")
 public class HostelContoller {
     @Autowired
     private HostelRepository hostelRepository;
     @Autowired
     private UserRepository userRepository;
-
+@RequestMapping(value = "/")
+public String hostelIndex(ModelMap mm, HttpSession session) {
+    return getAllHostel(mm);
+}
 
 //    @PostMapping(value = "insert")
 //    public String insertHostel(ModelMap mm, HttpSession session, @RequestParam("newAddress") String newAddress, @RequestParam("newHostelName") String newHostelName){
@@ -84,7 +87,7 @@ public class HostelContoller {
         return "hostel";
     }
 
-    @RequestMapping(value = "getHostel/{hostelid}")
+    @RequestMapping(value = "gethostel/{hostelid}")
     public String getHostel(@PathVariable("hostelid") int hostelid,
                             ModelMap mm) {
 

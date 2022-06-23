@@ -64,7 +64,7 @@ public class UtilityTypeController {
     @GetMapping(value = "search")
     public String getAllUtilityType(@RequestParam(value = "utilityName", required = false) String utilityName, ModelMap mm) {
         mm.put("utilityName", utilityName);
-        mm.put("utilityTypes", utilityTypeRepository.findAllByUtilityNameContains(utilityName));
+        mm.put("utilityTypes", utilityTypeRepository.findAllByUtilityNameContainsIgnoreCase(utilityName));
         return "host_utilityTypeMngt";
     }
 }

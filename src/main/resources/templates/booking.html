@@ -77,12 +77,26 @@
 			<div class="container">
 				<div class="row">
 					<div class="booking-form">
-						<form method="POST" th:action="@{/api/v1/booking/createBooking}">
+						<form method="POST" th:action="@{${'/api/v1/booking/'+room.roomId+'/createBooking'}}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input name="email" class="form-control" type="text" placeholder="Email"required>
+                                        <span class="form-label">Email</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
 
+                                    <div class="form-group">
+                                        <input name="phone" class="form-control" type="text" placeholder="So dien thoai" required>
+                                        <span class="form-label">Số dien thoai</span>
+                                    </div>
+                                </div>
+                            </div>
 							<div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input name="roomId" class="form-control" type="text" th:value="${param.roomId}"required>
+                                        <input name="roomId" class="form-control" type="text" th:value="${room.roomId}" readonly>
                                         <span class="form-label">Room Id</span>
                                     </div>
                                 </div>
@@ -92,19 +106,6 @@
 										<span class="form-label">Ngày xem phòng</span>
 									</div>
 								</div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input name="startDate" class="form-control" type="date" required>
-                                        <span class="form-label">Ngày dự kiến thuê</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input name="endDate" class="form-control" type="date" required>
-                                        <span class="form-label">Ngày dự kiến trả</span>
-                                    </div>
-                                </div>
-
 							</div>
 							<div class="form-btn">
 								<button class="submit-btn" type="submit">Đặt lịch</button>

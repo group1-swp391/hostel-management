@@ -110,9 +110,9 @@
                                 </li>
                             </ul>
                         </div>
-                        <strong th:text="${#numbers.formatDecimal(room.price, 0, 'COMMA', 2, 'POINT')}+'đ/tháng- 25 m2'"></strong>
-                        <p>Tân Phước, Phường 6, Quận 10, Tp Hồ Chí Minh</p>
-                        <form action="/api/v1/rentroom/booking">
+                        <strong th:text="${#numbers.formatDecimal(room.roomTypeByTypeId.price, 0, 'COMMA', 2, 'POINT')}+'đ/tháng- 25 m2'"></strong>
+                        <p th:text="${room.roomTypeByTypeId.hostelByHostelId.address}"></p>
+                        <form th:action="@{${'/api/v1/booking/'+room.roomId}}">
                             <button class="btn btn-primary"> Đặt lịch</button>
                         </form>
                     </div>

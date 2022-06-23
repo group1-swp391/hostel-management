@@ -21,14 +21,13 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping(value = "api/v1/RoomType/")
+@RequestMapping(value = "api/v1/RoomType")
 public class RoomTypeController {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
 
     @GetMapping(value = "/")
     public String roomTypeIndex() {
-
         return "redirect:search?roomName=";
     }
 

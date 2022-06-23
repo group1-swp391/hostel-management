@@ -42,8 +42,5 @@ public class RentRoomController {
         }
         return "inforoom";
     }
-    @RequestMapping(value = "booking")
-    public String booking() {
-        return "booking";
-    }
+
 }

@@ -32,7 +32,6 @@ public class AdminController {
     @RequestMapping(value = "")
     public String getAdminHome(ModelMap mm) {
 
-
         return getAllUsers(mm);
     }
 

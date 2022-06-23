@@ -11,33 +11,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
-@RequestMapping(value = "api/v1/ServiceType/")
-public class ServiceTypeController {
+@RequestMapping(value = "api/v1/Service/")
+public class ServiceController {
     @Autowired
     private ServiceTypeRepository serviceTypeRepository;
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/")
     public String hostIndex() {
-        return "services";
-    }
-    @RequestMapping (value = "addservices")
-    public String showInsertForm(ModelMap mm, HttpSession session) {
-
-        return "addservices";
+        return "host_serviceTypeMngt";
     }
 
     @PostMapping(value = "insert")
-    public String insertUtilityType(ModelMap mm, @RequestParam("serviceName") String serviceName, @RequestParam("price") double price, @RequestParam("hostelId") int hostelId) {
+    public String insertUtilityType(ModelMap mm, @RequestParam("newServiceName") String newServiceName, @RequestParam("newPrice") double newPrice, @RequestParam("newHostelId") int newHostelId) {
         try {
             //serviceTypeRepository.save(new ServiceType(newServiceName, newPrice, newHostelId));
             mm.put("message", "Insert new service type successfully!");
         } catch (Exception e) {
             mm.put("message", "Insert new service failed!");
         }
-        return "services";
+        return "host_serviceTypeMngt";
     }
 
     @GetMapping(value = "delete")
@@ -49,7 +42,7 @@ public class ServiceTypeController {
         } catch (Exception e) {
             mm.put("message", "Delete service type failed");
         } finally {
-            return "services";
+            return "host_serviceTypeMngt";
         }
     }
     @GetMapping(value = "update")
@@ -64,7 +57,7 @@ public class ServiceTypeController {
         } catch (Exception e) {
             mm.put("message", "Update service type failed");
         } finally {
-            return "services";
+            return "host_serviceTypeMngt";
         }
     }
 
@@ -72,6 +65,6 @@ public class ServiceTypeController {
     public String getAllServiceType(@RequestParam(value = "serviceName", required = false) String serviceName, ModelMap mm) {
         mm.put("serviceName", serviceName);
         mm.put("serviceTypes", serviceTypeRepository.findAllByServiceNameContains(serviceName));
-        return "services";
+        return "host_serviceTypeMngt";
     }
 }

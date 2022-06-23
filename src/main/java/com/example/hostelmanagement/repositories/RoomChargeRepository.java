@@ -8,14 +8,7 @@ import java.util.List;
 
 @Repository
 public interface RoomChargeRepository extends JpaRepository<RoomCharge, Integer> {
-
-    List<RoomCharge> getAllByRoomIdAndInvoiceIdNull (int roomId);
-
-
-
-
-
-
+    List<RoomCharge> getAllByRoomIdAndInvoiceIdNull(int id);
 }
 
 
