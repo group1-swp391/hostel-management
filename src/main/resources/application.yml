@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://hostelmngt.database.windows.net:1433;database=Hostel_Management;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    username: adminhostel
+    password: hostel391@
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+server:
+  port: 9191
+
