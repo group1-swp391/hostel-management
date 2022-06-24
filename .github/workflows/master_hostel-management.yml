@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'hostel-management'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BEC2B8919C5F47908752680019296068 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AAC57458C66C44CAA18720834002AD5F }}
           package: '*.war'
