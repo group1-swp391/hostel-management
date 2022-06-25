@@ -69,28 +69,15 @@ public class UserController {
     public String register() {
         return "register";
     }
-//    @PostMapping(value = "register")
-//    public String register(@ModelAttribute(value = "user") User user, ModelMap mm) {
-//        if (!user.getUserName().equals("long")) {
-//            mm.put("error", "Register failed");
-//            return "register";
-//        }
-//        mm.put("message", user.getUserName());
-//        return "welcome";
-//    }
 
     @PostMapping(value = "register")
     public String register(@RequestParam("userName") String userName, @RequestParam("password") String password,
-                           @RequestParam("confirmPassword") String confirmPassword, @RequestParam("fullName") String fullName,
-                           @RequestParam("dateOfBirth") Date dateOfBirth, @RequestParam("gender") String gender,
+                           @RequestParam("fullName") String fullName, @RequestParam("gender") boolean gender,
                            @RequestParam("phone") String phone, @RequestParam("email") String email, @RequestParam("documentId") String documentId,
-                           @RequestParam("documentFrontSide") Part documentFrontSide, @RequestParam("documentBackSide") Part documentBackSide,
                            @RequestParam("roleId") int roleId, ModelMap mm) throws IOException {
-        if (!password.equals(confirmPassword)) {
-            mm.put("error", "Register failed");
-            return "register";
-        }
-      //  userRepository.save(new User(userName, password, fullName, dateOfBirth,"Male".equals(gender),phone, email,documentId, Utils.getByteImage(documentFrontSide), Utils.getByteImage(documentBackSide), roleId, true));
+        userRepository.save(User.builder().userName(userName).password(password).fullName(fullName)
+                        .gender(gender).phone(phone).email(email).documentId(documentId).roleId(roleId).userStatus(true).build());
+        mm.put("message", "Đăng kí thành công");
         return "login";
     }
 
@@ -112,9 +99,9 @@ public class UserController {
             if (documentFrontSide.getSize()>0) user.setDocumentFrontSide(Utils.getByteImage(documentFrontSide));
             if (documentBackSide.getSize()>0) user.setDocumentBackSide(Utils.getByteImage(documentBackSide));
             userRepository.save(user);
-            mm.put("message", "Update successfully!");
+            mm.put("message", "Cập nhật thông tin thành công");
         } catch (Exception e) {
-            mm.put("message","Error while updating");
+            mm.put("message","Cập nhật thông tin thất bại");
         }finally {
             return "redirect:show-info";
         }

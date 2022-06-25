@@ -70,41 +70,43 @@
 
   <div class="card-single" style="margin-top:150px ;">
     <div class="card-body">
-        <form action="">
+        <form action="/api/v1/user/register" method="post">
             <h1>Thông tin cá nhân</h1>
             <h2>Họ và tên</h2>
-            <input type="text" class="input" value="Đinh Hoàng Long">
-            <h2>Ngày sinh</h2>
-            <input type="date" class="input" value="">
+            <input type="text" name="fullName" class="input" placeholder="Nhập họ và tên">
+            <h2>Tài khoản</h2>
+            <input type="text" name="userName" class="input" placeholder="Nhập tên tài khoản">
+            <h2>Mật khẩu</h2>
+            <input type="password" name="password" class="input" placeholder="Nhập mật khẩu">
             <h2>Giới tính</h2>
             <label class="radio-inline">
-                <input type="radio" name="optradio" checked> Nam
+                <input type="radio" name="gender" checked value="1"> Nam
             </label>
             <label class="radio-inline">
-                <input type="radio" name="optradio"> Nữ
+                <input type="radio" name="gender" value="0"> Nữ
             </label>
             <h2>Số điện thoại</h2>
-            <input type="text" class="input" value="0989000000">
+            <input type="number" name="phone" class="input" placeholder="Nhập số điện thoại">
             <h2>Email</h2>
-            <input type="text" class="input" value="example@example.com">
+            <input type="email" name="email" class="input" placeholder="example@example.com">
             <h2>CMND/CCCD</h2>
-            <input type="text" class="input" value="261992012">
+            <input type="text" name="documentId" class="input" placeholder="Số CCCD/CMND">
+            <input type="hidden" name="roleId" value="3">
+<!--            <h2>Mặt trước CMND/CCCD</h2>-->
+<!--            <input type="file" name="documentFrontSide" id="inpFile">-->
+<!--            <div class="image-preview" id="imagePreview">-->
+<!--                <img src="" alt="Image Preview" class="image-preview__image">-->
+<!--                <span class="image-preview__default-text">Xem trước ảnh</span>-->
+<!--            </div>-->
 
-            <h2>Mặt trước CMND/CCCD</h2>
-            <input type="file" name="inpFile" id="inpFile">
-            <div class="image-preview" id="imagePreview">
-                <img src="" alt="Image Preview" class="image-preview__image">
-                <span class="image-preview__default-text">Image Preview</span>
-            </div>
+<!--            <h2>Mặt sau CMND/CCCD</h2>-->
+<!--            <input type="file" name="documentBackSide" id="inpFileTwo">-->
+<!--            <div class="image-preview-two" id="imagePreviewTwo">-->
+<!--                <img src="" alt="Image Preview 2" class="image-preview__image__2">-->
+<!--                <span class="image-preview__default-text__2">Xem trước ảnh</span>-->
+<!--            </div>-->
 
-            <h2>Mặt sau CMND/CCCD</h2>
-            <input type="file" name="inpFileTwo" id="inpFileTwo">
-            <div class="image-preview-two" id="imagePreviewTwo">
-                <img src="" alt="Image Preview 2" class="image-preview__image__2">
-                <span class="image-preview__default-text__2">Image Preview</span>
-            </div>
-
-            </br>
+<!--            </br>-->
             </br>
             <button type="submit" class="btn btn-primary update-profile">Đăng kí</button>
         </form>
