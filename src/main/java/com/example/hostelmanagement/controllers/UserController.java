@@ -126,23 +126,6 @@ public class UserController {
         return "changePassword";
     }
 
-    @GetMapping(value = "search")
-    public String searchName(@RequestParam(name = "userName",required = false) String userName, ModelMap mm) {
-        try {
-            mm.put("userName", userName);
-            List<User> users = userRepository.getAllByUserNameContains(userName);
-            if (users.isEmpty()) {
-                mm.put("message", "No result");
-            }else {
-                mm.put("message","Total result: "+users.size());
-                mm.put("users", users);
-            }
-        } catch (Exception e) {
-            System.out.println("error");
-        } finally {
-            return "admin_userMngt";
-        }
-    }
     @ResponseBody
     @GetMapping("imageFront/{id}")
     public ResponseEntity<byte[]> getFrontDocument(@PathVariable("id") int id) {

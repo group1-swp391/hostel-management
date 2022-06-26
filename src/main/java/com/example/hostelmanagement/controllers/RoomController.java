@@ -1,8 +1,8 @@
 package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.Room;
-import com.example.hostelmanagement.entities.RoomType;
 import com.example.hostelmanagement.entities.User;
+import com.example.hostelmanagement.repositories.HostelRepository;
 import com.example.hostelmanagement.repositories.RoomRepository;
 
 import com.example.hostelmanagement.repositories.RoomTypeRepository;
@@ -27,7 +27,8 @@ import java.util.Optional;
 public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
-
+    @Autowired
+    private HostelRepository hostelRepository;
     @Autowired
     private RoomTypeRepository roomTypeRepository;
     @RequestMapping(value = "test")
@@ -58,9 +59,9 @@ public class RoomController {
             Room room = roomRepository.findById(roomId).get();
             room.setRoomStatus(false);
             roomRepository.save(room);
-            mm.put("message","Delete room successfully");
+            mm.put("message","Xóa phòng thành công");
         } catch (Exception e) {
-            mm.put("message", "Delete room failed");
+            mm.put("message", "Xóa phòng thất bại");
         } finally {
             return "redirect:";
         }
@@ -78,33 +79,24 @@ public class RoomController {
         } catch (Exception e) {
             mm.put("message", "Update room failed");
         } finally {
-            return "redirect:";
+            return "/";
         }
     }
 
 
-    @GetMapping(value = {"/","search"})
-    public String getAllRooms(@RequestParam(value = "roomNumber", required = false) String roomNumber, ModelMap mm, HttpSession session) {
+    @GetMapping(value = "/")
+    public String getAllRooms(ModelMap mm, HttpSession session) {
 
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
-            mm.put("message", "Need login first");
-            return "error";
+            mm.put("message", "Đăng nhập để tiếp tục");
+            return "login";
         }
         int owner = accSession.getUserId();
-
-        List<Room> rooms = roomRepository.findAllByRoomStatus(true);
-        List<Room> rooms2 = new ArrayList<>();
-        if (roomNumber!=null && !"".equals(roomNumber.trim())) {
-            rooms = roomRepository.findAllByRoomNumberAndRoomStatus(Integer.parseInt(roomNumber), true);
-        }
-
-        for (Room room :rooms) {
-             if (owner == room.getRoomTypeByTypeId().getHostelByHostelId().getOwnerHostelId()) {
-                rooms2.add(room);
-            }
-        }
-        mm.put("rooms", rooms2);
+        List<Room> rooms = new ArrayList<>();
+        hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(owner)
+                .forEach(hostel -> hostel.getRoomTypesByHostelId().forEach(roomType -> rooms.addAll(roomType.getRoomsByTypeId())));
+        mm.put("rooms", rooms);
         return "hostpage";
     }
     @ResponseBody

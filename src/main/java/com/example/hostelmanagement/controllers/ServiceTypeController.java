@@ -3,6 +3,7 @@ package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.ServiceType;
 import com.example.hostelmanagement.repositories.ServiceTypeRepository;
+import com.example.hostelmanagement.repositories.UsedServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +19,8 @@ import javax.servlet.http.HttpSession;
 public class ServiceTypeController {
     @Autowired
     private ServiceTypeRepository serviceTypeRepository;
-
+    @Autowired
+    private UsedServiceRepository usedServiceRepository;
     @GetMapping(value = "")
     public String hostIndex() {
         return "services";

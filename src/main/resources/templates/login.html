@@ -78,7 +78,7 @@
         <div th:text="${message}" class="alert alert-primary" role="alert"> </div>
         </div>
         <h2>Đăng nhập</h2>
-        <form action="login" method="post">
+        <form action="/api/v1/user/login" method="post">
             <div class="user-box">
                 <input type="text" name="userName" required="">
                 <label>Tên đăng nhập</label>

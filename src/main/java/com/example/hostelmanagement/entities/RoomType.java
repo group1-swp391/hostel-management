@@ -1,6 +1,7 @@
 package com.example.hostelmanagement.entities;
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -40,6 +41,7 @@ public class RoomType {
     @Column(name = "roomTypeStatus")
     private boolean roomTypeStatus;
     @OneToMany(mappedBy = "roomTypeByTypeId")
+    @Where(clause = "roomStatus = 1")
     private Collection<Room> roomsByTypeId;
     @ManyToOne
     @JoinColumn(name = "hostelID", referencedColumnName = "hostelID", insertable = false, updatable = false)
