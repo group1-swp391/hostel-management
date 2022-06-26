@@ -32,18 +32,14 @@ public class UsedUtilityController {
 //
 //        return "redirect:dien/";
 //    }
-//    @GetMapping(value = {"{utility-name}", "{utility-name}/search"})
-//    public String getElectricity(@PathVariable("utility-name") String name, @RequestParam(value = "roomId", required = false) String roomId, ModelMap mm) {
-//        String utilityName = name;
-//        List<UsedUtility> utilities = usedUtilityRepository.findAllByUtilityName(utilityName);
-//        if (roomId!=null&&!"".equals(roomId)) {
-//            utilities = usedUtilityRepository.findAllByRoomId(utilityName, Integer.parseInt(roomId));
-//        }
-//        utilities.forEach(utility -> utility.setRenterName(usedUtilityRepository.getRenterNameByRoomId(utility.getRoomId(),utility.getUtilityTypeId())));
-//        mm.put("utilities",utilities);
-//        if ("Dien".equalsIgnoreCase(name)) return "electricity";
-//        return "water";
-//    }
+    @RequestMapping(value = {"{utility-name}", "{utility-name}/search"})
+    public String getUtilitySite(@PathVariable("utility-name") String name, ModelMap mm) {
+        String utilityName = name;
+        List<UsedUtility> utilities = usedUtilityRepository.findAllByUtilityName(utilityName);
+        mm.put("utilities",utilities);
+        if ("Dien".equalsIgnoreCase(name)) return "electricity";
+        return "water";
+    }
     @PostMapping(value ="{utility-name}/insert")
     public String insertUltility(@PathVariable("utility-name") String name,
                                  @RequestParam int roomId,
@@ -127,8 +123,8 @@ public class UsedUtilityController {
     public String getElectricity(@PathVariable("utility-name") String name, ModelMap mm, HttpSession session) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
-            mm.put("message", "Need login first");
-            return "error";
+            mm.put("message", "Đăng nhập để tiếp tục");
+            return "login";
         }
         int owner = accSession.getUserId();
 

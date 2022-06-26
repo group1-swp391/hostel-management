@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <th:block th:insert="~{roomtype :: link}"></th:block>
+    <th:block th:insert="~{roomtype :: head/script}"></th:block>
+
+    <link href="/css/hoststyle.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+<!--        <div id="spinner"-->
+<!--            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
+<!--            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">-->
+<!--                <span class="sr-only">Loading...</span>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <div th:insert="~{roomtype :: div.fragment-1}"></div>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <div th:insert="~{roomtype :: div.fragment-2}"></div>
+
+            <div class="container-fluid">
+                <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                    <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-8">
+                        <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <a href="/api/v1/host/">
+                                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>HOMETRO</h3>
+                                </a>
+                                <h3>Thêm loại phòng</h3>
+                            </div>
+                            <form action="/api/v1/RoomType/insert" method="post">
+                                <div class="form-floating mb-4">
+                                    <label>Tên loại phòng</label>
+                                    <input type="text" name="roomName" class="form-control" placeholder="Tên loại phòng">
+                                </div>
+                                <div>
+                                    <label>Giá loại phòng</label>
+                                    <input type="number" name="price" class="form-control" placeholder="Giá loại phòng">
+                                </div>
+                                <div>
+                                    <label>Giá đặt cọc phòng</label>
+                                    <input type="number" name="depositPrice" class="form-control" placeholder="Giá đặt cọc phòng">
+                                </div>
+                                <div>
+                                    <label for="floatingInput">Nhà trọ</label><br>
+                                        <select id="floatingInput" name="hostelId" style="text-align: center;">
+                                            <option th:each="hostel : ${hostels}" th:value="${hostel.hostelId}" th:text="${hostel.hostelName}"></option>
+                                        </select>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Xác nhận</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/chart/chart.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

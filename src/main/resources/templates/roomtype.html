@@ -92,16 +92,12 @@
         <!-- Navbar Start -->
         <div class = "fragment-2">
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0" style="height: 60px;">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <a href="/" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form action="/api/v1/RoomType/search" method="get" class="d-none d-md-flex ms-4 search" style="width: 370px;">
-                    <input class="form-control border-0" type="search" name="roomName" th:value="${roomName}" placeholder="Tìm tên phòng...">
-                    <button type="submit" style="display: none;"></button>
-                </form>
 
             </nav>
             <!-- Navbar End -->
@@ -110,21 +106,15 @@
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <form action="">
-                        <button class="btn btn-warning">Nhà trọ 1</button>
-                        <button class="btn btn-warning">Nhà trọ 2</button>
-                    </form>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Các loại phòng</h6>
                 </div>
 
                 <div class="table-responsive">
-                    <form action="">
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
                             <thead>
                             <tr class="text-dark">
                                 <th scope="col">Loại phòng</th>
+                                <th scope="col">Nhà trọ</th>
                                 <th scope="col">Mô tả</th>
                                 <th scope="col">Giá (VNĐ)</th>
                                 <th scope="col">Giá cọc</th>
@@ -136,15 +126,21 @@
                             </thead>
                             <tbody>
                             <tr th:each="roomType: ${roomTypes}">
-                                <form method="get">
+                                <form method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="typeId"  th:value="${roomType.typeId}">
                                     <td><input type="text" name="roomName"  th:value="${roomType.roomName}"></td>
+                                    <td>
+                                        <select name="hostelId" style="text-align: center">
+                                            <option th:selected="${hostel.hostelId==roomType.hostelId}" th:each="hostel : ${hostels}" th:value="${hostel.hostelId}" th:text="${hostel.hostelName}"></option>
+                                        </select>
+                                    </td>
                                     <td><input type="text" name="description"  th:value="${roomType.description}"></td>
-                                    <td><input type="text" name="price"  th:value="${#numbers.formatDecimal(roomType.price, 0, 'COMMA', 2, 'POINT') + ' đ'}"></td>
+                                    <td><input type="text" name="price"  th:value="${roomType.price}"></td>
                                     <td><input type="text" name="depositPrice"  th:value="${roomType.depositPrice}"></td>
-                                    <td>7</td>
+                                    <td th:text="${#lists.size(roomType.roomsByTypeId)}"></td>
                                     <td>8</td>
-                                    <td><input type="file" name="roomTImg"></td>
+                                    <td><input type="file" name="roomTImg">
+                                    </td>
                                     <td>
                                         <button formaction="/api/v1/RoomType/update" type="submit" name="update" class="btn btn-primary fa-solid fa-save"></button>
                                         <button formaction="/api/v1/RoomType/delete" type="submit" name="delete" class="btn btn-danger fa-solid fa-trash"></button>
@@ -154,167 +150,20 @@
                             </tr>
 
                             <tr>
-                                <form action="addroomtype.html">
-                                    <th colspan="5">
-                                        <button class="btn btn-info">Thêm loại phòng</button>
+
+                                    <th colspan="8">
+                                        <a class="btn btn-info" href="/api/v1/hometro/addroomtype">Thêm loại phòng</a>
                                     </th>
-                                </form>
                             </tr>
                             </tbody>
                         </table>
-                    </form>
-
                 </div>
             </div>
         </div>
         <!-- Recent Sales End -->
 
-
-        <!-- Widgets Start -->
-        <!-- <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h6 class="mb-0">Messages</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Calender</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div id="calender"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">To Do List</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox" checked>
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        <!-- Widgets End -->
-
-
-        <!-- Footer Start -->
-        <!-- <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end"> -->
-        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-        <!-- Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                        </br>
-                        Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        <!-- Footer End -->
     </div>
     <!-- Content End -->
-
-
-    <!-- Back to Top -->
-    <!-- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a> -->
 </div>
 
 

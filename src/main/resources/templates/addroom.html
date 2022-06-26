@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="/css/hoststyle.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+
+
+        <!-- Sidebar Start -->
+        <div th:insert="~{roomtype :: div.fragment-1}"></div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <div th:insert="~{roomtype :: div.fragment-2}"></div>
+            <!-- Navbar End -->
+
+
+
+
+            <!-- Recent Sales Start -->
+            <div class="container-fluid">
+                <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+                    <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-8">
+                        <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <a href="/api/v1/host/">
+                                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>HOMETRO</h3>
+                                </a>
+                                <h3>Thêm phòng</h3>
+                            </div>
+                            <form action="/api/v1/host/room/insert" method="post" enctype="multipart/form-data">
+                                <div class="form-floating mb-3">
+                                    <label for="floatingInput">Loại phòng</label>
+                                        <div>
+                                            <select id="floatingInput" name="typeId" style="text-align: center;">
+                                                    <option th:each="roomType : ${roomTypes}" th:value="${roomType.typeId}" th:text="${roomType.roomName}"></option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <label>Số phòng</label>
+                                    <input type="text" name="roomNumber" class="form-control" placeholder="Số phòng">
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <label>Hình ảnh</label>
+                                    </br>
+                                    <input type="file" name="image" id="inpFile">
+                                    <div class="image-preview" id="imagePreview">
+                                        <img src="" alt="Image Preview" class="image-preview__image">
+                                        <span class="image-preview__default-text">Hình phòng</span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Xác nhận</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Sales End -->
+
+
+        </div>
+        <!-- Content End -->
+
+
+        
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/js/main.js"></script>
+    <script>
+        const inpFile = document.getElementById("inpFile");
+        const previewContainer = document.getElementById("imagePreview");
+        const previewImage = previewContainer.querySelector(".image-preview__image");
+        const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+
+        inpFile.addEventListener("change", function () {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                previewDefaultText.style.display = "none";
+                previewImage.style.display = "block";
+
+                reader.addEventListener("load", function () {
+                    console.log(this);
+                    previewImage.setAttribute("src", this.result);
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+
+</html>

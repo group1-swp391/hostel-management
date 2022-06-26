@@ -41,5 +41,14 @@ public class HometroController {
     public String waterSite() { return "redirect:/api/v1/used-utility/nuoc"; }
 
     @RequestMapping(value = "addroom")
-    public String addRoomSite() {return "addroom";}
+    public String addRoomSite() {return "redirect:/api/v1/host/room/add-room";}
+
+    @RequestMapping(value = "addhostel")
+    public String addHostelSite() {return "addhostel";}
+
+    @RequestMapping(value = "addroomtype")
+    public String addRoomTypeSite() {return "redirect:/api/v1/RoomType/add-room-type";}
+
+    @RequestMapping(value = "addservices")
+    public String addServiceSite() {return "redirect:/api/v1/service/add-service";}
 }

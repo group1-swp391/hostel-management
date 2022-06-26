@@ -93,6 +93,13 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
+                        <form action="/api/v1/hometro/addroom">
+                            <div>
+                                <button class="btn btn-info">Thêm phòng</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Tất cả phòng</h6>
                         <p th:text="${message}"></p>
                     </div>
@@ -115,16 +122,19 @@
                                 <form method="post" enctype="multipart/form-data">
                                     <td><input type="hidden" name="roomId" th:value="${room.roomId}">
                                         <input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
-                                    <td th:text="${room.roomTypeByTypeId.roomName}"></td>
+                                    <td>
+                                        <select name="typeId" style="text-align: center;">
+                                            <option th:selected="${roomType.typeId==room.roomTypeByTypeId.typeId}" th:each="roomType : ${roomTypes}" th:value="${roomType.typeId}" th:text="${roomType.roomName}"></option>
+                                        </select>
+                                    </td>
                                     <td th:text="${room.usersByUserId==null}?'Chưa có người thuê':${room.usersByUserId.userName}"></td>
                                     <td th:text="${#numbers.formatDecimal(room.roomTypeByTypeId.price, 0, 'COMMA', 0, 'POINT')}+'VNĐ'"></td>
 
                                     <td>
-
-                                                    <div class="image-preview-two" id="imagePreviewTwo">
-                                                        <img th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" style="width: 50%" alt="Ảnh phòng" class="image-preview__image__2">
-                                                        <input type="file" name="image" id="inpFileTwo">
-                                                    </div>
+                                        <div class="image-preview-two" id="imagePreviewTwo">
+                                            <img th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" style="width: 50%" alt="Ảnh phòng" class="image-preview__image__2">
+                                            <input type="file" name="image" id="inpFileTwo">
+                                        </div>
                                     </td>
                                     <td>
                                         <button formaction="/api/v1/host/update" class="btn btn-primary fa-solid fa-save"></button>

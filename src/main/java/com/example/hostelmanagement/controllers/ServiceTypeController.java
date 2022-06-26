@@ -2,6 +2,7 @@ package com.example.hostelmanagement.controllers;
 
 
 import com.example.hostelmanagement.entities.ServiceType;
+import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.repositories.ServiceTypeRepository;
 import com.example.hostelmanagement.repositories.UsedServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping(value = "api/v1/ServiceType/")
+@RequestMapping(value = "api/v1/service/")
 public class ServiceTypeController {
     @Autowired
     private ServiceTypeRepository serviceTypeRepository;
     @Autowired
     private UsedServiceRepository usedServiceRepository;
-    @GetMapping(value = "")
-    public String hostIndex() {
-        return "services";
-    }
-    @RequestMapping (value = "addservices")
-    public String showInsertForm(ModelMap mm, HttpSession session) {
-
+    @RequestMapping (value = "add-service")
+    public String addServiceTypeSite(ModelMap mm, HttpSession session) {
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            return "/api/v1/user/login";
+        }
+        int owner = accSession.getUserId();
         return "addservices";
     }
 

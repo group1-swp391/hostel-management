@@ -31,6 +31,8 @@ public class Hostel {
     @Basic
     @Column(name = "hostelStatus")
     private boolean hostelStatus;
+    @Transient
+    private int roomNumber = 0;
     @ManyToOne
     @JoinColumn(name = "ownerHostelID", referencedColumnName = "userID", insertable = false, updatable = false)
     private User usersByOwnerHostelId;
