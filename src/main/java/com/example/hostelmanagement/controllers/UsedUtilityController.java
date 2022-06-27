@@ -4,6 +4,7 @@ import com.example.hostelmanagement.entities.Room;
 import com.example.hostelmanagement.entities.UsedUtility;
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.entities.UtilityType;
+import com.example.hostelmanagement.repositories.HostelRepository;
 import com.example.hostelmanagement.repositories.RoomRepository;
 import com.example.hostelmanagement.repositories.UsedUtilityRepository;
 import com.example.hostelmanagement.repositories.UtilityTypeRepository;
@@ -26,20 +27,7 @@ public class UsedUtilityController {
     @Autowired
     private UsedUtilityRepository usedUtilityRepository;
     @Autowired
-    private UtilityTypeRepository utilityTypeRepository;
-//    @RequestMapping(value = "dien")
-//    public String electricitySite() {
-//
-//        return "redirect:dien/";
-//    }
-    @RequestMapping(value = {"{utility-name}", "{utility-name}/search"})
-    public String getUtilitySite(@PathVariable("utility-name") String name, ModelMap mm) {
-        String utilityName = name;
-        List<UsedUtility> utilities = usedUtilityRepository.findAllByUtilityName(utilityName);
-        mm.put("utilities",utilities);
-        if ("Dien".equalsIgnoreCase(name)) return "electricity";
-        return "water";
-    }
+    private HostelRepository hostelRepository;
     @PostMapping(value ="{utility-name}/insert")
     public String insertUltility(@PathVariable("utility-name") String name,
                                  @RequestParam int roomId,
@@ -47,8 +35,7 @@ public class UsedUtilityController {
                                  @RequestParam java.sql.Date endDate,
                                  @RequestParam int oldIndex,
                                  @RequestParam int newIndex,
-                                 ModelMap mm,
-                                 HttpSession session
+                                 ModelMap mm
                                  ) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + roomId));
@@ -76,7 +63,7 @@ public class UsedUtilityController {
                     .build();
 
             usedUtilityRepository.save(usedUtility);
-            mm.put("message","Insert success");
+            mm.put("message","Thêm phòng sử dụng "+name+" thành công");
         }
         return "redirect:";
     }
@@ -88,8 +75,7 @@ public class UsedUtilityController {
                                  @RequestParam java.sql.Date endDate,
                                  @RequestParam int oldIndex,
                                  @RequestParam int newIndex,
-                                 ModelMap mm,
-                                 HttpSession session
+                                 ModelMap mm
     ) {
         Optional<UsedUtility> usedUtilityOptional = usedUtilityRepository.findById(usedUtilityId);
 
@@ -101,20 +87,19 @@ public class UsedUtilityController {
             usedUtility.setNewIndex(newIndex);
 
             usedUtilityRepository.save(usedUtility);
-            mm.put("message","Insert success");
+            mm.put("message","Thêm chỉ số điện thành công");
         }
         return "redirect:";
     }
     @PostMapping(value ="{utility-name}/delete")
     public String deleteUltility(@PathVariable("utility-name") String name,
                                  @RequestParam int usedUtilityId,
-                                 ModelMap mm,
-                                 HttpSession session
+                                 ModelMap mm
     ) {
         Optional<UsedUtility> usedUtilityOptional = usedUtilityRepository.findById(usedUtilityId);
         if (usedUtilityOptional.isPresent()) {
             usedUtilityRepository.delete(usedUtilityOptional.get());
-            mm.put("message","delete success");
+            mm.put("message","Xóa chỉ số điện thành công");
         }
 
         return "redirect:";
@@ -129,22 +114,21 @@ public class UsedUtilityController {
         int owner = accSession.getUserId();
 
         String utilityName = name;
-        List<UsedUtility> usedUtilities = usedUtilityRepository.findAllByUtilityName(utilityName);
-        List<UsedUtility> usedUtilities1 = new ArrayList<>();
+        List<UsedUtility> usedUtilities = new ArrayList<>();
 
-        for (UsedUtility usedUtility : usedUtilities ) {
-            int _owner = usedUtility.getUtilityTypeByUtilityTypeId().getHostelByHostelId().getOwnerHostelId();
-            if (owner == _owner) {
-                usedUtilities1.add(usedUtility);
-            }
-        }
+        hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(owner)
+                .forEach(hostel -> hostel.getUtilityTypesByHostelId()
+                        .forEach(utilityType -> {
+                            if (utilityType.getUtilityName().equalsIgnoreCase(utilityName)) {
+                                usedUtilities.addAll(utilityType.getUsedUtilitiesByUtilityTypeId());
+                            }
+                        })
+                );
 
-        //utilities.forEach(utility -> utility.setRenterName(usedUtilityRepository.getRenterNameByRoomId(utility.getRoomId(),utility.getUtilityTypeId())));
-        mm.put("utilities",usedUtilities1);
+        mm.put("utilities",usedUtilities);
 
         if ("Dien".equalsIgnoreCase(name)) return "electricity";
-        if ("nuoc".equalsIgnoreCase(name)) return "water";
-        return "error";
+        return "water";
     }
 
 }

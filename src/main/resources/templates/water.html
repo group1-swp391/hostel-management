@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chỉ số điện</title>
+    <title>Chỉ số nước</title>
     <!-- Customized Bootstrap Stylesheet -->
     <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- Template Stylesheet -->
@@ -94,7 +94,8 @@
                         <tr th:each="utility : ${utilities}">
                             <form method="post">
                                 <td th:text="${utility.roomId}"></td>
-                                <td th:text="${utility.roomByRoomId.roomTypeByTypeId.hostelByHostelId.hostelName}"></td>
+                                <input type="hidden" name="roomId" th:value="${utility.usedUtilityId}">
+                                <td th:text="${utility.utilityTypeByUtilityTypeId.hostelByHostelId.hostelName}"></td>
                                 <input name="usedUtilityId" type="hidden" th:value="${utility.usedUtilityId}"  style="text-align: center; width: 100px;">
                                 <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
                                 <td><input type="date" name="endDate" th:value="${utility.endDate}"></td>
@@ -104,8 +105,8 @@
                                 <td th:text="(${utility.newIndex}-${utility.oldIndex})*${utility.pricePerIndex}"></td>
 
                                 <td>
-                                    <button formaction="/api/v1/used-utility/nuoc/update" type="submit" class="btn btn-primary fa-solid fa-save"></button>
-                                    <button formaction="/api/v1/used-utility/nuoc/delete" type="submit" class="btn btn-danger fa-solid fa-trash"></button>
+                                    <button formaction="/api/v1/used-utility/dien/update" type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                    <button formaction="/api/v1/used-utility/dien/delete" type="submit" class="btn btn-danger fa-solid fa-trash"></button>
                                 </td>
                             </form>
                         </tr>

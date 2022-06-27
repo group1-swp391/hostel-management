@@ -109,6 +109,7 @@
                         <table class="table text-start align-middle table-bordered table-hover mb-0" id="table1">
                             <thead>
                             <tr class="text-dark">
+                                <th scope="col">ID phòng</th>
                                 <th scope="col">Số phòng</th>
                                 <th scope="col">Loại phòng</th>
                                 <th scope="col">Người thuê phòng</th>
@@ -120,8 +121,9 @@
                             <tbody id="myTable">
                             <tr th:each="room : ${rooms}">
                                 <form method="post" enctype="multipart/form-data">
-                                    <td><input type="hidden" name="roomId" th:value="${room.roomId}">
-                                        <input type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
+                                    <td th:text="${room.roomId}"></td>
+                                    <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                    <td><input style="width: 100%" type="text" name="roomNumber" th:value="${room.roomNumber}"></td>
                                     <td>
                                         <select name="typeId" style="text-align: center;">
                                             <option th:selected="${roomType.typeId==room.roomTypeByTypeId.typeId}" th:each="roomType : ${roomTypes}" th:value="${roomType.typeId}" th:text="${roomType.roomName}"></option>
@@ -130,11 +132,9 @@
                                     <td th:text="${room.usersByUserId==null}?'Chưa có người thuê':${room.usersByUserId.userName}"></td>
                                     <td th:text="${#numbers.formatDecimal(room.roomTypeByTypeId.price, 0, 'COMMA', 0, 'POINT')}+'VNĐ'"></td>
 
-                                    <td>
-                                        <div class="image-preview-two" id="imagePreviewTwo">
-                                            <img th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" style="width: 50%" alt="Ảnh phòng" class="image-preview__image__2">
-                                            <input type="file" name="image" id="inpFileTwo">
-                                        </div>
+                                    <td class="image-preview-two" style="width:300px;height:170px;position:relative" id="imagePreviewTwo">
+                                            <img th:src="@{${'/api/v1/host/room/image/'+room.roomId}}" style="width: 100%;height:100%;position:absolute;left: 0px;top:0px;" alt="Ảnh phòng" class="image-preview__image__2">
+                                            <input type="file" name="image" id="inpFileTwo" style="height:100%;width:100%;opacity:0;position:absolute;bottom:0px;left:0px">
                                     </td>
                                     <td>
                                         <button formaction="/api/v1/host/update" class="btn btn-primary fa-solid fa-save"></button>

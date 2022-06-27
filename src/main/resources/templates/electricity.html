@@ -94,6 +94,7 @@
                             <tr th:each="utility : ${utilities}">
                                 <form method="post">
                                 <td th:text="${utility.roomId}"></td>
+                                    <input type="hidden" name="roomId" th:value="${utility.usedUtilityId}">
                                 <td th:text="${utility.utilityTypeByUtilityTypeId.hostelByHostelId.hostelName}"></td>
                                     <input name="usedUtilityId" type="hidden" th:value="${utility.usedUtilityId}"  style="text-align: center; width: 100px;">
                                     <td><input type="date" name="startDate" th:value="${utility.startDate}"></td>
@@ -111,8 +112,8 @@
                             </tr>
                             </tbody>
                         <tr>
-                        <form th:action="@{/api/v1/used-utility/dien/insert}" method="post">
-                            <td><input type="text" name="roomId"></td>
+                        <form action="/api/v1/used-utility/dien/insert" method="post">
+                            <td><input style="width: 100%" type="text" name="roomId"></td>
                             <td></td>
                             <td><input type="date" name="startDate"></td>
                             <td><input type="date" name="endDate" ></td>

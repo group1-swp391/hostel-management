@@ -28,7 +28,7 @@ public class UtilityType {
     @Column(name = "hostelID")
     private Integer hostelId;
     @OneToMany(mappedBy = "utilityTypeByUtilityTypeId")
-    private Collection<UsedUtility> tblUsedUtilitiesByUtilityTypeId;
+    private Collection<UsedUtility> usedUtilitiesByUtilityTypeId;
     @ManyToOne
     @JoinColumn(name = "hostelID", referencedColumnName = "hostelID", insertable = false, updatable = false)
     private Hostel hostelByHostelId;
