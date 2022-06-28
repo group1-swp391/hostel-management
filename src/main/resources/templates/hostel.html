@@ -57,6 +57,7 @@
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                         <tr class="text-dark">
+                            <th scope="col">Id nhà trọ</th>
                             <th scope="col">Tên nhà trọ</th>
                             <th scope="col">Địa chỉ</th>
                             <th scope="col">Số lượng loại phòng</th>
@@ -67,6 +68,7 @@
                         <tbody id="myTable">
                         <tr th:each="hostel: ${hostels}">
                             <form method="post">
+                                <td th:text="${hostel.hostelId}"></td>
                                 <td><input type="hidden" name="hostelId" th:value="${hostel.hostelId}">
                                     <input type="text" name="hostelName" th:value="${hostel.hostelName}"></td>
                                 <td><input type="text" name="address" th:value="${hostel.address}"></td>

@@ -21,7 +21,7 @@ public class HometroController {
     public String moneySite() { return "money"; }
 
     @RequestMapping(value = "service")
-    public String serviceSite() { return "services"; }
+    public String serviceSite() { return "redirect:/api/v1/service/"; }
 
     @RequestMapping(value = "info")
     public String roomInfo() {
@@ -51,4 +51,7 @@ public class HometroController {
 
     @RequestMapping(value = "addservices")
     public String addServiceSite() {return "redirect:/api/v1/service/add-service";}
+
+    @RequestMapping(value = "updateservices")
+    public String updateServiceSite() {return "redirect:/api/v1/service/update-service";}
 }

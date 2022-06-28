@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm dịch vụ</title>
+    <title>Chỉnh sửa loại dịch vụ</title>
 
     <th:block th:insert="~{roomtype :: link}"></th:block>
     <th:block th:insert="~{roomtype :: head/script}"></th:block>
@@ -22,7 +22,7 @@
 <!--                <span class="sr-only">Loading...</span>-->
 <!--            </div>-->
 <!--        </div>-->
-            
+
 
         <!-- Sidebar Start -->
         <div th:insert="~{roomtype :: div.fragment-1}"></div>
@@ -47,35 +47,27 @@
                                 <a href="index.html">
                                     <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>HOMETRO</h3>
                                 </a>
-                                <h3>Thêm dịch vụ</h3>
+                                <h3>Cập nhật dịch vụ</h3>
                             </div>
-                            <form action="/api/v1/service/insert-type" method="post">
+                            <form action="">
                                 <div class="form-floating mb-4">
-                                    <label>Tên dịch vụ </label>
-                                    <input type="text" name="serviceName" class="form-control" placeholder="Tên dịch vụ">
+                                    <label>Tên dịch vụ</label>
+                                    <input type="text" class="form-control" value="Wifi" readonly>
                                 </div>
                                 <div class="form-floating mb-4">
-                                    <label>Giá</label>
-                                    <input type="text" name="price" class="form-control" placeholder="Giá">
+                                    <label>Giá cũ</label>
+                                    <input type="text" class="form-control" value="100.000" readonly>
                                 </div>
-<!--                                <div class="form-floating mb-4">-->
-<!--                                    <select style="text-align: center;">-->
-<!--                                        <option value="">Giá theo số lượng/tháng</option>-->
-<!--                                        <option value="">Giá theo tháng</option>-->
-<!--                                    </select>-->
-<!--                                </div>-->
-                                
-
+                                <div class="form-floating mb-4">
+                                    <label>Giá mới</label>
+                                    <input type="text" class="form-control" value="70.000" >
+                                </div>
                                 <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Xác nhận</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Recent Sales End -->
-
-
-
         </div>
 
     </div>
@@ -94,7 +86,7 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
-    
+
 </body>
 
 </html>
