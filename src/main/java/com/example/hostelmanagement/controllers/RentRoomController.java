@@ -36,8 +36,9 @@ public class RentRoomController {
 
     @GetMapping(value = "/{id}/info-room")
     public String infoRoom(@PathVariable("id") int id, ModelMap mm) {
-        Room room = roomRepository.findById(id).get();
-        if (room!=null) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));;
+        if (room != null) {
             mm.put("room", room);
         }
         return "inforoom";

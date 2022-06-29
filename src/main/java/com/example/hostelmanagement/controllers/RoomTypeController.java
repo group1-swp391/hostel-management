@@ -61,7 +61,9 @@ public class RoomTypeController {
 
     @PostMapping (value = "delete")
     public String deleteRoomType(ModelMap mm, @RequestParam int typeId) {
-        RoomType roomType = roomTypeRepository.findById(typeId).get();
+        RoomType roomType = roomTypeRepository.findById(typeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id:" + typeId));
+
         roomType.setRoomTypeStatus(false);
         roomTypeRepository.save(roomType);
         mm.put("message","Xóa loại phòng thành công");
@@ -71,7 +73,9 @@ public class RoomTypeController {
     public String updateRoomType(ModelMap mm, @RequestParam int typeId, @RequestParam String roomName, @RequestParam int hostelId,
                                  @RequestParam String description, @RequestParam double price,
                                  @RequestParam double depositPrice, @RequestParam Part roomTImg) throws IOException {
-        RoomType roomType = roomTypeRepository.findById(typeId).get();
+        RoomType roomType = roomTypeRepository.findById(typeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id:" + typeId));
+
         roomType.setRoomName(roomName);
         roomType.setDescription(description);
         roomType.setPrice(price);

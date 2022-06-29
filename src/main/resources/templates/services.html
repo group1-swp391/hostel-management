@@ -94,48 +94,35 @@
                     <button type="submit" class="btn btn-info">Thêm dịch vụ</button>
                 </form>
             </div>
-            <div class="row g-4">
-                <div class="col-sm-12 col-xl-4">
-                    <div class="bg-light rounded h-100 p-4">
-                        <form action="">
-                            <h5>Wifi</h5>
-                            <h6>Giá: 100.000/tháng/phòng</h6>
-                            <div>
-                                <button class="btn btn-primary fa-solid fa-edit"></button>
-                                <button class="btn  btn-danger fa-solid fa-trash"></button>
-                            </div>
-                        </form>
+            <div class="bg-light text-center rounded p-4 row">
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                        <tr class="text-dark">
+                            <th scope="col" style="width: 250px;">Tên nhà trọ</th>
+                            <th scope="col">Tên dịch vụ</th>
+                            <th scope="col" style="width: 110px;">Giá</th>
 
-                    </div>
-                </div>
-                <div class="col-sm-12 col-xl-4">
-                    <div class="bg-light rounded h-100 p-4">
-                        <form action="">
-                            <h5>Giữ xe</h5>
-                            <h6>Giá: 100.000/chiếc/tháng</h6>
-                            <div>
-                                <button class="btn btn-primary fa-solid fa-edit"></button>
-                                <button class="btn  btn-danger fa-solid fa-trash"></button>
-                            </div>
-                        </form>
+                            <th scope="col">Thao tác</th>
 
-                    </div>
-                </div>
-                <div class="col-sm-12 col-xl-4">
-                    <div class="bg-light rounded h-100 p-4">
-                        <form action="">
-                            <h5>Rác</h5>
-                            <h6>Giá: 50.000/tháng</h6>
-                            <div>
-                                <button class="btn btn-primary fa-solid fa-edit"></button>
-                                <button class="btn  btn-danger fa-solid fa-trash"></button>
-                            </div>
-                        </form>
-                    </div>
+                        </tr>
+                        </thead>
+                        <tbody id="services">
+                        <tr th:each="service : ${services}" class="timkiem rac wifi giuxe">
+                                <td class="tennhatro" th:text="${service.hostelByHostelId.hostelName}"></td>
+                                <td th:text="${service.serviceName}"></td>
+                                <td th:text="${service.price}"></td>
+                                <td>
+                                    <button class="btn btn-primary fa-solid fa-save"></button>
+                                </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
                 </div>
             </div>
-
-        </div>
+</div>
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4 row">
                 <!-- <div class="d-flex align-items-center justify-content-between mb-4">
@@ -192,90 +179,6 @@
                             </form>
                         </tr>
 
-                        <tr class="timkiem rac wifi">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ Đăng Khoa</td>
-                                <td class="maphong">02</td>
-                                <td><input type="date"></td>
-                                <td><input type="date"></td>
-                                </td>
-                                <td> <input type="text" value="Rác + Wifi" style="text-align: center; width: 100%;">
-                                </td>
-                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
-
-                        <tr class="timkiem wifi">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ Quốc Hoàng</td>
-                                <td class="maphong">03</td>
-                                <td><input type="date"></td>
-                                <td><input type="date"></td>
-                                </td>
-                                <td> <input type="text" value="Wifi" style="text-align: center; width: 100%;">
-                                </td>
-                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
-
-                        <tr class="timkiem rac giuxe">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ Đăng Khoa</td>
-                                <td class="maphong">04</td>
-                                <td><input type="date"></td>
-                                <td><input type="date"></td>
-                                </td>
-                                <td> <input type="text" value="Rác + Giữ xe" style="text-align: center; width: 100%;">
-                                </td>
-                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
-
-                        <tr class="timkiem rac">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ Quốc Hoàng</td>
-                                <td class="maphong">05</td>
-                                <td><input type="date"></td>
-                                <td><input type="date"></td>
-                                </td>
-                                <td> <input type="text" value="Rác" style="text-align: center; width: 100%;">
-                                </td>
-                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
-
-                        <tr class="timkiem rac">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ Đăng Khoa</td>
-                                <td class="maphong">06</td>
-                                <td><input type="date"></td>
-                                <td><input type="date"></td>
-                                </td>
-                                <td> <input type="text" value="Rác" style="text-align: center; width: 100%;">
-                                </td>
-                                <td><input type="text" value="50.000"  style="text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
                         </tbody>
 
                     </table>
