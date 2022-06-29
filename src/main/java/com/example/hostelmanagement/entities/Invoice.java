@@ -24,6 +24,9 @@ public class Invoice {
     @Column(name = "roomID")
     private int roomId;
     @Basic
+    @Column(name = "userID")
+    private int userId;
+    @Basic
     @Column(name = "invoiceName")
     private String invoiceName;
     @Basic
@@ -44,6 +47,10 @@ public class Invoice {
     @Basic
     @Column(name = "paymentDate")
     private Timestamp paymentDate;
+
+    @ManyToOne
+    @JoinColumn(name = "userID", referencedColumnName = "userID", insertable = false, updatable = false)
+    private User usersByUserId;
     @ManyToOne
     @JoinColumn(name = "roomID", referencedColumnName = "roomID", insertable = false, updatable = false)
     private Room roomByRoomId;

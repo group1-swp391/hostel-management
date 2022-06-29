@@ -66,6 +66,8 @@ public class User {
     private Collection<Hostel> hostelsByUserId;
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<Room> roomsByUserId;
+    @OneToMany(mappedBy = "usersByUserId")
+    private Collection<Invoice> invoicesByUserId;
     @ManyToOne
     @JoinColumn(name = "roleID", referencedColumnName = "roleID", insertable = false, updatable = false)
     private Role roleByRoleId;
