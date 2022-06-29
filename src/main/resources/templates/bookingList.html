@@ -58,8 +58,8 @@
 
                         <thead>
                         <tr class="text-dark">
-                            <th scope="col">ABC</th>
-                            <th scope="col">ID Phòng</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Người đặt </th>
                             <th scope="col">Tên hóa đơn</th>
                             <th scope="col">Tổng tiền</th>
                             <th scope="col">Ghi chú</th>
@@ -73,7 +73,7 @@
                         <tr th:each="row : ${listBooking}">
                             <form action="/api/v1/invoice/update" method="post">
                                 <td th:text="${row.bookingId}"></td>
-                                <td th:text="${row.userId}"></td>
+                                <td th:text="'ID ' + ${row.userId} + ' - Name: ' + ${row.usersByUserId.userName}"></td>
                                 <td><input type="text" name="roomId" th:value="${row.roomId}"></td>
                                 <td><input type="date" name="appointmentDatet" th:value="${row.appointmentDate}"></td>
 <!--                                <td><input name="note" type="text" th:value="${row.note}"></td>-->
