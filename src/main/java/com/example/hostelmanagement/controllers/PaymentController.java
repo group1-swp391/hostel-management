@@ -11,6 +11,7 @@ import com.example.hostelmanagement.utils.Momo.shared.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,21 +37,21 @@ public class PaymentController {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    @RequestMapping(value = "")
+    @RequestMapping(value = "{invoiceId}")
     public String getAdminHome(ModelMap mm,
                                HttpSession session,
-                               @RequestParam int invoiceId,
-                               @RequestParam String orderInfo
+                               @PathVariable int invoiceId
                                ) throws Exception {
         try {
             LogUtils.init();
             String requestId = String.valueOf(System.currentTimeMillis());
            // String invoiceId = "1";
-            String orderId = String.valueOf(System.currentTimeMillis()) + "_InvoiceID" + "2";
+            String orderId = String.valueOf(System.currentTimeMillis()) + "_InvoiceID" + invoiceId;
             Invoice invoice = invoiceRepository.findById(invoiceId)
                     .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + invoiceId));
 
             long amount = (long) invoice.getTotalAmount();
+            String orderInfo = invoice.getInvoiceName();
 
             //String orderInfo = "Thanh toan tien thang 6";
             String returnURL = "localhost/api/v1/payment&requestId=" + requestId + "&orderId=" + orderId;

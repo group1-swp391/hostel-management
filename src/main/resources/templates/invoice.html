@@ -76,7 +76,7 @@
       <p>Hóa đơn</p>
 
 
-      <span class="float-right"> <strong th:text="${invoice.invoiceStatus == true} ? 'Trạng thái: Đã thanh toán' : 'Trạng thái: Chưa thanh toán'"></strong></span>
+      <span class="float-right"> <strong th:text="${invoice.paymentStatus == true} ? 'Trạng thái: Đã thanh toán' : 'Trạng thái: Chưa thanh toán'"></strong></span>
     </div>
     <div class="card-body">
       <div class="row mb-4">
@@ -98,10 +98,14 @@
           <div></div>
           <div th:text="'Room ' + ${invoice.roomId}"> </div>
           <div th:text="${invoice.note}"> </div>
-          <div th:text="'Ngày tạo ' + ${invoice.startDate}"> </div>
+          <div th:text="'Ngày tạo ' + ${invoice.invoiceCreateDate}"> </div>
 
           <div>Email: </div>
           <div>Phone: </div>
+
+          <form th:action="@{/api/v1/Payment/{invoiceId}(invoiceId=${invoice.invoiceId})}"  method="POST">
+            <button type="submit" class="btn btn-outline-primary">Thanh toán</button>
+          </form>
         </div>
       </div>
 
@@ -159,7 +163,7 @@
               <td class="left">
                 <strong>Tổng Cộng</strong>
               </td>
-              <td class="right">5,000,000 VND</td>
+              <td class="right" th:text="${invoice.totalAmount}"> </td>
             </tr>
             </tbody>
           </table>
