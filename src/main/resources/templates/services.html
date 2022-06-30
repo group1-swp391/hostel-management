@@ -135,11 +135,7 @@
                             </tbody>
                         </table>
 
-                        <div class="container mt-3">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                             Thêm dịch vụ
-                            </button>
-                        </div>
+
 
                         <div class="modal fade" id="myModal">
                             <div class="modal-dialog">
@@ -166,11 +162,11 @@
                                             </div>
                                             <div class="mb-3">
                                             <label for="servicetypeId" class="col-form-label">Mã dịch vụ</label>
-                                            <input type="number" class="form-control"  name="servicetypeId" id="servicetypeId">
+                                            <input type="number" class="form-control"  name="servicetypeId" id="servicetypeId" >
                                             </div>
                                             <div class="mb-3">
                                             <label for="usedQuantity" class="col-form-label">Số lượng sử dụng</label>
-                                            <input type="number"  class="form-control" name="usedQuantity" id="usedQuantity">
+                                            <input type="number"  class="form-control" name="usedQuantity" id="usedQuantity" >
                                             </div>
                                             <div class="modal-footer">
                                             <button formaction="/api/v1/service/insert-used-service" type="submit" class="btn btn-primary fa-solid fa-save"></button>

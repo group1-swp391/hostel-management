@@ -1,7 +1,9 @@
 package com.example.hostelmanagement.controllers;
 
+import com.example.hostelmanagement.entities.Invoice;
 import com.example.hostelmanagement.repositories.*;
 import com.example.hostelmanagement.utils.Momo.config.Environment;
+import com.example.hostelmanagement.utils.Momo.config.PartnerInfo;
 import com.example.hostelmanagement.utils.Momo.enums.RequestType;
 import com.example.hostelmanagement.utils.Momo.models.PaymentResponse;
 import com.example.hostelmanagement.utils.Momo.processor.CreateOrderMoMo;
@@ -10,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
+import java.lang.annotation.Target;
 
 
 @Controller
@@ -27,20 +33,39 @@ public class PaymentController {
     private RoleRepository roleRepository;
     @Autowired
     private HostelRepository hostelRepository;
+    @Autowired
+    private InvoiceRepository invoiceRepository;
 
     @RequestMapping(value = "")
-    public String getAdminHome(ModelMap mm) throws Exception {
-        mm.put("mess","test");
+    public String getAdminHome(ModelMap mm,
+                               HttpSession session,
+                               @RequestParam int invoiceId,
+                               @RequestParam String orderInfo
+                               ) throws Exception {
         try {
             LogUtils.init();
             String requestId = String.valueOf(System.currentTimeMillis());
-            String invoiceId = "1";
+           // String invoiceId = "1";
             String orderId = String.valueOf(System.currentTimeMillis()) + "_InvoiceID" + "2";
-            long amount = 5000000;
+            Invoice invoice = invoiceRepository.findById(invoiceId)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + invoiceId));
 
-            String orderInfo = "Thanh toan tien thang 6";
+            long amount = (long) invoice.getTotalAmount();
+
+            //String orderInfo = "Thanh toan tien thang 6";
             String returnURL = "localhost/api/v1/payment&requestId=" + requestId + "&orderId=" + orderId;
-            String notifyURL = "https://google.com.vn";
+            String notifyURL = "localhost/api/v1/";
+
+            String partnerCode = "MOMOLRJZ20181206";
+            String accessKey = "mTCKt9W3eU1m39TW";
+            String secretKey = "SetA5RDnLHvt51AULf51DyauxUo3kDU6";
+            String endPoint = "https://test-payment.momo.vn/v2/gateway/api";
+
+            PartnerInfo partnerInfo = new PartnerInfo(partnerCode, accessKey, secretKey);
+//            Environment.EnvTarget envTarget = new Environment.EnvTarget();
+
+//            Environment environment1 = Environment.
+          //  Environment environment1 = new Environment(endPoint, partnerInfo, "env");
 
             Environment environment = Environment.selectEnv("dev");
 

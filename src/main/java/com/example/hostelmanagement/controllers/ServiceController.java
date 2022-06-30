@@ -64,6 +64,18 @@ public class ServiceController {
         return "redirect:";
     }
 
+    @RequestMapping (value ="{usedServiceId}")
+    public String getUsedService(@PathVariable int usedServiceId,
+                                 ModelMap mm,
+                                 HttpSession session) {
+
+        UsedService usedService = usedServiceRepository.findById(usedServiceId)
+                .orElseThrow(() -> new IllegalArgumentException("Id không hợp lệ :" + usedServiceId));
+
+        mm.put("usedService",usedService);
+
+        return getAllServicesType(mm, session);
+    }
 
     @PostMapping(value ="update-used-service")
     public String updateUsedService(@RequestParam int usedServiceId,

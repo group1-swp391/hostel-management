@@ -72,7 +72,7 @@
 
                         <tr th:each="row : ${invoices}">
                             <form action="/api/v1/invoice/update" method="post">
-                                <td th:text="${row.invoiceId}"></td>
+                                <td > <a th:href="@{${'/api/v1/invoice/'+row.invoiceId}}" th:text="${row.invoiceId}"> </a></td>
                                 <td th:text="${row.roomId}"></td>
                                 <td><input type="text" name="invoiceName" th:value="${row.invoiceName}"></td>
                                 <td><input type="text" name="totalAmount" th:value="${row.totalAmount}"></td>

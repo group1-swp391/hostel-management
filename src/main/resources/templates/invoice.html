@@ -76,29 +76,32 @@
       <p>Hóa đơn</p>
 
 
-      <span class="float-right"> <strong>Trạng Thái:</strong> Đã Đóng</span>
+      <span class="float-right"> <strong th:text="${invoice.invoiceStatus == true} ? 'Trạng thái: Đã thanh toán' : 'Trạng thái: Chưa thanh toán'"></strong></span>
     </div>
     <div class="card-body">
       <div class="row mb-4">
         <div class="col-sm-6">
           <h6 class="mb-3">From:</h6>
           <div>
-            <strong>Phạm Phú Hưng</strong>
+            <strong></strong>
           </div>
-          <div>Email: phuhungx1810@gmail.com</div>
-          <div>Phone: +91 9800000000</div>
+          <div>Email: </div>
+          <div>Phone: </div>
         </div>
 
         <div class="col-sm-6">
           <h6 class="mb-3">To:</h6>
           <div>
-            <strong>Đỗ hoàng vũ</strong>
+            <strong></strong>
           </div>
 
-          <div>7/16 Lương Định Của, Quận 2</div>
-          <div>Room: C001</div>
-          <div>Email: vu@gmail.com</div>
-          <div>Phone: +48 123 456 349</div>
+          <div></div>
+          <div th:text="'Room ' + ${invoice.roomId}"> </div>
+          <div th:text="${invoice.note}"> </div>
+          <div th:text="'Ngày tạo ' + ${invoice.startDate}"> </div>
+
+          <div>Email: </div>
+          <div>Phone: </div>
         </div>
       </div>
 
@@ -116,15 +119,16 @@
           </tr>
           </thead>
           <tbody>
-          <p>Tiền phòng</p>
+
           <tr th:each="row,task : ${roomCharges}">
+
             <td class="center" th:text="${task.index + 1}"></td>
             <td class="left strong">Tiền phòng</td>
             <td class="right"  th:text="${row.price}"></td>
             <td></td>
             <td class="right"  th:text="${row.price}"></td>
           </tr>
-          <p>Điện nước</p>
+
           <tr th:each="row,task : ${usedUtilities}">
             <td class="center" th:text="${task.index + 1}"></td>
             <td class="left strong" th:text="${row.utilityTypeByUtilityTypeId.utilityName}"></td>
@@ -133,7 +137,7 @@
             <td class="center"  th:text="'Cũ: ' + ${row.oldIndex} +  ' - Mới: ' + ${row.newIndex} + ' - Sử dụng: ' + ${row.newIndex - row.oldIndex}" > </td>
             <td class="right"  th:text="${row.pricePerIndex*(row.newIndex - row.oldIndex)}"></td>
           </tr>
-          <p>Dịch vụ</p>
+
           <tr th:each="row,task : ${usedServices}">
             <td class="center" th:text="${task.index + 1}"></td>
             <td class="left strong" th:text="${row.serviceTypeByServicetypeId.serviceName}"></td>
