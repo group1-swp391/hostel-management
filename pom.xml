@@ -77,8 +77,19 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>io.github.momo-wallet</groupId>
+            <artifactId>momopayment</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

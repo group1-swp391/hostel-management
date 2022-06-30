@@ -188,7 +188,9 @@ public class ServiceController {
         return getAllServicesType(mm, session);
     }
 
-    @GetMapping(value = "/")
+
+
+    @GetMapping(value = "")
     public String getAllServicesType(ModelMap mm, HttpSession session) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
 

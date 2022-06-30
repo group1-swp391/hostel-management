@@ -54,6 +54,7 @@
                         <thead>
                         <tr class="text-dark">
                             <th scope="col" style="width: 250px;">Tên nhà trọ</th>
+                            <th scope="col">Mã dịch vụ</th>
                             <th scope="col">Tên dịch vụ</th>
                             <th scope="col" style="width: 110px;">Giá</th>
 
@@ -64,6 +65,7 @@
                         <tbody id="services">
                         <tr th:each="service : ${services}" class="timkiem rac wifi giuxe">
                                 <td class="tennhatro" th:text="${service.hostelByHostelId.hostelName}"></td>
+                                <td th:text="${service.serviceTypeId}"></td>
                                 <td th:text="${service.serviceName}"></td>
                                 <td th:text="${service.price}"></td>
                                 <td>
@@ -90,53 +92,108 @@
                 <div class="col-md-8">
                     <input type="text" id="search" class="form-control" placeholder="Tìm dịch vụ của phòng theo tên nhà trọ hoặc mã phòng">
                 </div>
-                <div class="col-md-4">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" id="all" class="btn btn-warning">Tất cả</button>
-                        <button type="button" id="wifi" class="btn btn-info">Wifi</button>
-                        <button type="button" id="giuxe" class="btn btn-success">Giữ xe</button>
-                        <button type="button" id="rac" class="btn btn-primary">Rác</button>
-                    </div>
-                </div>
+<!--                <div class="col-md-4">-->
+<!--                    <div class="btn-group" role="group" aria-label="Basic example">-->
+<!--                        <button type="button" id="all" class="btn btn-warning">Tất cả</button>-->
+<!--                        <button type="button" id="wifi" class="btn btn-info">Wifi</button>-->
+<!--                        <button type="button" id="giuxe" class="btn btn-success">Giữ xe</button>-->
+<!--                        <button type="button" id="rac" class="btn btn-primary">Rác</button>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <br></br>
                 <!-- <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Dịch vụ các phòng</h6>
                 </div> -->
-                <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-                        <thead>
-                        <tr class="text-dark">
-                            <th scope="col" style="width: 250px;">Tên nhà trọ</th>
-                            <th scope="col" style="width: 103px;">Mã phòng</th>
-                            <th scope="col" style="width: 110px;">Ngày bắt đầu</th>
-                            <th scope="col" style="width: 110px;">Ngày kết thúc</th>
-                            <th scope="col">Tên dịch vụ</th>
-                            <th scope="col" style="width: 110px;">Giá</th>
-                            <th scope="col">Lưu</th>
-                        </tr>
-                        </thead>
-                        <tbody id="services">
-                        <tr class="timkiem rac wifi giuxe">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ Quốc Hoàng</td>
-                                <td class="maphong">01</td>
-                                <td><input type="date"></td>
-                                <td><input type="date" ></td>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                            <tr class="text-dark">
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên nhà trọ</th>
+                                <th scope="col">Mã phòng</th>
+                                <th scope="col">Ngày bắt đầu</th>
+                                <th scope="col">Ngày kết thúc</th>
+                                <th scope="col">Dịch vụ sử dụng</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Tiền</th>
+                                <th scope="col">Mã hóa đơn</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="row : ${usedServices}">
+                                <td th:text="${row.usedServiceId}"></td>
+                                <td th:text="${row.serviceTypeByServicetypeId.hostelByHostelId.hostelName}"></td>
+                                <td th:text="${row.roomId}"></td>
+                                <td th:text="${#dates.format(row.startDate, 'dd-MM-yyyy')}"></td>
+                                <td th:text="${#dates.format(row.endDate, 'dd-MM-yyyy')}"></td>
+                                <td th:text="${row.serviceTypeByServicetypeId.serviceName}"></td>
+                                <td th:text="${row.usedQuantity}"></td>
+                                <td th:text="${row.price}"></td>
+                                <td th:text="${row.invoiceId == null} ? 'Chưa xuất hoá đơn' : (${row.InvoiceId}  + ' - ' + (${row.invoiceByInvoiceId.paymentStatus == true} ? 'Đã thanh toán' : 'Chưa thanh toán'))"></td>
 
-                                <td> <input type="text" value="Rác + Wifi + Giữ xe" style="text-align: center; width: 100%;">
-                                </td>
-                                <td><input type="text" value="100.000" style= "text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
+                            </tbody>
+                        </table>
 
-                        </tbody>
+                        <div class="container mt-3">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                             Thêm dịch vụ
+                            </button>
+                        </div>
 
-                    </table>
-                </div>
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Thêm dịch vụ</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form method="post">
+                                            <div class="mb-3">
+                                            <label for="inpputroomId" class="col-form-label">ID Phòng</label>
+                                            <input type="number" name="roomId" id="inpputroomId">
+                                            </div>
+                                            <div class="mb-3">
+                                            <label for="startDate" class="col-form-label">Ngày bắt đầu</label>
+                                            <input type="date"  class="form-control" name="startDate" id="startDate">
+                                            </div>
+                                            <div class="mb-3">
+                                            <label for="endDate" class="col-form-label">Ngày kết thúc</label>
+                                            <input type="date"  class="form-control" name="endDate" id="endDate">
+                                            </div>
+                                            <div class="mb-3">
+                                            <label for="servicetypeId" class="col-form-label">Mã dịch vụ</label>
+                                            <input type="number" class="form-control"  name="servicetypeId" id="servicetypeId">
+                                            </div>
+                                            <div class="mb-3">
+                                            <label for="usedQuantity" class="col-form-label">Số lượng sử dụng</label>
+                                            <input type="number"  class="form-control" name="usedQuantity" id="usedQuantity">
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button formaction="/api/v1/service/insert-used-service" type="submit" class="btn btn-primary fa-solid fa-save"></button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
             </div>
         </div>
     </div>

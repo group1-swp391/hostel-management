@@ -56,6 +56,8 @@
                             <th scope="col">Chỉ số nước mới (m3)</th>
                             <th scope="col">Giá</th>
                             <th scope="col">Tổng Tiền</th>
+                            <th scope="col">Mã hoá đơn</th>
+
                             <th scope="col">Lưu</th>
                         </tr>
                         </thead>
@@ -72,6 +74,7 @@
                                 <td> <input type="text" name="newIndex" th:value="${utility.newIndex}" style="text-align: center; width: 100px;"></td>
                                 <td th:text="${utility.pricePerIndex}"></td>
                                 <td th:text="(${utility.newIndex}-${utility.oldIndex})*${utility.pricePerIndex}"></td>
+                                <td th:text="${utility.invoiceId == null} ? 'Chưa xuất hoá đơn' : (${utility.InvoiceId}  + ' - ' + (${utility.invoiceByInvoiceId.paymentStatus == true} ? 'Đã thanh toán' : 'Chưa thanh toán'))"></td>
 
                                 <td>
                                     <button formaction="/api/v1/used-utility/dien/update" type="submit" class="btn btn-primary fa-solid fa-save"></button>

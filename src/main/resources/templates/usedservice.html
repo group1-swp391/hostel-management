@@ -70,13 +70,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="row : ${roomcharges}">
-                            <td th:text="${row.roomChargeId}"></td>
+                        <tr th:each="row : ${usedServices}">
+                            <td th:text="${row.usedServiceId}"></td>
                             <td th:text="${row.roomId}"></td>
-                            <td><input type="date" name="startDate" th:value="${row.startDate}"></td>
-                            <td><input type="date" name="endDate" th:value="${row.endDate}"></td>
-                            <td><input type="text" th:value="${row.price}"></td>
-                            <td> <input type="text" th:value="${row.invoiceId}"></td>
+                            <td th:text="${#dates.format(row.startDate, 'dd-MM-yyyy')}"></td>
+                            <td th:text="${#dates.format(row.endDate, 'dd-MM-yyyy')}"></td>
+                            <td th:text="${row.roomId}"></td>
+                            <td th:text="${row.roomId}"></td>
                             <td>
                                 <button type="submit" class="btn btn-primary fa-solid fa-save"></button>
                             </td>

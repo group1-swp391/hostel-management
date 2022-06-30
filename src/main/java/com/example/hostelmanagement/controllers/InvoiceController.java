@@ -51,6 +51,27 @@ public class InvoiceController {
         return getAllInvoices(mm, session);
     }
 
+    @RequestMapping(value = "/{invoiceId}")
+    public String getInvoiceDetails(
+            @PathVariable(value="invoiceId") int invoiceId,
+            ModelMap mm,
+            HttpSession session) {
+
+        Invoice invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + invoiceId));
+
+        Collection<RoomCharge> roomCharges = invoice.getRoomChargesByInvoiceId();
+        Collection<UsedService> usedServices = invoice.getUsedServicesByInvoiceId();
+        Collection<UsedUtility> usedUtilities = invoice.getTblUsedUtilitiesByInvoiceId();
+
+        mm.put("invoice", invoice);
+        mm.put("roomCharges", roomCharges);
+        mm.put("usedServices", usedServices);
+        mm.put("usedUtilities", usedUtilities);
+
+        return "invoice";
+    }
+
     @RequestMapping(value = "getAllInvoice")
     public String getAllInvoices(ModelMap mm, HttpSession session) {
         List<Invoice> listinvoices = invoiceRepository.findAll();
