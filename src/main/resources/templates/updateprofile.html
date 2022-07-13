@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta th:replace="~{hostpage :: meta}">
+    <title>Thông tin cá nhân</title>
+    <link th:replace="~{hostpage :: link}">
+</head>
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <div th:replace="~{hostpage :: div#spinner}"></div>
+    <!-- Spinner End -->
+    <!-- Sidebar Start -->
+    <div th:replace="~{hostpage :: div.sidebar}"></div>
+    <!-- Sidebar End -->
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
+        <!-- Navbar End -->
+        <div class="card-single">
+            <div class="card-body">
+                <form action="">
+                    <h1>Thông tin cá nhân</h1>
+                    <h2>Họ và tên</h2>
+                    <input type="text" class="input" value="Đinh Hoàng Long">
+                    <h2>Ngày sinh</h2>
+                    <input type="date" class="input" value="">
+                    <h2>Giới tính</h2>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" checked> Nam
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio"> Nữ
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio"> Khác
+                    </label>
+                    <h2>Số điện thoại</h2>
+                    <input type="text" class="input" value="0989000000">
+                    <h2>Email</h2>
+                    <input type="text" class="input" value="example@example.com">
+                    <h2>CMND/CCCD</h2>
+                    <input type="text" class="input" value="261992012">
+
+                    <h2>Mặt trước CMND/CCCD</h2>
+                    <input type="file" name="inpFile" id="inpFile">
+                    <div class="image-preview" id="imagePreview">
+                        <img src="" alt="Image Preview" class="image-preview__image">
+                        <span class="image-preview__default-text">Image Preview</span>
+                    </div>
+
+                    <h2>Mặt sau CMND/CCCD</h2>
+                    <input type="file" name="inpFileTwo" id="inpFileTwo">
+                    <div class="image-preview-two" id="imagePreviewTwo">
+                        <img src="" alt="Image Preview 2" class="image-preview__image__2">
+                        <span class="image-preview__default-text__2">Image Preview</span>
+                    </div>
+
+                    </br>
+                    </br>
+                    <button type="submit" class="btn btn-primary update-profile">Update</button>
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    const inpFile = document.getElementById("inpFile");
+    const previewContainer = document.getElementById("imagePreview");
+    const previewImage = previewContainer.querySelector(".image-preview__image");
+    const previewDefaultText = previewContainer.querySelector(".image-preview__default-text");
+
+    inpFile.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            previewDefaultText.style.display = "none";
+            previewImage.style.display = "block";
+
+            reader.addEventListener("load", function () {
+                console.log(this);
+                previewImage.setAttribute("src", this.result);
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<script>
+    const inpFileTwo = document.getElementById("inpFileTwo");
+    const previewContainerTwo = document.getElementById("imagePreviewTwo");
+    const previewImageTwo = previewContainerTwo.querySelector(".image-preview__image__2");
+    const previewDefaultTextTwo = previewContainerTwo.querySelector(".image-preview__default-text__2");
+
+    inpFileTwo.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            previewDefaultTextTwo.style.display = "none";
+            previewImageTwo.style.display = "block";
+
+            reader.addEventListener("load", function () {
+                console.log(this);
+                previewImageTwo.setAttribute("src", this.result);
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+
+</script>
+
+<!-- JavaScript Libraries -->
+<th:block th:insert="~{hostpage :: script}"></th:block>
+</body>
+
+</html>

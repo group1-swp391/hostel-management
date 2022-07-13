@@ -1,0 +1,259 @@
+.product_details {
+    margin-top: 100px;
+    padding: 100px 0;
+}
+
+/* .small_img {
+    margin-right: 20px;
+    width: 100px;
+
+}
+
+.small_img img {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.small_img img:hover {
+    filter: grayscale(100%);
+    transform: scale(1.1);
+} */
+
+.producudetails_content h3 {
+    font-size: 30px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.customer_review {
+    margin-bottom: 10px;
+}
+
+.customer_review ul li i {
+    color: #ffa300;
+    font-size: 16px;
+}
+
+.customer_review ul li {
+    display: inline-block;
+    padding-right: 50px;
+}
+
+.producudetails_content strong {
+    padding-right: 15px;
+    font-size: 24px;
+    font-weight: 600;
+    padding-top: 20px;
+    color: #5cb917;
+}
+
+.producudetails_content strong del {
+    color: #bcbcbc;
+}
+
+.producudetails_content p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.8;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    font-family: "Roboto", sans-serif;
+    color: #3d4555;
+}
+
+.add_to_cart {
+    margin: 40px 0;
+}
+
+.quantity {
+    width: 80px;
+    padding: 9px 10px;
+    background: transparent;
+    text-align: center;
+    border: 2px solid #bcbcbc;
+    color: #061738;
+}
+
+.quantity button {
+    color: #061738;
+    background-color: transparent;
+    border: 0;
+}
+
+.quantity button:hover,
+.quantity button:focus {
+    color: #1a7d06;
+    border: 0;
+    outline: 0;
+}
+
+.quantity_num {
+    margin: 0px 10px;
+}
+
+
+.product_tabber {
+    padding: 0px 0px 100px 0px;
+}
+
+.nav_custom {
+    width: 100%;
+    background: #e2f6de;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #5cb917;
+}
+
+.tab-pane p {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 10px 0px;
+    line-height: 1.8;
+    font-family: "Roboto", sans-serif;
+}
+
+.nav-tabs .nav-link:focus {
+    border: none;
+    border-color: transparent;
+}
+
+.nav-tabs .nav-link.nav-link-custom {
+    color: #03262c;
+    font-weight: 600;
+    border: 0;
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-radius: 0;
+}
+
+.nav-tabs .nav-link.nav-link-custom:hover {
+    color: #fff;
+    background-color: #03262c;
+    border-color: #03262c #03262c #03262c;
+}
+
+.nav-tabs .nav-link.nav-link-custom.active {
+    color: #fff;
+    background-color: #03262c;
+    border-color: #03262c #03262c #03262c;
+}
+
+
+
+
+.context-dark,
+.bg-gray-dark,
+.bg-primary {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-classic a,
+.footer-classic a:focus,
+.footer-classic a:active {
+    color: #ffffff;
+}
+
+.nav-list li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.nav-list li a:hover:before {
+    margin-left: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 23px;
+    font: 900 13px/1 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    color: rgba(243, 234, 234, 0.5);
+}
+
+.social-container .col {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-list li a:before {
+    content: "\f14f";
+    font: 400 21px/1 "Material Design Icons";
+    color: #4d6de6;
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: -28px;
+    margin-right: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .22s ease;
+}
+
+
+
+
+.mySlides {
+    display: none;
+    width: 100%
+}
+
+.display-container {
+    position: relative
+}
+
+/*---Css Nút qua lại---*/
+.button-left {
+    left: 1%;
+    font-size: 20px
+}
+
+.button-right {
+    right: 1%;
+    font-size: 20px
+}
+
+
+
+.image-button {
+    border: none;
+    display: inline-block;
+    padding: 10px;
+    height: 50px;
+    vertical-align: middle;
+    overflow: hidden;
+    color: #fff;
+    background: #000;
+    position: absolute;
+    top: calc(50% - 25px);
+    opacity: 0.5;
+}
+
+.image-button:hover {
+    color: #000;
+    background: #ccc;
+}
+
+
+
+/* Thumbnail */
+
+/* Hover chuột vào thumbnail */
+.thumbnail img:hover {
+    transform: scale(1.5, 1.5);
+    -moz-transform: scale(1.5, 1.5);
+    -webkit-transform: scale(1.5, 1.5);
+    -o-transform: scale(1.5, 1.5);
+    -ms-transform: scale(1.5, 1.5);
+    cursor: pointer;
+}

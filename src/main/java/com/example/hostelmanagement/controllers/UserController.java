@@ -26,11 +26,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
     @GetMapping(value = "show-info")
-    public String showInfo(HttpSession session) {
+    public String showInfo(HttpSession session, ModelMap mm) {
         if (session.getAttribute("LOGIN_USER")==null) {
             return login();
         }
-        return "account";
+        User user = (User) session.getAttribute("LOGIN_USER");
+        mm.put("userLogin", user);
+        return "userdetail";
     }
 
 
@@ -40,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping(value = "login")
-    public String login(@RequestParam(name = "userName",required = false) String userName, @RequestParam(name = "password",required = false) String password, HttpSession session, ModelMap mm) {
+    public String login(@RequestParam String userName, @RequestParam String password, HttpSession session, ModelMap mm) {
         User user = userRepository.getUserByUserNameAndPasswordAndUserStatus(userName, password, true);
         if(user!=null) {
             session.setAttribute("LOGIN_USER", user);
@@ -50,12 +52,15 @@ public class UserController {
             }
             if (user.getRoleId()==2) {
                 String n = "<i class=\"fa-solid fa-user-tie me-2\"></i>";
+
                 session.setAttribute("n", n);
                 return "redirect:/api/v1/host/";
             }
+            String n = "<img src=\"/img/person.png\" width=\"40px\" height=\"40px\" />";
+            session.setAttribute("n", n);
             return "index";
         } else {
-            mm.put("message", "Invalid account");
+            mm.put("message", "Incorrect username or password");
 
             return "login";
         }
@@ -82,10 +87,9 @@ public class UserController {
     }
 
     @PostMapping(value = "update")
-    public String update(@RequestParam("userName") String userName, @RequestParam("fullName") String fullName,
-                         @RequestParam("dateOfBirth") Date dateOfBirth, @RequestParam("gender") String gender,
-                         @RequestParam("phone") String phone, @RequestParam("email") String email, @RequestParam("documentId") String documentId,
-                         @RequestParam(value = "documentFrontSide", required = false) Part documentFrontSide, @RequestParam(value = "documentBackSide", required = false) Part documentBackSide,
+    public String update(@RequestParam String userName, @RequestParam String fullName,
+                         @RequestParam Date dateOfBirth, @RequestParam String gender,
+                         @RequestParam String phone, @RequestParam String email, @RequestParam String documentId,
                          HttpSession session, ModelMap mm) {
         User user = (User) session.getAttribute("LOGIN_USER");
         try {
@@ -96,8 +100,8 @@ public class UserController {
             user.setPhone(phone);
             user.setEmail(email);
             user.setDocumentId(documentId);
-            if (documentFrontSide.getSize()>0) user.setDocumentFrontSide(Utils.getByteImage(documentFrontSide));
-            if (documentBackSide.getSize()>0) user.setDocumentBackSide(Utils.getByteImage(documentBackSide));
+//            if (documentFrontSide.getSize()>0) user.setDocumentFrontSide(Utils.getByteImage(documentFrontSide));
+//            if (documentBackSide.getSize()>0) user.setDocumentBackSide(Utils.getByteImage(documentBackSide));
             userRepository.save(user);
             mm.put("message", "Cập nhật thông tin thành công");
         } catch (Exception e) {

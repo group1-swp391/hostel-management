@@ -45,7 +45,15 @@ public class BookingController {
     private BookingRepository bookingRepository;
 
     @RequestMapping(value = "/{id}")
-    public String bookingSite(@PathVariable("id") int id, ModelMap mm) {
+    public String bookingSite(@PathVariable("id") int id, ModelMap mm, HttpSession session) {
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+
+        if (accSession != null) {
+            mm.put("fullName", accSession.getFullName());
+            mm.put("email", accSession.getEmail());
+            mm.put("phone", accSession.getPhone());
+
+        }
         Room room = roomRepository.findById(id).get();
         mm.put("room", room);
         return "booking";
@@ -71,7 +79,7 @@ public class BookingController {
             booking = bookingRepository.save(booking);
             if (booking != null)
                 mm.put("message", "Create success booking id : " + booking.getBookingId());
-            return bookingSite(roomId,mm);
+            return bookingSite(roomId,mm, session);
         }else {
             mm.put("message", "Need login first!");
 
@@ -100,7 +108,7 @@ public class BookingController {
         }
         mm.put("listBooking",bookings2);
 
-        return "bookingList";
+        return "historybooking";
     }
 
 

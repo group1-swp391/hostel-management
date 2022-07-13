@@ -46,9 +46,35 @@ public class InvoiceController {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    @RequestMapping(value = "detail-invoice")
+    public String invoiceDetail() {
+        return "detailHistory";
+    }
+
     @RequestMapping(value = "")
     public String getInvoiceSite(ModelMap mm, HttpSession session) {
         return getAllInvoices(mm, session);
+    }
+
+    @RequestMapping(value = "/{invoiceId}")
+    public String getInvoiceDetails(
+            @PathVariable(value="invoiceId") int invoiceId,
+            ModelMap mm,
+            HttpSession session) {
+
+        Invoice invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + invoiceId));
+
+        Collection<RoomCharge> roomCharges = invoice.getRoomChargesByInvoiceId();
+        Collection<UsedService> usedServices = invoice.getUsedServicesByInvoiceId();
+        Collection<UsedUtility> usedUtilities = invoice.getTblUsedUtilitiesByInvoiceId();
+
+        mm.put("invoice", invoice);
+        mm.put("roomCharges", roomCharges);
+        mm.put("usedServices", usedServices);
+        mm.put("usedUtilities", usedUtilities);
+
+        return "invoice";
     }
 
     @RequestMapping(value = "getAllInvoice")

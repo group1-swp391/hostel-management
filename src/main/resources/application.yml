@@ -11,5 +11,7 @@
 #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 #
 #server:
-#  port: 9191
+
+#  port: 80
+
 

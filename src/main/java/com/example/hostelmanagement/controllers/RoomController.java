@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = {"api/v1/host/","api/v1/host/room"})
+@RequestMapping(value ="api/v1/room")
 public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
@@ -38,20 +39,8 @@ public class RoomController {
         return roomTypes;
     }
 
-    @RequestMapping(value = "add-room")
-    public String addroomSite(ModelMap mm, HttpSession session) {
-        User accSession = (User) session.getAttribute("LOGIN_USER");
-        if (accSession == null) {
-            return "login";
-        }
-        int owner = accSession.getUserId();
-        mm.put("roomTypes", getRoomTypes(owner));
-        return "addroom";
-    }
-
     @PostMapping(value = "insert")
-    public String insertRoom(RedirectAttributes redirectAttributes, @RequestParam int roomNumber,
-                             @RequestParam int typeId, @RequestParam Part image) throws IOException {
+    public String insertRoom(RedirectAttributes redirectAttributes, @RequestParam int roomNumber, @RequestParam int typeId, @RequestParam Part image) throws IOException {
         //Check authorization
         Room room = Room.builder()
                 .roomNumber(roomNumber)
@@ -101,7 +90,7 @@ public class RoomController {
                 .forEach(hostel -> hostel.getRoomTypesByHostelId().forEach(roomType -> rooms.addAll(roomType.getRoomsByTypeId())));
         mm.put("rooms", rooms);
         mm.put("roomTypes", getRoomTypes(owner));
-        return "hostpage";
+        return "adroom";
     }
     @ResponseBody
     @GetMapping("image/{id}")

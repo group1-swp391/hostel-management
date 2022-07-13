@@ -24,6 +24,9 @@ public class Invoice {
     @Column(name = "roomID")
     private int roomId;
     @Basic
+    @Column(name = "userID")
+    private Integer userId;
+    @Basic
     @Column(name = "invoiceName")
     private String invoiceName;
     @Basic
@@ -44,6 +47,10 @@ public class Invoice {
     @Basic
     @Column(name = "paymentDate")
     private Timestamp paymentDate;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userID", referencedColumnName = "userID", insertable = false, updatable = false)
+    private User usersByUserId;
     @ManyToOne
     @JoinColumn(name = "roomID", referencedColumnName = "roomID", insertable = false, updatable = false)
     private Room roomByRoomId;
@@ -51,8 +58,8 @@ public class Invoice {
     private Collection<UsedService> usedServicesByInvoiceId;
     @OneToMany(mappedBy = "invoiceByInvoiceId")
     private Collection<UsedUtility> tblUsedUtilitiesByInvoiceId;
-//    @OneToMany(mappedBy = "invoiceByInvoiceId")
-//    private Collection<RoomCharge> roomChargesByInvoiceId;
+    @OneToMany(mappedBy = "invoiceByInvoiceId")
+    private Collection<RoomCharge> roomChargesByInvoiceId;
 
 
 }
