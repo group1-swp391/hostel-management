@@ -8,7 +8,9 @@ import com.example.hostelmanagement.repositories.RoomTypeRepository;
 import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +23,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping(value = "api/v1/RoomType")
+@RequestMapping(value = "api/v1/room-type")
 public class RoomTypeController {
     @Autowired
     private RoomTypeRepository roomTypeRepository;
@@ -32,28 +34,11 @@ public class RoomTypeController {
         List<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(userId);
         return hostels;
     }
-    @RequestMapping(value = "add-room-type")
-    public String addroomTypeSite(ModelMap mm, HttpSession session) {
-        User accSession = (User) session.getAttribute("LOGIN_USER");
-        if (accSession == null) {
-            return "/api/v1/user/login";
-        }
-        int owner = accSession.getUserId();
-        mm.put("hostels", getHostels(owner));
-        return "addroomtype";
-    }
 
     @PostMapping(value = "insert")
-    public String insertRoomType(ModelMap mm, @RequestParam int hostelId, @RequestParam String roomName,
-                                 @RequestParam double price, @RequestParam double depositPrice) {
-        RoomType roomType = RoomType.builder()
-                .hostelId(hostelId)
-                .roomName(roomName)
-                .roomTypeStatus(true)
-                .price(price)
-                .depositPrice(depositPrice)
-                .build();
-        roomTypeRepository.save(roomType);
+    public String insertRoomType(ModelMap mm, RoomType roomTypeObj) {
+        roomTypeObj.setRoomTypeStatus(true);
+        roomTypeRepository.save(roomTypeObj);
 
         mm.put("message", "Thêm loại phòng thành công");
         return "redirect:";
@@ -90,7 +75,7 @@ public class RoomTypeController {
     }
 
     @RequestMapping(value = "/")
-    public String getAllRoomType(ModelMap mm, HttpSession session) {
+    public String getAllRoomType(Model model,ModelMap mm, HttpSession session) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             mm.put("message", "Need login first");
@@ -102,6 +87,24 @@ public class RoomTypeController {
                 .forEach(hostel -> roomTypes.addAll(hostel.getRoomTypesByHostelId()));
         mm.put("roomTypes", roomTypes);
         mm.put("hostels", getHostels(owner));
+        model.addAttribute("roomTypeObj", new RoomType());
+        return "roomtype";
+    }
+    @RequestMapping(value = "hostel/{id}")
+    public String getAllRoomTypeByHostel(@PathVariable("id") int id, Model model, ModelMap mm, HttpSession session) {
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            mm.put("message", "Need login first");
+            return "/api/v1/user/login";
+        }
+        int owner = accSession.getUserId();
+        List<RoomType> roomTypes = new ArrayList<>();
+
+        Hostel hostel = hostelRepository.findById(id).get();
+        roomTypes.addAll(hostel.getRoomTypesByHostelId());
+        mm.put("roomTypes", roomTypes);
+        mm.put("hostels", getHostels(owner));
+        model.addAttribute("roomTypeObj", new RoomType());
         return "roomtype";
     }
 }

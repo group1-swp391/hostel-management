@@ -31,7 +31,14 @@ public class RentRoomController {
         rooms.forEach(room -> Utils.putPriceAndTypeNameToRoom(roomTypeRepository, room));
         mm.put("rooms", rooms);
 
-        return "rentroom";
+        return "room";
+    }
+    @GetMapping(value = {"list-room"})
+    public String getAllRooms(ModelMap mm) {
+        List<Room> rooms = roomRepository.findAllByRoomStatus(true);
+        mm.put("rooms", rooms);
+
+        return "room";
     }
 
     @GetMapping(value = "/{id}/info-room")
@@ -41,7 +48,6 @@ public class RentRoomController {
         if (room != null) {
             mm.put("room", room);
         }
-        return "inforoom";
+        return "detail";
     }
-
 }

@@ -1,177 +1,64 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>Đăng nhập | HOMETRO</title>
-  <meta name="description" content="" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- favicon -->
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link
-          href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
-          rel="stylesheet">
-  <!-- icofont -->
-  <link rel="stylesheet" href="css/icofont.min.css" />
-  <!-- Slick slider -->
-  <link rel="stylesheet" href="css/slick.css" />
-  <link rel="stylesheet" href="css/slick-theme.css" />
-  <!-- bootstrap -->
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <!-- Style css-->
-  <link rel="stylesheet" href="css/style.css" />
-  <!-- Responsive css-->
-  <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" />
+  <meta th:replace="~{hostpage :: meta}">
+  <title>Hoá đơn</title>
+  <link th:replace="~{hostpage :: link}">
 </head>
-
 <body>
-
-<header id="full_nav">
-  <div class="header">
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="index.html">
-          <img src="img/logo.png" alt="">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="icofont icofont-navigation-menu"></i>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mx-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="thuephong.html" style="color:white">Thuê phòng</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="dangnhap.html" style="color:white">Đăng nhập</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="dangki.html" style="color:white">Đăng kí</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="user.html" style="color:white"> Giành cho người thuê</a>
-            </li>
-
-          </ul>
-        </div>
-        <form>
-          <input type="text" name="search" placeholder="Search..">
-        </form>
-      </nav>
-    </div>
-  </div>
-</header>
-
-
-<div class="container" style="margin-top:150px;">
-  <div class="card">
-    <div class="card-header">
-      <p>Hóa đơn</p>
-
-
-      <span class="float-right"> <strong th:text="${invoice.paymentStatus == true} ? 'Trạng thái: Đã thanh toán' : 'Trạng thái: Chưa thanh toán'"></strong></span>
-    </div>
-    <div class="card-body">
-      <div class="row mb-4">
-        <div class="col-sm-6">
-          <h6 class="mb-3">From:</h6>
-          <div>
-            <strong></strong>
-          </div>
-          <div>Email: </div>
-          <div>Phone: </div>
-        </div>
-
-        <div class="col-sm-6">
-          <h6 class="mb-3">To:</h6>
-          <div>
-            <strong></strong>
-          </div>
-
-          <div></div>
-          <div th:text="'Room ' + ${invoice.roomId}"> </div>
-          <div th:text="${invoice.note}"> </div>
-          <div th:text="'Ngày tạo ' + ${invoice.invoiceCreateDate}"> </div>
-
-          <div>Email: </div>
-          <div>Phone: </div>
-
-          <form th:action="@{/api/v1/Payment/{invoiceId}(invoiceId=${invoice.invoiceId})}"  method="POST">
-            <button type="submit" class="btn btn-outline-primary">Thanh toán</button>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+  <!-- Spinner Start -->
+  <div th:replace="~{hostpage :: div#spinner}"></div>
+  <!-- Spinner End -->
+  <!-- Sidebar Start -->
+  <div th:replace="~{hostpage :: div.sidebar}"></div>
+  <!-- Sidebar End -->
+  <!-- Content Start -->
+  <div class="content">
+    <!-- Navbar Start -->
+    <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
+    <!-- Navbar End -->
+    <!-- Recent Sales Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <form action="">
+            <button class="btn btn-warning">Nhà trọ 1</button>
+            <button class="btn btn-warning">Nhà trọ 2</button>
           </form>
         </div>
-      </div>
-
-      <div class="table-responsive-sm">
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th class="center">#</th>
-            <th>Dịch Vụ</th>
-            <!-- <th>Description</th> -->
-
-            <th class="right">Giá</th>
-            <th class="center">Số Lượng</th>
-            <th class="right">Tổng</th>
-          </tr>
-          </thead>
-          <tbody>
-
-          <tr th:each="row,task : ${roomCharges}">
-
-            <td class="center" th:text="${task.index + 1}"></td>
-            <td class="left strong">Tiền phòng</td>
-            <td class="right"  th:text="${row.price}"></td>
-            <td></td>
-            <td class="right"  th:text="${row.price}"></td>
-          </tr>
-
-          <tr th:each="row,task : ${usedUtilities}">
-            <td class="center" th:text="${task.index + 1}"></td>
-            <td class="left strong" th:text="${row.utilityTypeByUtilityTypeId.utilityName}"></td>
-            <!-- <td class="left">Extended License</td> -->
-            <td class="right"  th:text="${row.pricePerIndex}"></td>
-            <td class="center"  th:text="'Cũ: ' + ${row.oldIndex} +  ' - Mới: ' + ${row.newIndex} + ' - Sử dụng: ' + ${row.newIndex - row.oldIndex}" > </td>
-            <td class="right"  th:text="${row.pricePerIndex*(row.newIndex - row.oldIndex)}"></td>
-          </tr>
-
-          <tr th:each="row,task : ${usedServices}">
-            <td class="center" th:text="${task.index + 1}"></td>
-            <td class="left strong" th:text="${row.serviceTypeByServicetypeId.serviceName}"></td>
-            <td class="right"  th:text="${row.price}"></td>
-            <td class="center"  th:text="${row.usedQuantity}"></td>
-            <td class="right"  th:text="${row.price*row.usedQuantity}"></td>
-          </tr>
-
-          </tbody>
-        </table>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 col-sm-5"></div>
-
-        <div class="col-lg-4 col-sm-5 ml-auto">
-          <table class="table table-clear">
-            <tbody>
-            <tr>
-              <td class="left">
-                <strong>Tổng Cộng</strong>
-              </td>
-              <td class="right" th:text="${invoice.totalAmount}"> </td>
-            </tr>
-            </tbody>
-          </table>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Hoá đơn các phòng</h6>
+        </div>
+        <div class="table-responsive">
+          <form action="invoicedetail.html">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+              <thead>
+              <tr class="text-dark">
+                <th scope="col">Số phòng</th>
+                <th scope="col">Người thuê trọ</th>
+                <th scope="col">Tuỳ chọn</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>123</td>
+                <td>Phạm Phú Hưng</td>
+                <td>
+                  <button class="btn btn-success fa-solid fa-file-invoice"></button>
+                  <button class="btn btn-danger fa-solid fa-trash"></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- JavaScript Libraries -->
+<th:block th:insert="~{hostpage :: script}"></th:block>
 </body>
 
 </html>

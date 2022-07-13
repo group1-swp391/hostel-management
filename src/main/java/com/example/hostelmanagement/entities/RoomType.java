@@ -43,6 +43,10 @@ public class RoomType {
     @OneToMany(mappedBy = "roomTypeByTypeId")
     @Where(clause = "roomStatus = 1")
     private Collection<Room> roomsByTypeId;
+
+    @OneToMany(mappedBy = "roomTypeByTypeId")
+    @Where(clause = "roomStatus = 1 AND UserID IS NULL")
+    private Collection<Room> roomsEmpty;
     @ManyToOne
     @JoinColumn(name = "hostelID", referencedColumnName = "hostelID", insertable = false, updatable = false)
     private Hostel hostelByHostelId;

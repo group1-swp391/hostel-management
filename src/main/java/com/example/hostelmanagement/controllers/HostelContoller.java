@@ -7,6 +7,7 @@ import com.example.hostelmanagement.repositories.HostelRepository;
 import com.example.hostelmanagement.repositories.UtilityTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +17,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
-@RequestMapping(value = "api/v1/hostel")
+@RequestMapping(value = {"api/v1/hostel","api/v1/host"})
 public class HostelContoller {
     @Autowired
     private HostelRepository hostelRepository;
     @Autowired
     private UtilityTypeRepository utilityTypeRepository;
     @RequestMapping(value = "/")
-    public String getAllHostel(ModelMap mm, HttpSession session) {
+    public String getAllHostel(Model model, ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute("LOGIN_USER");
         List<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(user.getUserId());
         hostels.forEach(hostel -> {
@@ -31,28 +32,23 @@ public class HostelContoller {
             hostel.getRoomTypesByHostelId().forEach(roomType -> roomNumber.addAndGet(roomType.getRoomsByTypeId().size()));
             hostel.setRoomNumber(roomNumber.get());
         });
-
+        model.addAttribute("hostelObj", new Hostel());
         mm.put("hostels", hostels);
-        return "hostel";
+        return "hostpage";
     }
 
     @PostMapping(value = "insert")
-    public String createHostel(@RequestParam String address,
-                               @RequestParam String hostelName,
+    public String createHostel(Hostel hostelObj,
                                @RequestParam double electricityValue,
                                @RequestParam double waterValue,
                                ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute("LOGIN_USER");
-        Hostel hostel = Hostel.builder()
-                .ownerHostelId(user.getUserId())
-                .hostelName(hostelName)
-                .address(address)
-                .hostelStatus(true)
-                .build();
-        hostelRepository.save(hostel);
+        hostelObj.setOwnerHostelId(user.getUserId());
+        hostelObj.setHostelStatus(true);
+        hostelRepository.save(hostelObj);
         utilityTypeRepository.saveAll(List.of(
-            UtilityType.builder().utilityName("Dien").hostelId(hostel.getHostelId()).pricePerIndex(electricityValue).build(),
-            UtilityType.builder().utilityName("Nuoc").hostelId(hostel.getHostelId()).pricePerIndex(waterValue).build()
+            UtilityType.builder().utilityName("Dien").hostelId(hostelObj.getHostelId()).pricePerIndex(electricityValue).build(),
+            UtilityType.builder().utilityName("Nuoc").hostelId(hostelObj.getHostelId()).pricePerIndex(waterValue).build()
                 ));
         mm.put("message",  "Thêm nhà trọ thành công");
         return "redirect:";

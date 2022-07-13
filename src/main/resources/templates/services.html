@@ -1,216 +1,156 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta th:replace="~{hostpage :: meta}">
     <title>Dịch vụ</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <!-- Template Stylesheet -->
-    <link th:href="@{/css/hoststyle.css}" rel="stylesheet">
+    <link th:replace="~{hostpage :: link}">
 </head>
-
 <body>
 <div class="container-xxl position-relative bg-white d-flex p-0">
     <!-- Spinner Start -->
-<!--    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">-->
-<!--        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">-->
-<!--            <span class="sr-only">Loading...</span>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div th:replace="~{hostpage :: div#spinner}"></div>
     <!-- Spinner End -->
-
-
     <!-- Sidebar Start -->
-    <div th:insert="~{hostpage :: div.fragment-1}"></div>
+    <div th:replace="~{hostpage :: div.sidebar}"></div>
     <!-- Sidebar End -->
-
-
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
-        <div th:insert="~{hostpage :: div.fragment-2}"></div>
+        <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
         <!-- Navbar End -->
-
-
         <!-- Table Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <form action="/api/v1/hometro/addservices">
-                    <button type="submit" class="btn btn-info">Thêm dịch vụ</button>
-                </form>
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal3">Thêm dịch vụ</button>
+                <div class="modal" id="myModal3">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5>Thêm dịch vụ</h5>
+                                <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="form-floating mb-4">
+                                    <label>Tên dịch vụ</label>
+                                    <input type="text" class="form-control" placeholder="Tên dịch vụ">
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <label>Giá/tháng</label>
+                                    <input type="text" class="form-control" placeholder="Giá">
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <label>Ngày bắt đầu</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">Huỷ</button>
+                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+            <div class="row g-4">
+                <div class="col-sm-12 col-xl-4">
+                    <div class="bg-light rounded h-100 p-4">
+
+                        <form action="">
+                            <h5>Wifi</h5>
+                            <h6>Giá: 100.000/tháng/phòng</h6>
+                            <div>
+                                <button type="button" class="btn btn-info fa-solid fa-edit" data-bs-toggle="modal" data-bs-target="#myModal4"></button>
+                                <div class="modal" id="myModal4">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h5>Cập nhật dịch vụ</h5>
+                                                <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="form-floating mb-4">
+                                                    <label>Tên dịch vụ</label>
+                                                    <input type="text" class="form-control" value="Wifi" readonly>
+                                                </div>
+                                                <div class="form-floating mb-4">
+                                                    <label>Giá cũ</label>
+                                                    <input type="number" class="form-control" value="100.000" readonly>
+                                                </div>
+                                                <div class="form-floating mb-4">
+                                                    <label>Giá mới</label>
+                                                    <input type="number" class="form-control" value="70.000" min="1">
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-danger">Huỷ</button>
+                                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn  btn-danger fa-solid fa-trash"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4 row">
+                <div class="col-md-8">
+                    <input type="text" id="search" class="form-control" placeholder="Tìm dịch vụ của phòng theo tên nhà trọ hoặc mã phòng">
+                </div>
+                <br></br>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                         <tr class="text-dark">
-                            <th scope="col" style="width: 250px;">Tên nhà trọ</th>
-                            <th scope="col">Mã dịch vụ</th>
-                            <th scope="col">Tên dịch vụ</th>
-                            <th scope="col" style="width: 110px;">Giá</th>
-
-                            <th scope="col">Thao tác</th>
-
+                            <th scope="col" style="width: 220px;">Tên nhà trọ</th>
+                            <th scope="col" style="width: 110px;">Mã phòng</th>
+                            <th scope="col" style="width: 150px;">Ngày bắt đầu</th>
+                            <th scope="col" style="width: 150px;">Ngày kết thúc</th>
+                            <th scope="col" style="width: 170px;">Tên dịch vụ</th>
+                            <th scope="col" style="width: 120px;">Giá</th>
+                            <th scope="col" style="width: 70px;">Lưu</th>
                         </tr>
                         </thead>
                         <tbody id="services">
-                        <tr th:each="service : ${services}" class="timkiem rac wifi giuxe">
-                                <td class="tennhatro" th:text="${service.hostelByHostelId.hostelName}"></td>
-                                <td th:text="${service.serviceTypeId}"></td>
-                                <td th:text="${service.serviceName}"></td>
-                                <td th:text="${service.price}"></td>
+                        <tr class="timkiem">
+                            <form action="">
+                                <td class="tennhatro">Nhà trọ CNC</td>
+                                <td class="maphong" style="width: 130px;">01</td>
+                                <td><input type="date" style="border: 1px solid #93E0E7; width: 130px;"></td>
+                                <td><input type="date" style="border: 1px solid #93E0E7; width: 130px;"></td>
+
+                                <td>
+                                    <input type="text" value="Rác" readonly style="text-align: center; width: 150px;">
+                                </td>
+                                <td>
+                                    <input type="text" value="100.000" readonly style= "text-align: center; width: 100px;">
+                                </td>
                                 <td>
                                     <button class="btn btn-primary fa-solid fa-save"></button>
                                 </td>
+                            </form>
                         </tr>
-
                         </tbody>
-
                     </table>
                 </div>
-            </div>
-</div>
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-light text-center rounded p-4 row">
-                <!-- <div class="d-flex align-items-center justify-content-between mb-4">
-                    <form action="">
-                        <div>
-                            <button class="btn btn-warning">Nhà trọ 1</button>
-                            <button class="btn btn-warning">Nhà trọ 2</button>
-                        </div>
-                    </form>
-                </div> -->
-                <div class="col-md-8">
-                    <input type="text" id="search" class="form-control" placeholder="Tìm dịch vụ của phòng theo tên nhà trọ hoặc mã phòng">
-                </div>
-<!--                <div class="col-md-4">-->
-<!--                    <div class="btn-group" role="group" aria-label="Basic example">-->
-<!--                        <button type="button" id="all" class="btn btn-warning">Tất cả</button>-->
-<!--                        <button type="button" id="wifi" class="btn btn-info">Wifi</button>-->
-<!--                        <button type="button" id="giuxe" class="btn btn-success">Giữ xe</button>-->
-<!--                        <button type="button" id="rac" class="btn btn-primary">Rác</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <br></br>
-                <!-- <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Dịch vụ các phòng</h6>
-                </div> -->
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                            <tr class="text-dark">
-                                <th scope="col">ID</th>
-                                <th scope="col">Tên nhà trọ</th>
-                                <th scope="col">Mã phòng</th>
-                                <th scope="col">Ngày bắt đầu</th>
-                                <th scope="col">Ngày kết thúc</th>
-                                <th scope="col">Dịch vụ sử dụng</th>
-                                <th scope="col">Số lượng</th>
-                                <th scope="col">Tiền</th>
-                                <th scope="col">Mã hóa đơn</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="row : ${usedServices}">
-                                <td th:text="${row.usedServiceId}"></td>
-                                <td th:text="${row.serviceTypeByServicetypeId.hostelByHostelId.hostelName}"></td>
-                                <td th:text="${row.roomId}"></td>
-                                <td th:text="${#dates.format(row.startDate, 'dd-MM-yyyy')}"></td>
-                                <td th:text="${#dates.format(row.endDate, 'dd-MM-yyyy')}"></td>
-                                <td th:text="${row.serviceTypeByServicetypeId.serviceName}"></td>
-                                <td th:text="${row.usedQuantity}"></td>
-                                <td th:text="${row.price}"></td>
-                                <td th:text="${row.invoiceId == null} ? 'Chưa xuất hoá đơn' : (${row.InvoiceId}  + ' - ' + (${row.invoiceByInvoiceId.paymentStatus == true} ? 'Đã thanh toán' : 'Chưa thanh toán'))"></td>
-
-                            </tbody>
-                        </table>
-
-
-
-                        <div class="modal fade" id="myModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Thêm dịch vụ</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        <form method="post">
-                                            <div class="mb-3">
-                                            <label for="inpputroomId" class="col-form-label">ID Phòng</label>
-                                            <input type="number" name="roomId" id="inpputroomId">
-                                            </div>
-                                            <div class="mb-3">
-                                            <label for="startDate" class="col-form-label">Ngày bắt đầu</label>
-                                            <input type="date"  class="form-control" name="startDate" id="startDate">
-                                            </div>
-                                            <div class="mb-3">
-                                            <label for="endDate" class="col-form-label">Ngày kết thúc</label>
-                                            <input type="date"  class="form-control" name="endDate" id="endDate">
-                                            </div>
-                                            <div class="mb-3">
-                                            <label for="servicetypeId" class="col-form-label">Mã dịch vụ</label>
-                                            <input type="number" class="form-control"  name="servicetypeId" id="servicetypeId" >
-                                            </div>
-                                            <div class="mb-3">
-                                            <label for="usedQuantity" class="col-form-label">Số lượng sử dụng</label>
-                                            <input type="number"  class="form-control" name="usedQuantity" id="usedQuantity" >
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button formaction="/api/v1/service/insert-used-service" type="submit" class="btn btn-primary fa-solid fa-save"></button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <!-- Modal footer -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-
-
-
             </div>
         </div>
     </div>
     <!-- Content End -->
-
-
 </div>
-
 <!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/chart/chart.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/tempusdominus/js/moment.min.js"></script>
-<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
+<th:block th:insert="~{hostpage :: script}"></th:block>
 <script>
     $(document).ready(function () {
         var $btns = $('.btn').click(function () {
@@ -234,5 +174,4 @@
     })
 </script>
 </body>
-
 </html>

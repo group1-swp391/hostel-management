@@ -46,6 +46,11 @@ public class InvoiceController {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    @RequestMapping(value = "detail-invoice")
+    public String invoiceDetail() {
+        return "detailHistory";
+    }
+
     @RequestMapping(value = "")
     public String getInvoiceSite(ModelMap mm, HttpSession session) {
         return getAllInvoices(mm, session);

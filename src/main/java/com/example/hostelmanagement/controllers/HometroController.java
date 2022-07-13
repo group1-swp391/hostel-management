@@ -12,16 +12,15 @@ public class HometroController {
         return "user";
     }
 
-    @RequestMapping(value = "to-rentroom")
+    @RequestMapping(value = "to-room")
     public String rentRoomSite() {
-        return "redirect:/api/v1/rentroom/";
+        return "redirect:/api/v1/rentroom/list-room";
     }
 
     @RequestMapping(value = "money")
-    public String moneySite() { return "money"; }
-
-    @RequestMapping(value = "service")
-    public String serviceSite() { return "redirect:/api/v1/service/"; }
+    public String moneySite() {
+        return "money";
+    }
 
     @RequestMapping(value = "info")
     public String roomInfo() {
@@ -29,29 +28,15 @@ public class HometroController {
     }
 
     @RequestMapping(value = "invoice")
-    public String historySite() { return "redirect:/api/v1/invoice/"; }
+    public String historySite() {
+        return "redirect:/api/v1/invoice/";
+    }
 
     @RequestMapping(value = "roomcharge")
-    public String getRoomChargeSite() { return "redirect:/api/v1/roomcharge/"; }
-
-    @RequestMapping(value = "electricity")
-    public String electricitySite() { return "redirect:/api/v1/used-utility/dien"; }
-
-    @RequestMapping(value = "water")
-    public String waterSite() { return "redirect:/api/v1/used-utility/nuoc"; }
-
-    @RequestMapping(value = "addroom")
-    public String addRoomSite() {return "redirect:/api/v1/host/room/add-room";}
-
-    @RequestMapping(value = "addhostel")
-    public String addHostelSite() {return "addhostel";}
-
-    @RequestMapping(value = "addroomtype")
-    public String addRoomTypeSite() {return "redirect:/api/v1/RoomType/add-room-type";}
-
-    @RequestMapping(value = "addservices")
-    public String addServiceSite() {return "redirect:/api/v1/service/add-service";}
-
-    @RequestMapping(value = "updateservices")
-    public String updateServiceSite() {return "redirect:/api/v1/service/update-service";}
+    public String getRoomChargeSite() {
+        return "redirect:/api/v1/roomcharge/";
+    }
+    @RequestMapping(value = "history-booking")
+    public String historyBookingSite(){ return "redirect:/api/v1/booking/"; }
 }
+
