@@ -4,6 +4,7 @@
     <meta th:replace="~{hostpage :: meta}">
     <title>Loại phòng</title>
     <link th:replace="~{hostpage :: link}">
+    <link rel="stylesheet" href="/richtext/richtext.min.css"/>
     <style>
         #textEditor {
             margin: 0;
@@ -201,10 +202,10 @@
 </div>
 <!-- JavaScript Libraries -->
 <th:block th:insert="~{hostpage :: script}"></th:block>
-
+<script src="/richtext/jquery.richtext.min.js"></script>
 <script>
-    $('#content').summernote({
-        height: 200
+    $(document).ready(function () {
+        $('#content').richText();
     });
 </script>
 <script>

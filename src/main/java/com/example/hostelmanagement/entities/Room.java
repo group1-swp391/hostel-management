@@ -28,6 +28,9 @@ public class Room {
     @Column(name = "typeID")
     private int typeId;
     @Basic
+    @Column(name = "description")
+    private String description;
+    @Basic
     @Column(name = "image")
     private byte[] image;
     @Basic

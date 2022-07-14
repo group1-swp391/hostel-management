@@ -4,6 +4,9 @@
     <meta th:replace="~{hostpage :: meta}">
     <title>Trang chính</title>
     <link th:replace="~{hostpage :: link}">
+    <link rel="stylesheet" href="/richtext/richtext.min.css"/>
+<!--    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+
 </head>
 <body>
 <div class="container-xxl position-relative bg-white d-flex p-0">
@@ -62,6 +65,10 @@
                                                 <img src="" alt="Image Preview" class="image-preview__image">
                                                 <span class="image-preview__default-text">Hình phòng</span>
                                             </div>
+                                        </div>
+                                        <div class="form-floating mb-4">
+                                            <label>Mô tả</label>
+                                            <textarea class="form-control" id="describe" name="description"></textarea>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Xác nhận</button>
@@ -272,6 +279,8 @@
 <th:block th:insert="~{hostpage :: script}"></th:block>
 <script>
     $(document).ready(function () {
+        $('#describe').richText();
+
         $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $("#myTable tr").filter(function () {
@@ -280,5 +289,6 @@
         });
     });
 </script>
+<script src="/richtext/jquery.richtext.min.js"></script>
 </body>
 </html>

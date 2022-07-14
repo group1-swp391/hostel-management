@@ -40,11 +40,12 @@ public class RoomController {
     }
 
     @PostMapping(value = "insert")
-    public String insertRoom(RedirectAttributes redirectAttributes, @RequestParam int roomNumber, @RequestParam int typeId, @RequestParam Part image) throws IOException {
+    public String insertRoom(RedirectAttributes redirectAttributes, @RequestParam int roomNumber, @RequestParam int typeId, @RequestParam Part image, @RequestParam String description) throws IOException {
         //Check authorization
         Room room = Room.builder()
                 .roomNumber(roomNumber)
                 .typeId(typeId)
+                .description(description)
                 .roomStatus(true)
                 .build();
         if (image.getSize()>0) room.setImage(Utils.getByteImage(image));
@@ -65,11 +66,12 @@ public class RoomController {
 
     @PostMapping(value = "update")
     public String updateRoom(RedirectAttributes redirectAttributes, @RequestParam int roomId, @RequestParam int roomNumber,
-                             @RequestParam int typeId , @RequestParam Part image) throws IOException {
+                             @RequestParam int typeId , @RequestParam Part image, @RequestParam String description) throws IOException {
        //Check authorization
         Room room = roomRepository.findById(roomId).get();
         room.setRoomNumber(roomNumber);
         room.setTypeId(typeId);
+        room.setDescription(description);
         if (image.getSize()>0) room.setImage(Utils.getByteImage(image));
         roomRepository.save(room);
         redirectAttributes.addFlashAttribute("message","Cập nhật phòng thành công");
