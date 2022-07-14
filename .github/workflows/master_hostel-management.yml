@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - master
+      - devfe
   workflow_dispatch:
 
 jobs:
@@ -19,7 +20,7 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
-          java-version: '8'
+          java-version: '9'
 
       - name: Build with Maven
         run: mvn clean install
