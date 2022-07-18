@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta th:replace="~{hostpage :: meta}">
     <title>Dịch vụ</title>
@@ -19,35 +19,44 @@
         <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
         <!-- Navbar End -->
         <!-- Table Start -->
+
         <div class="container-fluid pt-4 px-4">
+            <div th:if="${messages != '' && messages != null}"><div th:text="${messages}" class="alert alert-primary" role="alert"> </div></div>
+            <div th:if="${flashAttr != '' && flashAttr != null}"><div th:text="${flashAttr}" class="alert alert-primary" role="alert"> </div></div>
+
             <div class="d-flex align-items-center justify-content-between mb-4">
+                <form>
+                    <button th:each="hostel: ${hostels}" type="submit" th:text="${hostel?.hostelName}" th:formaction="${'/api/v1/service/hostel/'+hostel?.hostelId}" class="btn btn-warning"></button>
+                </form>
+
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal3">Thêm dịch vụ</button>
                 <div class="modal" id="myModal3">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5>Thêm dịch vụ</h5>
-                                <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                                <button type="button"  class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                             </div>
 
                             <div class="modal-body">
+
+                                <form id="formInsert" th:action="@{/api/v1/service/insert-type}" method="post">
+                                    <input type="hidden" name="hostelId" th:value="${hostel?.hostelId}">
+
                                 <div class="form-floating mb-4">
                                     <label>Tên dịch vụ</label>
-                                    <input type="text" class="form-control" placeholder="Tên dịch vụ">
+                                    <input name="serviceName" type="text" class="form-control" placeholder="Tên dịch vụ">
                                 </div>
-                                <div class="form-floating mb-4">
-                                    <label>Giá/tháng</label>
-                                    <input type="text" class="form-control" placeholder="Giá">
-                                </div>
-                                <div class="form-floating mb-4">
-                                    <label>Ngày bắt đầu</label>
-                                    <input type="date" class="form-control">
-                                </div>
-                            </div>
 
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger">Huỷ</button>
-                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                <div class="form-floating mb-4">
+                                    <label>Giá</label>
+                                    <input name="price" type="text" class="form-control" placeholder="Giá">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                </div>
+                            </form>
                             </div>
                         </div>
 
@@ -57,101 +66,73 @@
             <div class="row g-4">
                 <div class="col-sm-12 col-xl-4">
                     <div class="bg-light rounded h-100 p-4">
-
-                        <form action="">
-                            <h5>Wifi</h5>
-                            <h6>Giá: 100.000/tháng/phòng</h6>
+                        <div th:each="serviceType: ${serviceTypes}">
+                            <form id="formUpdate"  method="post">
+                            <h5 th:text="${serviceType.serviceName}"></h5>
+                            <h6 th:text="'Giá: ' + ${serviceType.price}"> </h6>
                             <div>
-                                <button type="button" class="btn btn-info fa-solid fa-edit" data-bs-toggle="modal" data-bs-target="#myModal4"></button>
-                                <div class="modal" id="myModal4">
+                                <button type="button" class="btn btn-info fa-solid fa-edit" data-bs-toggle="modal" th:data-bs-target="'#myModalUpdate' + ${serviceType.serviceTypeId}"></button>
+                                 <div class="modal" th:id="'myModalUpdate'+${serviceType.serviceTypeId}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-
                                             <div class="modal-header">
                                                 <h5>Cập nhật dịch vụ</h5>
                                                 <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                                             </div>
-
                                             <div class="modal-body">
+                                                <input name="serviceTypeId" type="hidden" class="form-control" th:value="${serviceType.serviceTypeId}">
                                                 <div class="form-floating mb-4">
                                                     <label>Tên dịch vụ</label>
-                                                    <input type="text" class="form-control" value="Wifi" readonly>
+                                                    <input name="serviceName" type="text" class="form-control" th:value="${serviceType.serviceName}">
                                                 </div>
+
                                                 <div class="form-floating mb-4">
-                                                    <label>Giá cũ</label>
-                                                    <input type="number" class="form-control" value="100.000" readonly>
-                                                </div>
-                                                <div class="form-floating mb-4">
-                                                    <label>Giá mới</label>
-                                                    <input type="number" class="form-control" value="70.000" min="1">
+                                                    <label>Giá: </label>
+                                                    <input name="price" type="text" class="form-control" th:value="${serviceType.price}" min="1">
                                                 </div>
                                             </div>
 
                                             <div class="modal-footer">
-                                                <button type="submit" class="btn btn-danger">Huỷ</button>
-                                                <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                                <button type="submit"  th:formaction="@{/api/v1/service/update-service-type}" class="btn btn-primary">Xác nhận</button>
                                             </div>
 
                                         </div>
+
                                     </div>
                                 </div>
-
-                                <button class="btn  btn-danger fa-solid fa-trash"></button>
+                                <button th:formaction="@{/api/v1/service/delete-service-type}" class="btn  btn-danger fa-solid fa-trash"></button>
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-light text-center rounded p-4 row">
-                <div class="col-md-8">
-                    <input type="text" id="search" class="form-control" placeholder="Tìm dịch vụ của phòng theo tên nhà trọ hoặc mã phòng">
-                </div>
-                <br></br>
-                <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
-                        <thead>
-                        <tr class="text-dark">
-                            <th scope="col" style="width: 220px;">Tên nhà trọ</th>
-                            <th scope="col" style="width: 110px;">Mã phòng</th>
-                            <th scope="col" style="width: 150px;">Ngày bắt đầu</th>
-                            <th scope="col" style="width: 150px;">Ngày kết thúc</th>
-                            <th scope="col" style="width: 170px;">Tên dịch vụ</th>
-                            <th scope="col" style="width: 120px;">Giá</th>
-                            <th scope="col" style="width: 70px;">Lưu</th>
-                        </tr>
-                        </thead>
-                        <tbody id="services">
-                        <tr class="timkiem">
-                            <form action="">
-                                <td class="tennhatro">Nhà trọ CNC</td>
-                                <td class="maphong" style="width: 130px;">01</td>
-                                <td><input type="date" style="border: 1px solid #93E0E7; width: 130px;"></td>
-                                <td><input type="date" style="border: 1px solid #93E0E7; width: 130px;"></td>
 
-                                <td>
-                                    <input type="text" value="Rác" readonly style="text-align: center; width: 150px;">
-                                </td>
-                                <td>
-                                    <input type="text" value="100.000" readonly style= "text-align: center; width: 100px;">
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary fa-solid fa-save"></button>
-                                </td>
-                            </form>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
+        <br><br>
+
+        <h6 class="mb-0">Danh sách thiết yếu</h6>
+        <div th:each="utilityType: ${utilityTypes}">
+        <div class="input-group input-group-sm mb-3">
+            <form th:action="@{/api/v1/utility-type/update}" method="post">
+            <span class="input-group-text" th:text="${utilityType.utilityName}"></span>
+            <input type="hidden" name="utilityTypeId" th:value="${utilityType.utilityTypeId}">
+            <input name="pricePerIndex" type="text" th:value="${utilityType.pricePerIndex}" class="form-control"  aria-describedby="button-addon2" >
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Lưu</button>
+        </div></div>
+
     </div>
     <!-- Content End -->
 </div>
 <!-- JavaScript Libraries -->
+
+
+
+
 <th:block th:insert="~{hostpage :: script}"></th:block>
 <script>
+
     $(document).ready(function () {
         var $btns = $('.btn').click(function () {
             if (this.id == 'all') {

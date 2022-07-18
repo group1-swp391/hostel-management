@@ -33,5 +33,4 @@ public class ServiceType {
 
     @OneToMany(mappedBy = "serviceTypeByServicetypeId")
     private Collection<UsedService> usedServicesByServiceTypeId;
-
 }

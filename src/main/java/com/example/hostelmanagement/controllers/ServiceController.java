@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ public class ServiceController {
                                     @RequestParam java.sql.Date endDate,
                                     @RequestParam int servicetypeId,
                                     @RequestParam int usedQuantity,
-                                    ModelMap mm) {
+                                    ModelMap mm,
+                                    RedirectAttributes redirectAttributes) {
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + roomId));
@@ -50,18 +52,18 @@ public class ServiceController {
         }
 
         UsedService usedService = UsedService.builder()
-                    .roomId(roomId)
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .usedQuantity(usedQuantity)
-                    .servicetypeId(servicetypeId)
-                    .price(price)
-                    .build();
+                                            .roomId(roomId)
+                                            .startDate(startDate)
+                                            .endDate(endDate)
+                                            .usedQuantity(usedQuantity)
+                                            .servicetypeId(servicetypeId)
+                                            .price(price)
+                                            .build();
 
         usedServiceRepository.save(usedService);
-        mm.put("message","Thêm dịch vụ sử dụng thành công ");
-
-        return "redirect:";
+        //mm.put("message","Thêm dịch vụ sử dụng thành công ");
+        redirectAttributes.addFlashAttribute("flashAttr","Thêm dịch vụ sử dụng thành công");
+        return "redirect:/api/v1/room/"+roomId;
     }
 
     @RequestMapping (value ="{usedServiceId}")
@@ -79,58 +81,68 @@ public class ServiceController {
 
     @PostMapping(value ="update-used-service")
     public String updateUsedService(@RequestParam int usedServiceId,
-                                    @RequestParam int roomId,
                                     @RequestParam java.sql.Date startDate,
                                     @RequestParam java.sql.Date endDate,
+                                    @RequestParam double price,
+                                    @RequestParam int servicetypeId,
                                     @RequestParam int usedQuantity,
                                     HttpSession session,
+                                    RedirectAttributes redirectAttributes,
                                     ModelMap mm) {
 
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room id: " + roomId));
         UsedService usedService = usedServiceRepository.findById(usedServiceId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid used service id: " + usedServiceId));
+        int roomId = usedService.getRoomId();
+
+        usedService.setServicetypeId(servicetypeId);
 
         if (endDate.before(startDate))  {
-            mm.put("message","Ngày kết thúc không được nhỏ ngày bắt đầu.");
-            return getAllServicesType(mm, session);
+            redirectAttributes.addFlashAttribute("flashAttr","Ngày kết thúc phải sau ngày bắt đầu!");
+            return "redirect:/api/v1/room/"+roomId;
         }
         usedService.setStartDate(startDate);
         usedService.setEndDate(endDate);
 
         if (usedQuantity < 0)  {
-            mm.put("message","Số lượng sử dụng không được nhỏ hơn 0.");
-            return getAllServicesType(mm, session);
+            redirectAttributes.addFlashAttribute("flashAttr","Số lượng sử dụng không được nhỏ hơn 0!");
+            return "redirect:/api/v1/room/"+roomId;
         }
-
         usedService.setUsedQuantity(usedQuantity);
+        if (price <= 0)  {
+            redirectAttributes.addFlashAttribute("flashAttr","Giá phải lớn hơn 0!");
+            return "redirect:/api/v1/room/"+roomId;
+        }
+        usedService.setPrice(price);
+
 
         usedServiceRepository.save(usedService);
-        mm.put("message","Cập nhật dịch vụ sử dụng thành công ");
 
-        return getAllServicesType(mm, session);
+        mm.put("message","Cập nhật dịch vụ sử dụng thành công ");
+        redirectAttributes.addFlashAttribute("flashAttr","Cập nhật dịch vụ sử dụng thành công!");
+
+        return "redirect:/api/v1/room/"+roomId;
     }
 
     @PostMapping(value = "delete-service")
     public String deleteService(HttpSession session,
-                                @RequestParam int usedServiceID,
-                                ModelMap mm) {
+                                @RequestParam int usedServiceId,
+                                ModelMap mm,  RedirectAttributes redirectAttributes) {
 
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             return "/api/v1/user/login";
         }
 
-        UsedService usedService = usedServiceRepository.findById(usedServiceID)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Used Service Id:" + usedServiceID));
+        UsedService usedService = usedServiceRepository.findById(usedServiceId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Used Service Id:" + usedServiceId));
 
         usedServiceRepository.delete(usedService);
+        int roomId = usedService.getRoomId();
 
-        mm.put("message","Xóa thành công dịch vụ sử dụng với id " + usedServiceID + " thành công!!!");
+        redirectAttributes.addFlashAttribute("flashAttr","Xóa thành công dịch vụ sử dụng với id " + usedServiceId + " thành công!!!");
+        return "redirect:/api/v1/room/"+roomId;
 
-        return getAllServicesType(mm, session);
     }
-
 
 
 
@@ -147,12 +159,16 @@ public class ServiceController {
         }
         ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Service Type Id:" + serviceTypeId));
+
+        int hostelId = serviceType.getHostelId();
+
         serviceType.setServiceName(serviceName);
         serviceType.setPrice(price);
         serviceTypeRepository.save(serviceType);
-        mm.put("message","Update service type successfully");
 
-        return getAllServicesType(mm, session);
+        mm.put("messages","Cập nhật dịch vụ thành công");
+
+        return getAllServicesTypeByHostelId(hostelId, mm, session);
     }
 
     @PostMapping(value = "delete-service-type")
@@ -167,21 +183,20 @@ public class ServiceController {
 
         ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Service Type Id:" + serviceTypeId));
-
+        int hostelId = serviceType.getHostelId();
         serviceTypeRepository.delete(serviceType);
 
-        mm.put("message","Delete service type with id " + serviceTypeId + " successfully!!!");
+        mm.put("messages","Xoá thành công dịch vụ " + serviceTypeId);
 
-        return getAllServicesType(mm, session);
+        return getAllServicesTypeByHostelId(hostelId, mm, session);
     }
 
     @PostMapping(value = "insert-type")
-    public String insertType(
-            @RequestParam int hostelId,
-            @RequestParam String serviceName,
-            @RequestParam double price,
-            HttpSession session,
-            ModelMap mm) {
+    public String insertType(@RequestParam int hostelId,
+                             @RequestParam String serviceName,
+                             @RequestParam double price,
+                             HttpSession session,
+                             ModelMap mm) {
 
         User accSession = (User) session.getAttribute("LOGIN_USER");
 
@@ -196,10 +211,9 @@ public class ServiceController {
                 .build();
         serviceTypeRepository.save(serviceType);
 
-        mm.put("messages","messages");
-        return getAllServicesType(mm, session);
+        mm.put("messages","Thêm thành công dịch vụ " + serviceType.getServiceTypeId());
+        return getAllServicesTypeByHostelId(hostelId, mm, session);
     }
-
 
 
     @GetMapping(value = "")
@@ -212,17 +226,41 @@ public class ServiceController {
 
         Collection<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(accSession.getUserId());
         Collection<ServiceType> serviceTypes = new ArrayList<>();
+
         hostels.forEach(hostel -> serviceTypes.addAll(hostel.getServiceTypesByHostelId()));
 
         Collection<UsedService> usedServices = new ArrayList<>();
 
-        hostels.forEach(hostel -> hostel.getServiceTypesByHostelId().forEach(serviceType -> usedServices.addAll(serviceType.getUsedServicesByServiceTypeId())));
+        mm.put("hostels",hostels);
 
-
-        mm.put("usedServices",usedServices);
-        mm.put("services",serviceTypes);
         return "services";
     }
 
+    @GetMapping(value = "/hostel/{hostelId}")
+    public String getAllServicesTypeByHostelId(@PathVariable int hostelId,
+                                               ModelMap mm,
+                                               HttpSession session) {
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+
+        if (accSession == null) {
+            return "/api/v1/user/login";
+        }
+
+        Collection<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(accSession.getUserId());
+        Collection<ServiceType> serviceTypes = new ArrayList<>();
+        Collection<UtilityType> utilityTypes = new ArrayList<>();
+
+        Hostel hostel = hostelRepository.findById(hostelId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy nhà trọ có id:" + hostelId));
+        serviceTypes = hostel.getServiceTypesByHostelId();
+        utilityTypes = hostel.getUtilityTypesByHostelId();
+
+        mm.put("hostel",hostel);
+        mm.put("hostels",hostels);
+        mm.put("serviceTypes",serviceTypes);
+        mm.put("utilityTypes",utilityTypes);
+
+        return "services";
+    }
 
 }

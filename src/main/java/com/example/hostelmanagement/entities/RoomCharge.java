@@ -34,7 +34,6 @@ public class RoomCharge {
     @Column(name = "invoiceID")
     private Integer invoiceId;
 
-
     @ManyToOne
     @JoinColumn(name = "roomID", referencedColumnName = "roomID", insertable = false, updatable = false)
     private Room roomByRoomId;

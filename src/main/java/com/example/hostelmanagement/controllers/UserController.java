@@ -25,7 +25,7 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @GetMapping(value = "show-info")
+    @RequestMapping(value = "show-info")
     public String showInfo(HttpSession session, ModelMap mm) {
         if (session.getAttribute("LOGIN_USER")==null) {
             return login();
@@ -36,12 +36,12 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "login")
+    @RequestMapping(value = "login")
     public String login() {
         return "login";
     }
 
-    @PostMapping(value = "login")
+    @PostMapping(value = "login/auth")
     public String login(@RequestParam String userName, @RequestParam String password, HttpSession session, ModelMap mm) {
         User user = userRepository.getUserByUserNameAndPasswordAndUserStatus(userName, password, true);
         if(user!=null) {

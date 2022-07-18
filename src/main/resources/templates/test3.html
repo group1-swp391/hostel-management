@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta th:replace="~{hostpage :: meta}">
+  <title>Quản lý phòng</title>
+  <link th:replace="~{hostpage :: link}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"/>
+
+</head>
+<body>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+  <!-- Spinner Start -->
+  <div th:replace="~{hostpage :: div#spinner}"></div>
+  <!-- Spinner End -->
+  <!-- Sidebar Start -->
+  <div th:replace="~{hostpage :: div.sidebar}"></div>
+  <!-- Sidebar End -->
+  <!-- Content Start -->
+  <div class="content">
+    <!-- Navbar Start -->
+    <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
+    <!-- Navbar End -->
+    <!-- Recent Sales Start -->
+    <div class="container-fluid pt-4 px-4">
+      <div class="bg-light rounded p-4">
+        <div th:if="${flashAttr != '' && flashAttr != null}"><div th:text="${flashAttr}" class="alert alert-primary" role="alert"> </div></div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <br><script src ="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" defer></script>
+        <br><script src ="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js" defer></script>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Danh sách tiện ích sử dụng</h6>
+          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal1">Thêm tiện ích sử dụng</button>
+          <div class="modal" id="myModal1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Thêm tiện ích sử dụng</h5>
+                  <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="formInsert" th:action="@{/api/v1/used-utility/insert}" method="post">
+                    <label for="floatingInput">Loại tiện ích</label>
+                    <div>
+                      <select class="form-select" id="floatingInput" name="utilityTypeId" style="text-align: center; width: 100px;">
+                        <option th:each="ultilityType : ${room?.roomTypeByTypeId?.hostelByHostelId?.utilityTypesByHostelId}" th:value="${ultilityType?.utilityTypeId}" th:text="${ultilityType?.utilityName}"></option>
+                      </select>
+                    </div>
+                    <input type="hidden" name="roomId" th:value="${room.roomId}">
+                    <div class="form-floating mb-4">
+                      <label>Ngày bắt đầu</label>
+                      <input type="date" name="startDate">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Ngày kết thúc</label>
+                    <input type="date" name="endDate" >
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Chỉ số cũ</label>
+                    <input type="text" name="oldIndex" style="text-align: center; width: 100px;">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Chỉ số mới</label>
+                    <input type="text" name="newIndex" style="text-align: center; width: 100px;">
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal" id="myModal2">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Cập nhật tiện ích sử dụng</h5>
+                  <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="formInsert" th:action="@{/api/v1/used-utility/update}" method="post">
+                    <label for="floatingInput">Loại tiện ích</label>
+                    <div>
+                      <select class="form-select" id="floatingInput" name="utilityTypeId" style="text-align: center; width: 100px;">
+                        <option th:each="ultilityType : ${room?.roomTypeByTypeId?.hostelByHostelId?.utilityTypesByHostelId}"  th:value="${ultilityType?.utilityTypeId}" th:text="${ultilityType?.utilityName}" th:selected="${ultilityType?.utilityTypeId==usedUtility?.utilityTypeId}"></option>
+                      </select>
+                    </div>
+                    <input type="hidden" name="usedUtilityId" th:value="${usedUtility?.usedUtilityId}">
+                    <div class="form-floating mb-4">
+                      <label>Ngày bắt đầu</label>
+                      <input type="date" name="startDate" th:value="${usedUtility?.startDate}">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Ngày kết thúc</label>
+                      <input type="date" name="endDate" th:value="${usedUtility?.endDate}">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Chỉ số cũ</label>
+                      <input type="text" name="oldIndex" th:value="${usedUtility?.oldIndex}"  style="text-align: center; width: 100px;">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Chỉ số mới</label>
+                      <input type="text" name="newIndex" th:value="${usedUtility?.newIndex}" style="text-align: center; width: 100px;">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Giá/chỉ số</label>
+                      <input type="text" name="pricePerIndex" th:value="${usedUtility?.pricePerIndex}" style="text-align: center; width: 100px;">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive text-center">
+            <table id="table1" class="table text-start align-middle table-bordered table-hover mb-0">
+              <thead>
+              <tr class="text-dark">
+                <th scope="col">Tên tiện ích</th>
+                <th scope="col">Ngày bắt đầu</th>
+                <th scope="col">Ngày kết thúc</th>
+                <th scope="col">Chỉ số cũ</th>
+                <th scope="col">Chỉ số mới</th>
+                <th scope="col">Sử dụng</th>
+                <th scope="col">Giá/chỉ số(VNĐ)</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Hoá đơn</th>
+                <th scope="col">Tuỳ chọn</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="utility: ${usedUtilities}">
+               <td th:text="${utility?.utilityTypeByUtilityTypeId?.utilityName}"></td>
+               <td th:text="${utility?.startDate}"></td>
+               <td th:text="${utility?.endDate}"></td>
+               <td th:text="${utility?.oldIndex}"></td>
+               <td th:text="${utility?.newIndex}"></td>
+               <td th:text="${utility?.newIndex - utility?.oldIndex}"></td>
+               <td th:text="${utility?.pricePerIndex}"></td>
+               <td th:text="${utility?.pricePerIndex * (utility?.newIndex - utility?.oldIndex)}"></td>
+               <td>
+                 <span th:text="${utility?.invoiceByInvoiceId != null ? utility?.invoiceByInvoiceId?.InvoiceId + ' -  ' + utility?.invoiceByInvoiceId?.InvoiceName : '[Chưa xuất hoá đơn]'}"></span>
+                 <span th:if="${utility?.invoiceByInvoiceId?.paymentStatus}"><i class="fa fa-check" aria-hidden="true"></i></span>
+               </td>
+                <td>
+                  <form th:action="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}">
+                    <input type="hidden" name="updateUsedUtilityId" th:value="${utility?.usedUtilityId}">
+                    <button type="submit" name="updateUsedUtility" value="true">Cập nhật</button>
+                  </form>
+                  <form th:action="@{/api/v1/used-utility/delete}" method="post">
+                    <input type="hidden" name="usedUtilityId" th:value="${utility?.usedUtilityId}">
+                    <button type="submit" name="deleteUsedUtility" value="true">Xoá</button>
+                  </form>
+              </tr>
+              </tbody>
+            </table>
+
+
+          <br><br>
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Danh sách dịch vụ sử dụng</h6>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal3">Thêm dịch vụ sử dụng</button>
+              <div class="modal" id="myModal3">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Thêm dịch vụ sử dụng</h5>
+                      <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="formInsert2" th:action="@{/api/v1/service/insert-used-service}" method="post">
+                        <label for="floatingInput">Loại dịch vụ</label>
+                        <div>
+                          <select class="form-select" name="servicetypeId" style="text-align: center; width: 100px;">
+                            <option th:each="serviceType : ${room?.roomTypeByTypeId?.hostelByHostelId?.serviceTypesByHostelId}" th:value="${serviceType?.serviceTypeId}" th:text="${serviceType?.serviceName}"></option>
+                          </select>
+                        </div>
+                        <input type="hidden" name="roomId" th:value="${room.roomId}">
+                        <div class="form-floating mb-4">
+                          <label>Ngày bắt đầu</label>
+                          <input type="date" name="startDate" >
+                        </div>
+                        <div class="form-floating mb-4">
+                          <label>Ngày kết thúc</label>
+                          <input type="date" name="endDate" >
+                        </div>
+                        <div class="form-floating mb-4">
+                          <label>Số lượng sử dụng</label>
+                          <input type="number" name="usedQuantity"  style="text-align: center; width: 100px;">
+                        </div>
+
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal" id="myModal4">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Cập nhật dịch vụ sử dụng</h5>
+                  <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="formInsert2" th:action="@{/api/v1/service/update-used-service}" method="post">
+                    <label for="floatingInput">Loại dịch vụ</label>
+                    <div>
+                      <select class="form-select" name="servicetypeId" style="text-align: center; width: 100px;">
+                        <option th:each="serviceType : ${room?.roomTypeByTypeId?.hostelByHostelId?.serviceTypesByHostelId}" th:value="${serviceType?.serviceTypeId}" th:text="${serviceType?.serviceName}" th:selected="${serviceType?.serviceTypeId==usedService?.servicetypeId}"></option>
+                      </select>
+                    </div>
+                    <input type="hidden" name="usedServiceId" th:value="${usedService?.usedServiceId}">
+                    <div class="form-floating mb-4">
+                      <label>Ngày bắt đầu</label>
+                      <input type="date" name="startDate" th:value="${usedService?.startDate}">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Ngày kết thúc</label>
+                      <input type="date" name="endDate" th:value="${usedService?.endDate}">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Số lượng sử dụng</label>
+                      <input type="number" name="usedQuantity" th:value="${usedService?.usedQuantity}" style="text-align: center; width: 100px;">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Giá</label>
+                      <input type="text" name="price" th:value="${usedService?.price}">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="table-responsive text-center">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+              <thead>
+              <tr class="text-dark">
+                <th scope="col">Tên dịch vụ</th>
+                <th scope="col">Ngày bắt đầu</th>
+                <th scope="col">Ngày kết thúc</th>
+                <th scope="col">Sử dụng</th>
+                <th scope="col">Giá(VNĐ)</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Tuỳ chọn</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="service: ${usedServices}">
+                <td th:text="${service?.serviceTypeByServicetypeId?.serviceName}"></td>
+                <td th:text="${service?.startDate}"></td>
+                <td th:text="${service?.endDate}"></td>
+                <td th:text="${service?.usedQuantity}"></td>
+                <td th:text="${service?.price}"></td>
+                <td th:text="${service?.price * service?.usedQuantity}"></td>
+
+                <td><form th:action="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}">
+                  <input type="hidden" name="updateUsedServiceId" th:value="${service?.usedServiceId}">
+                  <button type="submit" name="updateUsedService" value="true">Cập nhật</button>
+                </form>
+
+                  <form th:action="@{/api/v1/service/delete-service}" method="post">
+                    <input type="hidden" name="usedServiceId" th:value="${service?.usedServiceId}">
+                    <button type="submit" name="deleteUsedService" value="true">Xoá</button>
+                  </form></td>
+              </tr>
+              </tbody>
+            </table>
+            <br><br>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <h6 class="mb-0">Danh sách hợp đồng</h6>
+            </div>
+            <div class="table-responsive text-center">
+              <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                <tr class="text-dark">
+                  <th scope="col">Tên dịch vụ</th>
+                  <th scope="col">Ngày bắt đầu</th>
+                  <th scope="col">Ngày kết thúc</th>
+                  <th scope="col">Sử dụng</th>
+                  <th scope="col">Giá(VNĐ)</th>
+                  <th scope="col">Tổng tiền</th>
+                  <th scope="col">Tuỳ chọn</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="service: ${usedServices}">
+                  <td th:text="${service?.serviceTypeByServicetypeId?.serviceName}"></td>
+                  <td th:text="${service?.startDate}"></td>
+                  <td th:text="${service?.endDate}"></td>
+                  <td th:text="${service?.usedQuantity}"></td>
+                  <td th:text="${service?.price}"></td>
+                  <td th:text="${service?.price * service?.usedQuantity}"></td>
+                </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- JavaScript Libraries -->
+
+    <script th:inline="javascript">
+      const queryString = window.location.search;
+
+      const urlParams = new URLSearchParams(queryString);
+
+      const updateUsedUtility = urlParams.get('updateUsedUtility')
+      const updateUsedService = urlParams.get('updateUsedService')
+      if(updateUsedUtility == 'true'){
+        $(document).ready(function(){
+          $("#myModal2").modal('show');
+          $('#table1').DataTable();
+        });
+      }else{
+        //no in line edit
+      }
+      if(updateUsedService == 'true'){
+        $(document).ready(function(){
+          $("#myModal4").modal('show');
+          $('#table1').DataTable();
+        });
+      }else{
+        $(document).ready(function () {
+          $('#table1').DataTable();
+        });
+      }
+
+
+    </script>
+<th:block th:insert="~{hostpage :: script}"></th:block>
+
+
+
+</body>
+</html>

@@ -8,10 +8,12 @@ import com.example.hostelmanagement.repositories.HostelRepository;
 import com.example.hostelmanagement.repositories.RoomRepository;
 import com.example.hostelmanagement.repositories.UsedUtilityRepository;
 import com.example.hostelmanagement.repositories.UtilityTypeRepository;
+import org.aspectj.bridge.IMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -27,108 +29,98 @@ public class UsedUtilityController {
     @Autowired
     private UsedUtilityRepository usedUtilityRepository;
     @Autowired
+    private UtilityTypeRepository utilityTypeRepository;
+    @Autowired
     private HostelRepository hostelRepository;
-    @PostMapping(value ="{utility-name}/insert")
-    public String insertUltility(@PathVariable("utility-name") String name,
+
+    @PostMapping(value ="/insert")
+    public String insertUltility(@RequestParam int utilityTypeId,
                                  @RequestParam int roomId,
                                  @RequestParam java.sql.Date startDate,
                                  @RequestParam java.sql.Date endDate,
                                  @RequestParam int oldIndex,
                                  @RequestParam int newIndex,
-                                 ModelMap mm
-                                 ) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + roomId));
-        Collection<UtilityType> utilityTypes = room.getRoomTypeByTypeId().getHostelByHostelId().getUtilityTypesByHostelId();
+                                 ModelMap mm,
+                                 RedirectAttributes redirectAttributes
+                                 )
+    {
+        try {
+            Room room = roomRepository.findById(roomId)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy phòng có id: " + roomId));
+            Collection<UtilityType> utilityTypes = room.getRoomTypeByTypeId().getHostelByHostelId().getUtilityTypesByHostelId();
 
-        int utilityTypeId = 0;
-        double pricePerIndex = 0;
-        for (UtilityType utilityType: utilityTypes) {
-            if (utilityType.getUtilityName().equalsIgnoreCase(name)) {
-                utilityTypeId = utilityType.getUtilityTypeId();
-                pricePerIndex = utilityType.getPricePerIndex();
-            }
-        }
-        if (utilityTypeId != 0) {
+            UtilityType utilityType = utilityTypeRepository.findById(utilityTypeId)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiện ích có id: " + utilityTypeId));
 
+            double pricePerIndex = utilityType.getPricePerIndex();
 
             UsedUtility usedUtility = UsedUtility.builder()
-                    .roomId(roomId)
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .oldIndex(oldIndex)
-                    .utilityTypeId(utilityTypeId)
-                    .newIndex(newIndex)
-                    .pricePerIndex(pricePerIndex)
-                    .build();
-
+                                                .roomId(roomId)
+                                                .startDate(startDate)
+                                                .endDate(endDate)
+                                                .oldIndex(oldIndex)
+                                                .utilityTypeId(utilityTypeId)
+                                                .newIndex(newIndex)
+                                                .pricePerIndex(pricePerIndex)
+                                                .build();
             usedUtilityRepository.save(usedUtility);
-            mm.put("message","Thêm phòng sử dụng "+name+" thành công");
+
+            //mm.put("message", "Thêm phòng sử dụng tiện ích " + utilityType.getUtilityName() + " thành công");
+
+            redirectAttributes.addFlashAttribute("flashAttr","Thêm phòng sử dụng " +  utilityType.getUtilityName() + " thành công");
         }
-        return "redirect:";
+        catch (Exception ex) {
+            mm.put("message", "Lỗi thêm dịch vụ sử dụng" + ex.getMessage());
+            return "error";
+        }
+        return "redirect:/api/v1/room/"+roomId;
     }
 
-    @PostMapping(value ="{utility-name}/update")
-    public String updateUltility(@PathVariable("utility-name") String name,
-                                 @RequestParam int usedUtilityId,
+    @PostMapping(value ="/update")
+    public String updateUltility(@RequestParam int usedUtilityId,
+                                 @RequestParam int utilityTypeId,
                                  @RequestParam java.sql.Date startDate,
                                  @RequestParam java.sql.Date endDate,
                                  @RequestParam int oldIndex,
                                  @RequestParam int newIndex,
-                                 ModelMap mm
-    ) {
+                                 @RequestParam double pricePerIndex,
+                                 ModelMap mm,  RedirectAttributes redirectAttributes) {
         Optional<UsedUtility> usedUtilityOptional = usedUtilityRepository.findById(usedUtilityId);
 
         if (usedUtilityOptional.isPresent()) {
+            //Validate and authorzation...
             UsedUtility usedUtility = usedUtilityOptional.get();
             usedUtility.setStartDate(startDate);
             usedUtility.setOldIndex(oldIndex);
             usedUtility.setEndDate(endDate);
             usedUtility.setNewIndex(newIndex);
-
+            usedUtility.setUtilityTypeId(utilityTypeId);
+            usedUtility.setPricePerIndex(pricePerIndex);
             usedUtilityRepository.save(usedUtility);
-            mm.put("message","Thêm chỉ số điện thành công");
+
+            redirectAttributes.addFlashAttribute("flashAttr","Cập nhật tiện ích sử dụng " + usedUtilityOptional.get().getUtilityTypeByUtilityTypeId().getUtilityName() + " thành công!");
+            int roomId = usedUtilityOptional.get().getRoomId();
+            return "redirect:/api/v1/room/"+roomId;
+        } else {
+            mm.put("message","Không tìm thấy tiện ích sử dụng");
+            return "error";
         }
-        return "redirect:";
+
     }
-    @PostMapping(value ="{utility-name}/delete")
-    public String deleteUltility(@PathVariable("utility-name") String name,
-                                 @RequestParam int usedUtilityId,
-                                 ModelMap mm
-    ) {
+
+    @PostMapping(value ="/delete")
+    public String deleteUltility(@RequestParam int usedUtilityId,
+                                 ModelMap mm, RedirectAttributes redirectAttributes) {
         Optional<UsedUtility> usedUtilityOptional = usedUtilityRepository.findById(usedUtilityId);
         if (usedUtilityOptional.isPresent()) {
             usedUtilityRepository.delete(usedUtilityOptional.get());
-            mm.put("message","Xóa chỉ số điện thành công");
+
+            redirectAttributes.addFlashAttribute("flashAttr","Xóa tiện ích sử dụng thành công");
+
+            return "redirect:/api/v1/room/"+usedUtilityOptional.get().getRoomId();
+        } else {
+            mm.put("message","Không tìm thấy tiện ích sử dụng");
+            return "error";
         }
-
-        return "redirect:";
     }
-    @GetMapping(value = {"{utility-name}"})
-    public String getElectricity(@PathVariable("utility-name") String name, ModelMap mm, HttpSession session) {
-        User accSession = (User) session.getAttribute("LOGIN_USER");
-        if (accSession == null) {
-            mm.put("message", "Đăng nhập để tiếp tục");
-            return "login";
-        }
-        int owner = accSession.getUserId();
-
-        String utilityName = name;
-        List<UsedUtility> usedUtilities = new ArrayList<>();
-
-        hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(owner)
-                .forEach(hostel -> hostel.getUtilityTypesByHostelId()
-                        .forEach(utilityType -> {
-                            if (utilityType.getUtilityName().equalsIgnoreCase(utilityName)) {
-                                usedUtilities.addAll(utilityType.getUsedUtilitiesByUtilityTypeId());
-                            }
-                        })
-                );
-
-        mm.put("utilities",usedUtilities);
-
-        if ("Dien".equalsIgnoreCase(name)) return "electricity";
-        return "water";
-    }
-
 }

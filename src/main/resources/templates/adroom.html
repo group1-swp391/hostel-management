@@ -232,7 +232,6 @@
                                                                     100.000
                                                                 </td>
                                                             </tr>
-
                                                             <tr>
                                                                 <td>
                                                                     Wifi
@@ -245,7 +244,6 @@
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -265,6 +263,8 @@
                                     <button type="submit" class="btn btn-primary fa-solid fa-save" title="Lưu"></button>
                                     <button type="submit" formaction="/api/v1/room/delete" class="btn  btn-danger fa-solid fa-trash" title="Xoá"></button>
                                     <button type="submit" class="btn  btn-success fa-solid fa-file" title="Hoá đơn"></button>
+                                    <button type="submit"  th:formaction="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}"  class="btn btn-outline-info" title="Chi tiết phòng">Chi tiết</button>
+
                                 </td>
                             </form>
                         </tr>

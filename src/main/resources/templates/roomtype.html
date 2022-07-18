@@ -62,9 +62,8 @@
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <form>
-                        <button th:each="hostel: ${hostels}" type="submit" th:text="${hostel.hostelName}" th:formaction="${'/api/v1/room-type/hostel/'+hostel.hostelId}" class="btn btn-warning"></button>
-                    </form>
+
+
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal2">Thêm loại phòng</button>
                     <div class="modal" id="myModal2">
                         <div class="modal-dialog">
@@ -149,13 +148,9 @@
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Xác nhận</button>
                                         </div>
-
                                     </form>
                                 </div>
-
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -180,7 +175,7 @@
                             <tr th:each="roomType: ${roomTypes}">
                                 <form method="post" enctype="multipart/form-data">
                                     <td th:text="${roomType.roomName}"></td>
-                                    <td th:text="${roomType.description}"></td>
+                                    <td th:utext="${roomType.description}"></td>
                                     <td th:text="${#lists.size(roomType.roomsByTypeId)}"></td>
                                     <td th:text="${#lists.size(roomType.roomsEmpty)}"></td>
                                     <td th:text="${#numbers.formatDecimal(roomType.price, 0, 'COMMA', 0, 'POINT')}"></td>
