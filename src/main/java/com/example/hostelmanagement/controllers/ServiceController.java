@@ -102,7 +102,6 @@ public class ServiceController {
         }
         usedService.setStartDate(startDate);
         usedService.setEndDate(endDate);
-
         if (usedQuantity < 0)  {
             redirectAttributes.addFlashAttribute("flashAttr","Số lượng sử dụng không được nhỏ hơn 0!");
             return "redirect:/api/v1/room/"+roomId;
@@ -114,10 +113,9 @@ public class ServiceController {
         }
         usedService.setPrice(price);
 
-
         usedServiceRepository.save(usedService);
 
-        mm.put("message","Cập nhật dịch vụ sử dụng thành công ");
+        mm.put("message","Cập nhật dịch vụ sử dụng thành công!");
         redirectAttributes.addFlashAttribute("flashAttr","Cập nhật dịch vụ sử dụng thành công!");
 
         return "redirect:/api/v1/room/"+roomId;

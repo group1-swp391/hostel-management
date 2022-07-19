@@ -1,6 +1,7 @@
 package com.example.hostelmanagement.entities;
 
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Builder
+
 public class Contracts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -52,5 +54,4 @@ public class Contracts {
     @ManyToOne
     @JoinColumn(name = "roomID", referencedColumnName = "roomID", insertable = false, updatable = false)
     private Room roomByRoomId;
-
 }

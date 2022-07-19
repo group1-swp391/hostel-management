@@ -58,6 +58,12 @@ public class User {
     @Basic
     @Column(name = "REGTIME")
     private Date regtime;
+
+
+
+
+
+
     @OneToMany(mappedBy = "usersByUserId")
     private Collection<Booking> bookingsByUserId;
     @OneToMany(mappedBy = "usersByUserId")

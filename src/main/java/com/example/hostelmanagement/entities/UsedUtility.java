@@ -51,6 +51,7 @@ public class UsedUtility {
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "invoiceID", referencedColumnName = "invoiceID", insertable = false, updatable = false)
+    @ToString.Exclude
     private Invoice invoiceByInvoiceId;
 
 

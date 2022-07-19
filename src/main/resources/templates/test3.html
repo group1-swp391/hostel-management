@@ -5,8 +5,6 @@
   <title>Quản lý phòng</title>
   <link th:replace="~{hostpage :: link}">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"/>
 
 </head>
 <body>
@@ -218,7 +216,7 @@
                   <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="formInsert2" th:action="@{/api/v1/service/update-used-service}" method="post">
+                  <form id="formInsert3" th:action="@{/api/v1/service/update-used-service}" method="post">
                     <label for="floatingInput">Loại dịch vụ</label>
                     <div>
                       <select class="form-select" name="servicetypeId" style="text-align: center; width: 100px;">
@@ -254,7 +252,7 @@
 
 
           <div class="table-responsive text-center">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
+            <table id="table2"  class="table text-start align-middle table-bordered table-hover mb-0">
               <thead>
               <tr class="text-dark">
                 <th scope="col">Tên dịch vụ</th>
@@ -288,11 +286,8 @@
               </tbody>
             </table>
             <br><br>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-              <h6 class="mb-0">Danh sách hợp đồng</h6>
-            </div>
             <div class="table-responsive text-center">
-              <table class="table text-start align-middle table-bordered table-hover mb-0">
+              <table id="table2"  class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                 <tr class="text-dark">
                   <th scope="col">Tên dịch vụ</th>
@@ -312,6 +307,57 @@
                   <td th:text="${service?.usedQuantity}"></td>
                   <td th:text="${service?.price}"></td>
                   <td th:text="${service?.price * service?.usedQuantity}"></td>
+
+                  <td><form th:action="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}">
+                    <input type="hidden" name="updateUsedServiceId" th:value="${service?.usedServiceId}">
+                    <button type="submit" name="updateUsedService" value="true">Cập nhật</button>
+                  </form>
+
+                    <form th:action="@{/api/v1/service/delete-service}" method="post">
+                      <input type="hidden" name="usedServiceId" th:value="${service?.usedServiceId}">
+                      <button type="submit" name="deleteUsedService" value="true">Xoá</button>
+                    </form></td>
+                </tr>
+                </tbody>
+              </table>
+              <br><br>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <h6 class="mb-0">Danh sách hợp đồng</h6>
+            </div>
+            <div class="table-responsive text-center">
+              <table id="table3" class="table text-start align-middle table-bordered table-hover mb-0" style="width: 90%;">
+                <thead>
+                <tr class="text-dark">
+                  <th scope="col">Tên khách hàng</th>
+                  <th scope="col">SĐT</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">CMND/CCCD</th>
+                  <th scope="col">Ngày bắt đầu</th>
+                  <th scope="col">Ngày kết thúc</th>
+                  <th scope="col">Số phòng</th>
+                  <th scope="col">Nhà trọ</th>
+                  <th scope="col">Tiền cọc</th>
+                  <th scope="col">Thanh toán tiền cọc</th>
+                  <th scope="col">Ngày tạo</th>
+                  <th scope="col">Ngày thanh lý</th>
+                  <th scope="col">Tuỳ chọn</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contract: ${contracts}">
+                  <td th:text="${contract?.usersByUserId?.fullName}"></td>
+                  <td th:text="${contract?.usersByUserId?.phone}"></td>
+                  <td th:text="${contract?.usersByUserId?.email}"></td>
+                  <td th:text="${contract?.usersByUserId?.fullName}"></td>
+                  <td th:text="${contract?.startDate}"></td>
+                  <td th:text="${contract?.endDate}"></td>
+                  <td th:text="${contract?.roomByRoomId?.roomNumber}"></td>
+                  <td th:text="${contract?.roomByRoomId?.roomTypeByTypeId?.hostelByHostelId?.hostelName}"></td>
+                  <td th:text="${contract?.deposit}"></td>
+                  <td th:text="${contract?.depositPaymentStatus}"></td>
+                  <td th:text="${contract?.createContractTime}"></td>
+                  <td th:text="${contract?.contractLiquidationTime}"></td>
+                  <td>Test</td>
                 </tr>
                 </tbody>
               </table>
@@ -326,33 +372,30 @@
 <!-- JavaScript Libraries -->
 
     <script th:inline="javascript">
-      const queryString = window.location.search;
+      $(document).ready(function(){
+        const queryString = window.location.search;
 
-      const urlParams = new URLSearchParams(queryString);
+        const urlParams = new URLSearchParams(queryString);
 
-      const updateUsedUtility = urlParams.get('updateUsedUtility')
-      const updateUsedService = urlParams.get('updateUsedService')
-      if(updateUsedUtility == 'true'){
-        $(document).ready(function(){
+        const updateUsedUtility = urlParams.get('updateUsedUtility')
+        const updateUsedService = urlParams.get('updateUsedService')
+        if(updateUsedUtility === 'true'){
+
           $("#myModal2").modal('show');
-          $('#table1').DataTable();
-        });
-      }else{
-        //no in line edit
-      }
-      if(updateUsedService == 'true'){
-        $(document).ready(function(){
+
+        }else if(updateUsedService === 'true'){
+
           $("#myModal4").modal('show');
-          $('#table1').DataTable();
-        });
-      }else{
-        $(document).ready(function () {
-          $('#table1').DataTable();
-        });
-      }
 
-
+        }else{
+        }
+        $('#table1').DataTable();
+        $('#table2').DataTable();
+        $('#table3').DataTable();
+      });
     </script>
+
+
 <th:block th:insert="~{hostpage :: script}"></th:block>
 
 

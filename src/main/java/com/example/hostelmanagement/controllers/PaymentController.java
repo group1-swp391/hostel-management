@@ -78,7 +78,6 @@ public class PaymentController {
 
             Environment environment = Environment.selectEnv("dev");
             environment.setPartnerInfo(partnerInfo);
-
             //Payment Method- Phương thức thanh toán
             PaymentResponse captureWalletMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId, Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.CAPTURE_WALLET);
             //PaymentResponse captureATMMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId, Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.PAY_WITH_ATM);

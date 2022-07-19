@@ -20,7 +20,6 @@ public class ExampleFilter implements Filter{
 
     }
 
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         logger.info("filter:"+ ((HttpServletRequest)servletRequest).getRequestURL());

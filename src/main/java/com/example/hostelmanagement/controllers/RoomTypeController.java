@@ -54,6 +54,7 @@ public class RoomTypeController {
         mm.put("message","Xóa loại phòng thành công");
         return "redirect:";
     }
+
     @PostMapping(value = "update")
     public String updateRoomType(ModelMap mm, @RequestParam int typeId, @RequestParam String roomName, @RequestParam int hostelId,
                                  @RequestParam String description, @RequestParam double price,
@@ -90,13 +91,16 @@ public class RoomTypeController {
         model.addAttribute("roomTypeObj", new RoomType());
         return "roomtype";
     }
+
     @RequestMapping(value = "hostel/{id}")
     public String getAllRoomTypeByHostel(@PathVariable("id") int id, Model model, ModelMap mm, HttpSession session) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
+
         if (accSession == null) {
             mm.put("message", "Need login first");
             return "/api/v1/user/login";
         }
+
         int owner = accSession.getUserId();
         List<RoomType> roomTypes = new ArrayList<>();
 

@@ -80,7 +80,7 @@ public class RoomController {
     @PostMapping(value = "update")
     public String updateRoom(RedirectAttributes redirectAttributes, @RequestParam int roomId, @RequestParam int roomNumber,
                              @RequestParam int typeId , @RequestParam Part image, @RequestParam String description) throws IOException {
-       //Check authorization here
+        //Check authorization here
         //...
         try{
             Room room = roomRepository.findById(roomId)
@@ -99,8 +99,6 @@ public class RoomController {
             redirectAttributes.addFlashAttribute("message","Lỗi cập nhật phòng");
             return "redirect:";
         }
-
-
     }
 
     @GetMapping(value = "/")
@@ -140,6 +138,7 @@ public class RoomController {
                                  @ModelAttribute("flashAttr") String flashAttr,
                                  ModelMap mm,
                                  HttpSession session) {
+
         User accSession = (User) session.getAttribute("LOGIN_USER");
 
         if (accSession == null) {
@@ -174,13 +173,19 @@ public class RoomController {
 
         Collection<UsedUtility> usedUtilities = room.getTblUsedUtilitiesByRoomId();
         Collection<UsedService> usedServices = room.getUsedServicesByRoomId();
+        Collection<Contracts> contracts = room.getContractsByRoomId();
+        Collection<RoomCharge> roomCharges = room.getRoomChargesByRoomId();
+        Collection<Invoice> invoices = room.getInvoicesByRoomId();
 
+        mm.put("invoices", invoices);
         mm.put("usedUtilities", usedUtilities);
         mm.put("usedServices", usedServices);
+        mm.put("contracts", contracts);
+        mm.put("roomCharges", roomCharges);
         mm.put("room", room);
+
         mm.put("flashAttr", flashAttr+"");
         return "test3";
     }
-
 
 }
