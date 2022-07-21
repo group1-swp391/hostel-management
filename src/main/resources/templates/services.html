@@ -111,16 +111,17 @@
 
 
         <br><br>
-
-        <h6 class="mb-0">Danh sách thiết yếu</h6>
-        <div th:each="utilityType: ${utilityTypes}">
-        <div class="input-group input-group-sm mb-3">
-            <form th:action="@{/api/v1/utility-type/update}" method="post">
-            <span class="input-group-text" th:text="${utilityType.utilityName}"></span>
-            <input type="hidden" name="utilityTypeId" th:value="${utilityType.utilityTypeId}">
-            <input name="pricePerIndex" type="text" th:value="${utilityType.pricePerIndex}" class="form-control"  aria-describedby="button-addon2" >
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Lưu</button>
-        </div></div>
+        <h6 class="mb-0" th:if="${utilityTypes != null}">Danh sách thiết yếu</h6>
+        <div th:each="utilityType: ${utilityTypes}" class="card" style="width: 18rem;">
+            <div class="card-body">
+                <form th:action="@{/api/v1/utility-type/update}" method="post">
+                <h5 class="card-title" th:text="${utilityType.utilityName}"></h5>
+                <input type="hidden" name="utilityTypeId" th:value="${utilityType.utilityTypeId}">
+                <input name="pricePerIndex" type="text" th:value="${utilityType.pricePerIndex}" class="form-control"  aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="submit" >Lưu</button>
+                </form>
+            </div>
+        </div>
 
     </div>
     <!-- Content End -->

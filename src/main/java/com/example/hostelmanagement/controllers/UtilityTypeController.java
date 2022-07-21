@@ -34,15 +34,17 @@ public class UtilityTypeController {
                                  @RequestParam double pricePerIndex,
                                  ModelMap mm,
                                  RedirectAttributes redirectAttributes) {
+
         UtilityType utilityType = utilityTypeRepository.findById(utilityTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiện ích có id:" + utilityTypeId));
 
         utilityType.setPricePerIndex(pricePerIndex);
+
         utilityTypeRepository.save(utilityType);
 
         int hostelId = utilityType.getHostelId();
 
-        redirectAttributes.addFlashAttribute("flashAttr","Cập nhật tiện ích sử dụng thành công!");
+        redirectAttributes.addFlashAttribute("flashAttr","Cập nhật tiện ích thành công!");
         return "redirect:/api/v1/service/hostel/"+hostelId;
     }
 
