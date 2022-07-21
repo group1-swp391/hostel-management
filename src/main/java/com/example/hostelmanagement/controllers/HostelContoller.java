@@ -1,6 +1,7 @@
 package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.Hostel;
+import com.example.hostelmanagement.entities.UsedUtility;
 import com.example.hostelmanagement.entities.User;
 import com.example.hostelmanagement.entities.UtilityType;
 import com.example.hostelmanagement.repositories.HostelRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
@@ -23,8 +25,10 @@ public class HostelContoller {
     private HostelRepository hostelRepository;
     @Autowired
     private UtilityTypeRepository utilityTypeRepository;
-    @RequestMapping(value = "/")
-    public String getAllHostel(Model model, ModelMap mm, HttpSession session) {
+    @RequestMapping(value = "")
+    public String getAllHostel(  @RequestParam(required = false) Optional<Boolean> updateHostel,
+                                 @RequestParam(required = false) Optional<Integer> updateHostelId,
+                                 ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute("LOGIN_USER");
         List<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(user.getUserId());
         hostels.forEach(hostel -> {
@@ -32,8 +36,17 @@ public class HostelContoller {
             hostel.getRoomTypesByHostelId().forEach(roomType -> roomNumber.addAndGet(roomType.getRoomsByTypeId().size()));
             hostel.setRoomNumber(roomNumber.get());
         });
-        model.addAttribute("hostelObj", new Hostel());
+        mm.addAttribute("hostelObj", new Hostel());
+
+        if (updateHostel.isPresent() && updateHostelId.isPresent()) {
+            if (updateHostel.get()) {
+                Hostel hostel = hostelRepository.findById(updateHostelId.get())
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiện ích sử dụng"));
+                mm.put("hostel", hostel);
+            }
+        }
         mm.put("hostels", hostels);
+
         return "hostpage";
     }
 

@@ -42,18 +42,24 @@
 </div>
 <!-- JavaScript Libraries -->
 <th:block th:insert="~{hostpage :: script}"></th:block>
-<script>
+
+<script th:inline="javascript">
+    var x = [[${invoice.totalAmount}]];
+    alert(x);
+
+
     var ctx3 = $("#line-chart").get(0).getContext("2d");
     var myChart3 = new Chart(ctx3, {
         type: "line",
         data: {
+            for:
 
-            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            labels: [, 7/2022, 8/2022],
             datasets: [{
                 label: "VNĐ",
                 fill: false,
                 backgroundColor: "rgba(0, 156, 255, .3)",
-                data: [null, null, null, 1000, 500]
+                data: [, 1000, 500]
             }]
         },
         options: {
@@ -61,6 +67,8 @@
         }
     });
 </script>
+
+
 </body>
 
 </html>

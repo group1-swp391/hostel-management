@@ -128,7 +128,7 @@ public class ServiceController {
 
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
 
         UsedService usedService = usedServiceRepository.findById(usedServiceId)
@@ -153,7 +153,7 @@ public class ServiceController {
                                     ModelMap mm) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
         ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Service Type Id:" + serviceTypeId));
@@ -176,7 +176,7 @@ public class ServiceController {
 
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
 
         ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
@@ -219,17 +219,17 @@ public class ServiceController {
         User accSession = (User) session.getAttribute("LOGIN_USER");
 
         if (accSession == null) {
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
 
         Collection<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(accSession.getUserId());
-        Collection<ServiceType> serviceTypes = new ArrayList<>();
-
-        hostels.forEach(hostel -> serviceTypes.addAll(hostel.getServiceTypesByHostelId()));
-
-        Collection<UsedService> usedServices = new ArrayList<>();
 
         mm.put("hostels",hostels);
+        if (hostels != null) {
+            if (hostels.stream().findFirst().isPresent()) {
+                return "redirect:/api/v1/service/hostel/" + hostels.stream().findFirst().get().getHostelId();
+            }
+        }
 
         return "services";
     }
@@ -241,7 +241,7 @@ public class ServiceController {
         User accSession = (User) session.getAttribute("LOGIN_USER");
 
         if (accSession == null) {
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
 
         Collection<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(accSession.getUserId());

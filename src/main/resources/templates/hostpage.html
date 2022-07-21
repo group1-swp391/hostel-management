@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
 </head>
@@ -24,7 +25,7 @@
         </div>
     </div>
     <!-- Spinner End -->
-
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
@@ -82,8 +83,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Thêm nhà trọ</h5>
-                                    <button type="button" class="btn fa-solid fa-close"
-                                            data-bs-dismiss="modal"></button>
+                                    <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="/api/v1/hostel/insert" method="post" th:object="${hostelObj}">
@@ -91,17 +91,20 @@
                                             <label class="form-label">Tên nhà trọ</label>
                                             <input type="text" th:field="*{hostelName}" class="form-control" placeholder="Tên nhà trọ">
                                         </div>
+
                                         <div class="mb-3">
                                             <label>Địa chỉ</label>
                                             <input type="text" th:field="*{address}" class="form-control" placeholder="Địa chỉ">
                                         </div>
+
                                         <div class="mb-3">
-                                            <label>Chỉ số điện</label>
-                                            <input type="number" name="electricityValue" class="form-control" placeholder="Chỉ số điện">
+                                            <label>Giá điện/kW</label>
+                                            <input type="number" name="electricityValue" class="form-control" placeholder="Giá điện">
                                         </div>
+
                                         <div class="mb-3">
-                                            <label>Chỉ số nước</label>
-                                            <input type="number" name="waterValue" class="form-control" placeholder="Chỉ số nước">
+                                            <label>Giá nước</label>
+                                            <input type="number" name="waterValue" class="form-control" placeholder="Giá nước">
                                         </div>
                                         <!--<div class="mb-3">
                                             <label>Hình ảnh</label>
@@ -115,6 +118,7 @@
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Xác nhận</button>
                                         </div>
+
                                     </form>
                                 </div>
                             </div>
@@ -122,6 +126,50 @@
                     </div>
 
                 </div>
+
+                <div class="modal"  id="myModal2">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Cập nhật nhà trọ</h5>
+                                <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{/api/v1/hostel/update}" method="post">
+                                    <input name="hostelId" type="hidden" th:value="${hostel?.hostelId}">
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Tên nhà trọ</label>
+                                        <input type="text" name="hostelName" th:value="${hostel?.hostelName}" class="form-control" placeholder="Tên nhà trọ">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label>Địa chỉ</label>
+                                        <input type="text" name="address" th:value="${hostel?.address}" class="form-control" placeholder="Địa chỉ">
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script th:inline="javascript">
+                    $(document).ready(function(){
+                        const queryString = window.location.search;
+                        const urlParams = new URLSearchParams(queryString);
+                        const updateHostel = urlParams.get('updateHostel')
+                        if(updateHostel === 'true'){
+                            $("#myModal2").modal('show');
+                        } else{
+                        }
+                    });
+                </script>
+
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Danh sách nhà trọ</h6>
                 </div>
@@ -140,7 +188,6 @@
                         </thead>
                         <tbody id="myTable">
                         <tr th:each="hostel: ${hostels}">
-                            <form method="post">
                                 <td th:text="${hostel.hostelId}"></td>
                                 <td th:text="${hostel.hostelName}"></td>
                                 <td th:text="${hostel.address}"></td>
@@ -149,10 +196,17 @@
                                 <td>
                                     <input type="hidden" name="hostelId" th:value="${hostel.hostelId}">
                                     <input type="hidden" name="address" th:value="${hostel.address}">
-                                    <button type="submit" formaction="/api/v1/hostel/update" class="btn btn-primary fa-solid fa-save" title="Lưu"></button>
-                                    <button type="submit" formaction="/api/v1/hostel/delete" class="btn  btn-danger fa-solid fa-trash" title="Xoá"></button>
+
+                                    <form th:action="@{/api/v1/hostel}">
+                                        <input type="hidden" name="updateHostelId" th:value="${hostel?.hostelId}">
+                                        <button type="submit" name="updateHostel" value="true">Cập nhật</button>
+                                    </form>
+
+                                    <form th:action="@{/api/v1/hostel}">
+                                        <input type="hidden" name="updateHostelId" th:value="${hostel?.hostelId}">
+                                        <button type="submit" name="updateHostel" value="true">Cập nhật</button>
+                                    </form>
                                 </td>
-                            </form>
                         </tr>
                         </tbody>
                     </table>

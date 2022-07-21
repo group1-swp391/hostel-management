@@ -178,6 +178,7 @@
                                 <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4" th:text="${room.roomTypeByTypeId.price}"></small>
                             </div>
                             <div class="p-4 mt-2">
+
                                 <div class="d-flex justify-content-between mb-3">
                                     <h5 class="mb-0" th:text="${'Phòng số: '+room.roomNumber+'('+room.roomTypeByTypeId.roomName}+')'"></h5>
                                     <div class="ps-2">
@@ -188,6 +189,7 @@
                                         <small class="fa fa-star text-primary"></small>
                                     </div>
                                 </div>
+
                                 <div class="d-flex mb-3">
                                     <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
                                     <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
@@ -204,6 +206,28 @@
                 </div>
             </div>
         </div>
+
+        <nav aria-label="...">
+            <ul class="pagination">
+
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/api/v1/rentroom/list-room?page=1}">Trang đầu</a>
+                </li>
+
+                <li class="page-item"><a class="page-link" th:href="@{/api/v1/rentroom/list-room?page={currentPage}(currentPage=${currentPage-1})}" th:text="${currentPage - 1}"></a></li>
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link" th:text="${currentPage}"></span>
+                </li>
+
+                <li class="page-item"><a class="page-link" th:href="@{/api/v1/rentroom/list-room?page={currentPage}(currentPage=${currentPage+1})}" th:text="${currentPage + 1}"></a></li>
+
+
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/api/v1/rentroom/list-room?page={totalPage}(totalPage=${totalPage})}">Trang cuối</a>
+                </li>
+
+            </ul>
+        </nav>
         <!-- Room End -->
 
 
@@ -327,6 +351,8 @@
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
     </div>
 
     <!-- JavaScript Libraries -->

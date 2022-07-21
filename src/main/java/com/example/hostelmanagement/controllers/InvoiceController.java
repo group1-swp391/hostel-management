@@ -273,4 +273,22 @@ public class InvoiceController {
 
     }
 
+
+
+
+
+
+
+
+    @RequestMapping(value="test2")
+    public String test11(ModelMap mm) {
+        Invoice invoice = invoiceRepository.findById(3).get();
+
+        mm.put("invoice", invoice);
+
+
+
+        return "money";
+    }
+
 }
