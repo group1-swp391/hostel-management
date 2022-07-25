@@ -102,7 +102,7 @@ public class RoomChargeController {
                 .build();
         roomChargeRepository.save(roomCharge);
 
-        return "redirect:";
+        return "redirect:/api/v1/room/"+roomId;
     }
     @PostMapping(value ="update")
     public String updateUltility(@RequestParam int roomChargeId,

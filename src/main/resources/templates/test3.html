@@ -32,7 +32,8 @@
         <!--TIỀN PHÒNG-->
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="mb-0">Danh sách tiền phòng</h6>
-          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal1">Thêm tiền phòng sử dụng</button>
+
+          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal14">TEST Thêm tiền phòng sử dụng</button>
           <div class="modal" id="myModal14">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -41,14 +42,9 @@
                   <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="formInsert14" th:action="@{/api/v1/used-utility/insert}" method="post">
-                    <label for="floatingInput">Loại tiện ích</label>
-                    <div>
-                      <select class="form-select" id="floatingInput14" name="utilityTypeId" style="text-align: center; width: 100px;">
-                        <option th:each="ultilityType : ${room?.roomTypeByTypeId?.hostelByHostelId?.utilityTypesByHostelId}" th:value="${ultilityType?.utilityTypeId}" th:text="${ultilityType?.utilityName}"></option>
-                      </select>
-                    </div>
-                    <input type="hidden" name="roomId" th:value="${room.roomId}">
+                  <form id="formInsert14" th:action="@{/api/v1/roomcharge/insert}" method="post">
+
+                    <input type="hidden" name="roomId" th:value="${room?.roomId}">
                     <div class="form-floating mb-4">
                       <label>Ngày bắt đầu</label>
                       <input type="date" name="startDate">
@@ -57,14 +53,7 @@
                       <label>Ngày kết thúc</label>
                       <input type="date" name="endDate" >
                     </div>
-                    <div class="form-floating mb-4">
-                      <label>Chỉ số cũ</label>
-                      <input type="text" name="oldIndex" style="text-align: center; width: 100px;">
-                    </div>
-                    <div class="form-floating mb-4">
-                      <label>Chỉ số mới</label>
-                      <input type="text" name="newIndex" style="text-align: center; width: 100px;">
-                    </div>
+
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Thêm</button>
                     </div>
@@ -73,6 +62,7 @@
               </div>
             </div>
           </div>
+
           <div class="modal" id="myModal15">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -81,33 +71,19 @@
                   <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                  <form id="formInsert15" th:action="@{/api/v1/used-utility/update}" method="post">
-                    <label for="floatingInput">Loại tiện ích</label>
-                    <div>
-                      <select class="form-select" id="floatingInput15" name="utilityTypeId" style="text-align: center; width: 100px;">
-                        <option th:each="ultilityType : ${room?.roomTypeByTypeId?.hostelByHostelId?.utilityTypesByHostelId}"  th:value="${ultilityType?.utilityTypeId}" th:text="${ultilityType?.utilityName}" th:selected="${ultilityType?.utilityTypeId==usedUtility?.utilityTypeId}"></option>
-                      </select>
-                    </div>
-                    <input type="hidden" name="usedUtilityId" th:value="${usedUtility?.usedUtilityId}">
+                  <form id="formInsert15" th:action="@{/api/v1/roomcharge/update}" method="post">
+                    <input type="hidden" name="roomChargeId" th:value="${roomCharge?.roomChargeId}">
                     <div class="form-floating mb-4">
                       <label>Ngày bắt đầu</label>
-                      <input type="date" name="startDate" th:value="${usedUtility?.startDate}">
+                      <input type="date" name="startDate" th:value="${roomCharge?.startDate}">
                     </div>
                     <div class="form-floating mb-4">
                       <label>Ngày kết thúc</label>
-                      <input type="date" name="endDate" th:value="${usedUtility?.endDate}">
+                      <input type="date" name="endDate" th:value="${roomCharge?.endDate}">
                     </div>
                     <div class="form-floating mb-4">
-                      <label>Chỉ số cũ</label>
-                      <input type="text" name="oldIndex" th:value="${usedUtility?.oldIndex}"  style="text-align: center; width: 100px;">
-                    </div>
-                    <div class="form-floating mb-4">
-                      <label>Chỉ số mới</label>
-                      <input type="text" name="newIndex" th:value="${usedUtility?.newIndex}" style="text-align: center; width: 100px;">
-                    </div>
-                    <div class="form-floating mb-4">
-                      <label>Giá/chỉ số</label>
-                      <input type="text" name="pricePerIndex" th:value="${usedUtility?.pricePerIndex}" style="text-align: center; width: 100px;">
+                      <label>Giá</label>
+                      <input type="text" name="oldIndex" th:value="${roomCharge?.price}"  style="text-align: center; width: 100px;">
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Cập nhật</button>
@@ -564,12 +540,16 @@
 
         const updateUsedUtility = urlParams.get('updateUsedUtility')
         const updateUsedService = urlParams.get('updateUsedService')
+        const updateRoomCharge = urlParams.get('updateRoomCharge')
 
         if(updateUsedUtility === 'true'){
           $("#myModal2").modal('show');
         }else if(updateUsedService === 'true'){
           $("#myModal4").modal('show');
-        }else{
+        }else if(updateRoomCharge === 'true'){
+          $("#myModal15").modal('show');
+        } else {
+
         }
 
         $('#table1').DataTable();
