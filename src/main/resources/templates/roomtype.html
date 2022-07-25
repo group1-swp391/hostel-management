@@ -51,6 +51,8 @@
     <div th:replace="~{hostpage :: div#spinner}"></div>
     <!-- Spinner End -->
     <!-- Sidebar Start -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <div th:replace="~{hostpage :: div.sidebar}"></div>
     <!-- Sidebar End -->
     <!-- Content Start -->
@@ -104,6 +106,54 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal" id="myModal3">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Cập nhật loại phòng</h5>
+                                    <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/api/v1/room-type/update}" method="post">
+                                        <input type="hidden" name="typeId" th:value="${roomtype?.typeId}" class="form-control">
+                                        <div class="mb-3">
+                                            <label class="form-label">Tên loại phòng</label>
+                                            <input type="text" name="roomName" th:value="${roomtype?.roomName}" class="form-control" placeholder="Tên loại phòng">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="content">Content:</label>
+                                            <textarea th:type="utext" rows="4" id="content1" placeholder="Content" class="form-control" name="description" th:value="${roomtype?.description}" autocomplete="off"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Giá</label>
+                                            <input type="text" name="price" th:value="${roomtype?.price}" class="form-control" placeholder="Giá">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Giá cọc</label>
+                                            <input type="text" name="depositPrice" th:value="${roomtype?.depositPrice}" class="form-control" placeholder="Giá cọc">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script th:inline="javascript">
+                        $(document).ready(function(){
+                            const queryString = window.location.search;
+                            const urlParams = new URLSearchParams(queryString);
+                            const updateRoomType = urlParams.get('updateRoomType')
+                            if(updateRoomType === 'true'){
+                                $("#myModal3").modal('show');
+                            } else{
+                            }
+                        });
+                    </script>
+
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="mb-0">Các loại phòng</h6>
@@ -124,7 +174,6 @@
                             </thead>
                             <tbody>
                             <tr th:each="roomType: ${roomTypes}">
-                                <form method="post" enctype="multipart/form-data">
                                     <td th:text="${roomType.roomName}"></td>
                                     <td th:utext="${roomType.description}"></td>
                                     <td th:text="${#lists.size(roomType.roomsByTypeId)}"></td>
@@ -132,11 +181,15 @@
                                     <td th:text="${#numbers.formatDecimal(roomType.price, 0, 'COMMA', 0, 'POINT')}"></td>
                                     <td th:text="${#numbers.formatDecimal(roomType.depositPrice, 0, 'COMMA', 0, 'POINT')}"></td>
                                     <td>
-                                        <input type="hidden" name="typeId"  th:value="${roomType.typeId}">
-                                        <button class="btn btn-primary fa-solid fa-save"></button>
-                                        <button formaction="/api/v1/room-type/delete" type="submit" class="btn btn-danger fa-solid fa-trash"></button>
+                                        <form th:action="@{/api/v1/room-type}">
+                                            <input type="hidden" name="updateRoomTypeId" th:value="${roomType?.typeId}">
+                                            <button class="btn btn-primary fa-solid fa-save" type="submit" name="updateRoomType" value="true"></button>
+                                        </form>
+                                        <form th:action="@{/api/v1/room-type/delete}">
+                                            <input type="hidden" name="typeId" th:value="${roomType?.typeId}">
+                                            <button class="btn btn-danger fa-solid fa-trash" type="submit" value="true"></button>
+                                        </form>
                                     </td>
-                                </form>
                             </tr>
                             </tbody>
                         </table>
@@ -152,6 +205,8 @@
 <script>
     $(document).ready(function () {
         $('#content').richText();
+        $('#content1').richText();
+
     });
 </script>
 <script>

@@ -25,6 +25,7 @@ public class HostelContoller {
     private HostelRepository hostelRepository;
     @Autowired
     private UtilityTypeRepository utilityTypeRepository;
+
     @RequestMapping(value = "")
     public String getAllHostel(  @RequestParam(required = false) Optional<Boolean> updateHostel,
                                  @RequestParam(required = false) Optional<Integer> updateHostelId,

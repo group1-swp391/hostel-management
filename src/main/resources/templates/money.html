@@ -47,19 +47,17 @@
     var x = [[${invoice.totalAmount}]];
     alert(x);
 
-
     var ctx3 = $("#line-chart").get(0).getContext("2d");
     var myChart3 = new Chart(ctx3, {
         type: "line",
         data: {
             for:
-
-            labels: [, 7/2022, 8/2022],
+            labels: [6, 7, 8],
             datasets: [{
                 label: "VNĐ",
                 fill: false,
                 backgroundColor: "rgba(0, 156, 255, .3)",
-                data: [, 1000, 500]
+                data: [1000, 1000, 500]
             }]
         },
         options: {

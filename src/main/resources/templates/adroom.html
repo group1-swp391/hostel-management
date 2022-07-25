@@ -38,25 +38,13 @@
                                         <label for="floatingInput">Loại phòng</label>
                                         <div>
                                             <select id="floatingInput" name="typeId" style="text-align: center; width: 100px;">
-                                                <option th:each="roomType : ${roomTypes}" th:value="${roomType.typeId}" th:text="${roomType.roomName}"></option>
+                                                <option th:each="roomType : ${roomTypes}" th:value="${roomType?.typeId}" th:text="${roomType?.roomName}"></option>
                                             </select>
                                         </div>
                                         <div class="form-floating mb-4">
                                             <label>Số phòng</label>
                                             <input type="text" name="roomNumber" class="form-control" placeholder="Số phòng">
                                         </div>
-                                        <!--<div class="form-floating mb-4">
-                                            <label>Chỉ số điện bắt đầu</label>
-                                            <input type="number" class="form-control">
-                                        </div>
-                                        <div class="form-floating mb-4">
-                                            <label>Chỉ số nước bắt đầu</label>
-                                            <input type="number" class="form-control">
-                                        </div>
-                                        <div class="form-floating mb-4">
-                                            <label>Ngày thêm</label>
-                                            <input type="date" class="form-control">
-                                        </div>-->
                                         <div class="form-floating mb-4">
                                             <label>Hình ảnh</label>
                                             </br>
@@ -75,10 +63,65 @@
                                         </div>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="modal" id="myModal3">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Cập nhật phòng</h5>
+                                    <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/api/v1/room/update}" method="post">
+
+                                        <input type="hidden" name="roomId" th:value="${room?.roomId}" class="form-control">
+
+                                        <div class="form-floating mb-4">
+                                            <label>Số phòng</label>
+                                            <input type="text" th:value="${room?.roomNumber}" name="roomNumber" class="form-control" placeholder="Số phòng">
+                                        </div>
+
+                                        <div class="form-floating mb-4">
+                                            <label>Hình ảnh</label>
+                                            </br>
+                                            <input type="file" name="image" id="inpFile1">
+                                            <div class="image-preview1" id="imagePreview1">
+                                                <img src="" alt="Image Preview" class="image-preview__image1" th:src="@{${'/api/v1/room/image/'+room?.roomId}}">
+                                                <span class="image-preview__default-text1" >Hình phòng</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-floating mb-4">
+                                            <label>Mô tả</label>
+                                            <textarea class="form-control" id="describe1" name="description" th:value="${room?.description}"></textarea>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script th:inline="javascript">
+                        $(document).ready(function(){
+                            const queryString = window.location.search;
+                            const urlParams = new URLSearchParams(queryString);
+                            const updateRoomType = urlParams.get('updateRoomType')
+                            if(updateRoomType === 'true'){
+                                $("#myModal3").modal('show');
+                            } else{
+                            }
+                        });
+                    </script>
+
                     <h6 class="mb-0">Tất cả phòng</h6>
                 </div>
                 <div class="table-responsive">
@@ -99,174 +142,28 @@
                         </thead>
                         <tbody id="myTable">
                         <tr th:each="room : ${rooms}">
-                            <form method="post" enctype="multipart/form-data">
-                                <td th:text="${room.roomId}"></td>
-                                <td th:text="${room.roomTypeByTypeId.hostelByHostelId.hostelName}"></td>
-                                <td th:text="${room.roomNumber}"></td>
-                                <td th:text="${room.roomTypeByTypeId.roomName}"></td>
-                                <td>
-                                    <a type="button" href="" class="btn-link" data-bs-toggle="modal"
-                                       data-bs-target="#myModal-info-1" th:text="${room.usersByUserId?.userName}? ${room.usersByUserId.userName}:'Phòng trống'"></a>
-                                    <div class="modal" id="myModal-info-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h6 th:text="${room.usersByUserId?.userName}? ${'Chủ phòng: '+room.usersByUserId.userName}:'Phòng trống'"></h6>
-                                                    <button type="button" class="btn fa-solid fa-close"
-                                                            data-bs-dismiss="modal"></button>
-                                                </div>
+                                <td th:text="${room?.roomId}"></td>
+                                <td th:text="${room?.roomTypeByTypeId.hostelByHostelId.hostelName}"></td>
+                                <td th:text="${room?.roomNumber}"></td>
+                                <td th:text="${room?.roomTypeByTypeId.roomName}"></td>
+                                <td th:text="${room?.usersByUserId?.userName}? ${room?.usersByUserId.userName}:'Phòng trống'">
 
-                                                <div class="modal-body">
-                                                    <div style="text-align: left;">
-                                                        <h6 th:text="${'Phòng: '+room.roomNumber}"></h6>
-                                                    </div>
-                                                    <h5 style="text-align: left;">Chi tiết phòng</h5>
-                                                    <div class="table-responsive">
-                                                        <table
-                                                                class="table text-start align-middle table-bordered table-hover mb-0">
-                                                            <thead>
-                                                            <tr class="text-dark">
-                                                                <th scope="col" style="width: 170px;">Giá
-                                                                </th>
-                                                                <th scope="col" style="width: 120px;">Loại
-                                                                    phòng
-                                                                </th>
-                                                            </tr>
-                                                            </thead>
-
-                                                            <tbody id="services">
-                                                            <tr>
-                                                                <td th:text="${room.roomTypeByTypeId.price}">
-                                                                </td>
-                                                                <td th:text="${room.roomTypeByTypeId.roomName}">
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <br>
-                                                    <h5 style="text-align: left;">Thiết yếu</h5>
-                                                    <div class="table-responsive" style="text-align: center;">
-                                                        <table
-                                                                class="table text-start align-middle table-bordered table-hover mb-0">
-                                                            <thead>
-                                                            <tr class="text-dark">
-                                                                <th scope="col" style="width: 120px;"> Điện
-                                                                </th>
-                                                                <th scope="col" style="width: 70px;"> Nước
-                                                                </th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <table
-                                                                            class="table text-start align-middle table-bordered table-hover mb-0">
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Giá điện
-                                                                            </th>
-                                                                            <th scope="col">Số kW đã
-                                                                                dùng</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                3.000/kW
-                                                                            </td>
-                                                                            <td>
-                                                                                17
-                                                                            </td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                                <td>
-                                                                    <table
-                                                                            class="table text-start align-middle table-bordered table-hover mb-0">
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th scope="col">Giá nước
-                                                                            </th>
-                                                                            <th scope="col">Số
-                                                                                m<sup>3</sup> đã dùng
-                                                                            </th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                20.000/kW
-                                                                            </td>
-                                                                            <td>
-                                                                                100
-                                                                            </td>
-                                                                        </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <br>
-                                                    <h5 style="text-align: left;">Tiện ích</h5>
-                                                    <div class="table-responsive">
-                                                        <table
-                                                                class="table text-start align-middle table-bordered table-hover mb-0">
-                                                            <thead>
-                                                            <tr class="text-dark">
-                                                                <th scope="col" style="width: 170px;">Dịch
-                                                                    vụ</th>
-                                                                <th scope="col" style="width: 120px;">Giá
-                                                                </th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody >
-                                                            <tr>
-                                                                <td>
-                                                                    Rác
-                                                                </td>
-                                                                <td>
-                                                                    100.000
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Wifi
-                                                                </td>
-                                                                <td>
-                                                                    70.000
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                 </td>
-                                <td th:text="${#numbers.formatDecimal(room.roomTypeByTypeId.price, 0, 'COMMA', 0, 'POINT')}"></td>
+                                <td th:text="${#numbers.formatDecimal(room?.roomTypeByTypeId.price, 0, 'COMMA', 0, 'POINT')}"></td>
                                 <td>
 <!--                                    <select style="text-align: center;">-->
 <!--                                        <option value="paid">Đã thanh toán</option>-->
 <!--                                        <option value="unpaid">Chưa thanh toán</option>-->
 <!--                                    </select>-->
                                     <img alt="" class="img-fluid" style="width: 100%"
-                                         th:src="@{${'/api/v1/room/image/'+room.roomId}}">
+                                         th:src="@{${'/api/v1/room/image/'+room?.roomId}}">
                                 </td>
                                 <td>
-                                    <input type="hidden" name="roomId" th:value="${room.roomId}">
-                                    <button type="submit" class="btn btn-primary fa-solid fa-save" title="Lưu"></button>
-                                    <button type="submit" formaction="/api/v1/room/delete" class="btn  btn-danger fa-solid fa-trash" title="Xoá"></button>
+                                    <input type="hidden" name="roomId" th:value="${room?.roomId}">
+
                                     <button type="submit" class="btn  btn-success fa-solid fa-file" title="Hoá đơn"></button>
                                     <button type="submit"  th:formaction="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}"  class="btn btn-outline-info" title="Chi tiết phòng">Chi tiết</button>
-
                                 </td>
-                            </form>
                         </tr>
                         </tbody>
                     </table>
@@ -280,6 +177,7 @@
 <script>
     $(document).ready(function () {
         $('#describe').richText();
+        $('#describe1').richText();
 
         $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
@@ -290,5 +188,29 @@
     });
 </script>
 <script src="/richtext/jquery.richtext.min.js"></script>
+<script>
+    const inpFile = document.getElementById("inpFile1");
+    const previewContainer = document.getElementById("imagePreview1");
+    const previewImage = previewContainer.querySelector(".image-preview__image1");
+    const previewDefaultText = previewContainer.querySelector(".image-preview__default-text1");
+
+    inpFile.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            previewDefaultText.style.display = "none";
+            previewImage.style.display = "block";
+
+            reader.addEventListener("load", function () {
+                console.log(this);
+                previewImage.setAttribute("src", this.result);
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
 </body>
 </html>

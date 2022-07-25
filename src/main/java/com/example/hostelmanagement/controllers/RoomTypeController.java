@@ -20,6 +20,7 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -56,9 +57,9 @@ public class RoomTypeController {
     }
 
     @PostMapping(value = "update")
-    public String updateRoomType(ModelMap mm, @RequestParam int typeId, @RequestParam String roomName, @RequestParam int hostelId,
+    public String updateRoomType(ModelMap mm, @RequestParam int typeId, @RequestParam String roomName,
                                  @RequestParam String description, @RequestParam double price,
-                                 @RequestParam double depositPrice, @RequestParam Part roomTImg) throws IOException {
+                                 @RequestParam double depositPrice) throws IOException {
         RoomType roomType = roomTypeRepository.findById(typeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid type Id:" + typeId));
 
@@ -66,29 +67,38 @@ public class RoomTypeController {
         roomType.setDescription(description);
         roomType.setPrice(price);
         roomType.setDepositPrice(depositPrice);
-        if (roomTImg.getSize()>0) roomType.setRoomTImg(Utils.getByteImage(roomTImg));
-        if (roomType.getRoomsByTypeId().isEmpty()) {
-            roomType.setHostelId(hostelId);
-        }
+        //if (roomTImg.getSize()>0) roomType.setRoomTImg(Utils.getByteImage(roomTImg));
+
         roomTypeRepository.save(roomType);
         mm.put("message","Cập nhật loại phòng thành công");
         return "redirect:";
     }
 
-    @RequestMapping(value = "/")
-    public String getAllRoomType(Model model,ModelMap mm, HttpSession session) {
+    @RequestMapping(value = "")
+    public String getAllRoomType(@RequestParam(required = false) Optional<Boolean> updateRoomType,
+                                 @RequestParam(required = false) Optional<Integer> updateRoomTypeId,
+                                 ModelMap mm, HttpSession session) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             mm.put("message", "Need login first");
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
         int owner = accSession.getUserId();
         List<RoomType> roomTypes = new ArrayList<>();
         hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(owner)
                 .forEach(hostel -> roomTypes.addAll(hostel.getRoomTypesByHostelId()));
+
+        if (updateRoomType.isPresent() && updateRoomTypeId.isPresent()) {
+            if (updateRoomType.get()) {
+                RoomType roomtype = roomTypeRepository.findById(updateRoomTypeId.get())
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy loại phòng"));
+                mm.put("roomtype", roomtype);
+            }
+        }
+
         mm.put("roomTypes", roomTypes);
         mm.put("hostels", getHostels(owner));
-        model.addAttribute("roomTypeObj", new RoomType());
+        mm.addAttribute("roomTypeObj", new RoomType());
         return "roomtype";
     }
 
@@ -98,7 +108,7 @@ public class RoomTypeController {
 
         if (accSession == null) {
             mm.put("message", "Need login first");
-            return "/api/v1/user/login";
+            return "redirect:/api/v1/user/login";
         }
 
         int owner = accSession.getUserId();

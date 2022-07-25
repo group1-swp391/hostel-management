@@ -202,9 +202,9 @@
                                         <button type="submit" name="updateHostel" value="true">Cập nhật</button>
                                     </form>
 
-                                    <form th:action="@{/api/v1/hostel}">
-                                        <input type="hidden" name="updateHostelId" th:value="${hostel?.hostelId}">
-                                        <button type="submit" name="updateHostel" value="true">Cập nhật</button>
+                                    <form th:action="@{/api/v1/hostel/delete}">
+                                        <input type="hidden" name="hostelId" th:value="${hostel?.hostelId}">
+                                        <button type="submit" value="true">Xoá</button>
                                     </form>
                                 </td>
                         </tr>
