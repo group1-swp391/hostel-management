@@ -30,6 +30,114 @@
         <br><script src ="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js" defer></script>
 
 
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Danh sách hoá đơn</h6>
+
+          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal16">Tạo hoá đơn</button>
+          <div class="modal" id="myModal16">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Tạo hoá đơn</h5>
+                  <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="formInsert16" th:action="@{/api/v1/invoice/callBillByRoomId}" method="post">
+
+                    <input type="hidden" name="roomId" th:value="${room?.roomId}">
+                    <div class="form-floating mb-4">
+                      <label for="invoiceName">Tên hoá đơn</label>
+                      <input id="invoiceName" type="text" name="invoiceName">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label for="note">Ghi chú</label>
+                      <input id="note" type="text" name="note" >
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal" id="myModal17">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Cập nhật hoá đơn</h5>
+                  <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="formInsert17" th:action="@{/api/v1/roomcharge/update}" method="post">
+                    <input type="hidden" name="roomChargeId" th:value="${roomCharge?.roomChargeId}">
+                    <input type="hidden" name="roomId" th:value="${room?.roomId}">
+
+                    <div class="form-floating mb-4">
+                      <label>Ngày bắt đầu</label>
+                      <input type="date" name="startDate" th:value="${roomCharge?.startDate}">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Ngày kết thúc</label>
+                      <input type="date" name="endDate" th:value="${roomCharge?.endDate}">
+                    </div>
+                    <div class="form-floating mb-4">
+                      <label>Giá</label>
+                      <input type="text" name="price" th:value="${roomCharge?.price}" style="text-align: center; width: 100px;">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="table-responsive text-center">
+          <table id="table6" class="table text-start align-middle table-bordered table-hover mb-0">
+            <thead>
+            <tr class="text-dark">
+              <th scope="col">ID</th>
+              <th scope="col">Tên hoá đơn</th>
+              <th scope="col">Khách hàng</th>
+              <th scope="col">Tổng tiền</th>
+              <th scope="col">Ghi chú</th>
+              <th scope="col">Ngày tạo</th>
+              <th scope="col">Trạng thái tt</th>
+              <th scope="col">Ngày thanh toán</th>
+              <th scope="col">Tuỳ chọn</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="invoice: ${invoices}">
+              <td th:text="${invoice?.invoiceId}"></td>
+              <td th:text="${invoice?.invoiceName}"></td>
+              <td th:text="${invoice?.usersByUserId?.fullName}"></td>
+              <td th:text="${invoice?.totalAmount}"></td>
+              <td th:text="${invoice?.note}"></td>
+              <td th:text="${invoice?.invoiceCreateDate}"></td>
+              <td th:text="${invoice?.paymentStatus} == true ? 'Đã thanh toán' : 'Chưa thanh toán'"></td>
+              <td th:text="${invoice?.paymentDate != null ? invoice?.paymentDate : 'Chưa thanh toán'}"></td>
+
+              <td>
+                2 cái nút
+<!--                <form th:action="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}">-->
+<!--                  <input type="hidden" name="updateRoomChargeId" th:value="${roomCharge?.roomChargeId}">-->
+<!--                  <button type="submit" name="updateRoomCharge" value="true">CHƯA BẤM DC</button>-->
+<!--                </form>-->
+<!--                <form th:action="@{/api/v1/roomcharge/delete}" method="post">-->
+<!--                  <input type="hidden" name="roomChargeId" th:value="${roomCharge?.roomChargeId}">-->
+<!--                  <button type="submit" name="deleteRoomCharge" value="true">Xoá</button>-->
+<!--                </form>-->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
 
         <!--TIỀN PHÒNG-->
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -406,13 +514,10 @@
           </div>
             <!--//KẾT THÚC DỊCH VỤ-->
 
-
-
             <!--//HỢP ĐỒNG-->
             <div class="d-flex align-items-center justify-content-between mb-4">
               <h6 class="mb-0">Danh sách hợp đồng</h6>
               <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal6">Tạo hợp đồng</button>
-
 
               <!--MODEL THEM HOP DONG-->
               <div class="modal" id="myModal6">
@@ -505,7 +610,8 @@
             </div>
           </div>
         </div>
-        
+
+<!--        BANG HOP DONG-->
         <div class="table-responsive text-center">
               <table id="table3" class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
@@ -554,12 +660,21 @@
                 </tbody>
               </table>
         </div>
-      </div>
+<!--        KET THUC BANG HOP DONG-->
 
+
+
+
+
+
+      </div>
     </div>
   </div>
 </div>
-</div>
+
+
+
+
 <!-- JavaScript Libraries -->
     <script th:inline="javascript">
       $(document).ready(function(){

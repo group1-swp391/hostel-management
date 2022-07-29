@@ -99,11 +99,11 @@ public class InvoiceController {
     }
 
     @RequestMapping(value = "/callBillByRoomId")
-    public RedirectView callBillByRoomId(ModelMap mm,
+    public String callBillByRoomId(ModelMap mm,
                                          @RequestParam int roomId,
                                          @RequestParam String invoiceName,
                                          @RequestParam(required = false, defaultValue = "") String note,
-                                         HttpSession session,
+                                         HttpSession session, RedirectAttributes redirectAttributes,
                                          RedirectAttributes attributes) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
 
@@ -119,8 +119,8 @@ public class InvoiceController {
                 List<UsedUtility> usedUtilityList = usedUtilityRepository.findAllByInvoiceIdNullAndRoomId(roomId);
 
                 if (roomChargeList.isEmpty() && usedServiceList.isEmpty() && usedUtilityList.isEmpty()) {
-                    attributes.addAttribute("message", "Nothing to invoice");
-                    return new RedirectView ("/api/v1/host/");
+                    redirectAttributes.addFlashAttribute("flashAttr","Không có dịch vụ/tiện ích/tiền phòng chưa xuất hoá đơn!");
+                    return "redirect:/api/v1/room/"+roomId;
                 } else {
                     java.util.Date date = new Date();
                     Timestamp ts = new Timestamp(date.getTime());
@@ -163,16 +163,14 @@ public class InvoiceController {
                     invoice.setTotalAmount(total);
                     invoice = invoiceRepository.save(invoice);
 
-                    attributes.addAttribute("message", "Invoice id: " + invoice.getInvoiceId());
-
-                    return new RedirectView ("/api/v1/invoice/");
+                    redirectAttributes.addFlashAttribute("flashAttr","Xuất hoá đơn thành công!");
+                    return "redirect:/api/v1/room/"+roomId;
                 }
             } else {
-                return new RedirectView ("/api/v1/host/");
+                return "redirect:/api/v1/room/"+roomId;
             }
         } else {
-            attributes.addAttribute("message", "Need login first");
-            return new RedirectView ("error");
+            return "redirect:/api/v1/room/"+roomId;
         }
     }
 
