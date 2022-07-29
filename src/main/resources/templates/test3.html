@@ -76,6 +76,8 @@
                 <div class="modal-body">
                   <form id="formInsert15" th:action="@{/api/v1/roomcharge/update}" method="post">
                     <input type="hidden" name="roomChargeId" th:value="${roomCharge?.roomChargeId}">
+                    <input type="hidden" name="roomId" th:value="${room?.roomId}">
+
                     <div class="form-floating mb-4">
                       <label>Ngày bắt đầu</label>
                       <input type="date" name="startDate" th:value="${roomCharge?.startDate}">
@@ -86,7 +88,7 @@
                     </div>
                     <div class="form-floating mb-4">
                       <label>Giá</label>
-                      <input type="text" name="oldIndex" th:value="${roomCharge?.price}"  style="text-align: center; width: 100px;">
+                      <input type="text" name="price" th:value="${roomCharge?.price}"  style="text-align: center; width: 100px;">
                     </div>
                     <div class="modal-footer">
                       <button type="submit" class="btn btn-primary">Cập nhật</button>
@@ -123,12 +125,12 @@
               </td>
               <td>
                 <form th:action="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}">
-                  <input type="hidden" name="updateUsedUtilityId" th:value="${utility?.usedUtilityId}">
-                  <button type="submit" name="updateUsedUtility" value="true">Cập nhật</button>
+                  <input type="hidden" name="updateRoomChargeId" th:value="${roomCharge?.roomChargeId}">
+                  <button type="submit" name="updateRoomCharge" value="true">Cập nhật</button>
                 </form>
-                <form th:action="@{/api/v1/used-utility/delete}" method="post">
-                  <input type="hidden" name="usedUtilityId" th:value="${utility?.usedUtilityId}">
-                  <button type="submit" name="deleteUsedUtility" value="true">Xoá</button>
+                <form th:action="@{/api/v1/roomcharge/delete}" method="post">
+                  <input type="hidden" name="roomChargeId" th:value="${roomCharge?.roomChargeId}">
+                  <button type="submit" name="deleteRoomCharge" value="true">Xoá</button>
                 </form>
             </tr>
             </tbody>
@@ -578,7 +580,6 @@
         } else {
 
         }
-
         $('#table1').DataTable();
         $('#table2').DataTable();
         $('#table3').DataTable();

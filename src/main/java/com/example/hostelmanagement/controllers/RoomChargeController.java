@@ -74,12 +74,14 @@ public class RoomChargeController {
                                  ModelMap mm
     ) {
         Optional<RoomCharge> roomChargeOptional = roomChargeRepository.findById(roomChargeId);
-        if (roomChargeOptional.isPresent()) {
-            roomChargeRepository.delete(roomChargeOptional.get());
-            mm.put("message","delete success");
-        }
 
-        return "redirect:";
+        if (roomChargeOptional.isPresent()) {
+            int roomId = roomChargeOptional.get().getRoomId();
+            roomChargeRepository.delete(roomChargeOptional.get());
+            mm.put("message","Xoá thành công tiền phòng");
+            return "redirect:/api/v1/room/"+roomId;
+        }
+        return "error";
     }
 
 
@@ -106,6 +108,7 @@ public class RoomChargeController {
     }
     @PostMapping(value ="update")
     public String updateUltility(@RequestParam int roomChargeId,
+                                 @RequestParam(required = false) int roomId,
                                  @RequestParam java.sql.Date startDate,
                                  @RequestParam java.sql.Date endDate,
                                  @RequestParam double price,
@@ -120,6 +123,6 @@ public class RoomChargeController {
             roomChargeRepository.save(roomCharge);
             mm.put("message","delete success");
         }
-        return "redirect:";
+        return "redirect:/api/v1/room/"+roomId;
     }
 }

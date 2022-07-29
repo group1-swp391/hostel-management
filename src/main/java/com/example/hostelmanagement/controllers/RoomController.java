@@ -1,12 +1,9 @@
 package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.*;
-import com.example.hostelmanagement.repositories.HostelRepository;
-import com.example.hostelmanagement.repositories.RoomRepository;
+import com.example.hostelmanagement.repositories.*;
 
 
-import com.example.hostelmanagement.repositories.UsedServiceRepository;
-import com.example.hostelmanagement.repositories.UsedUtilityRepository;
 import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,6 +24,8 @@ import java.util.*;
 public class RoomController {
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private RoomChargeRepository roomChargeRepository;
     @Autowired
     private HostelRepository hostelRepository;
     @Autowired
@@ -135,6 +134,8 @@ public class RoomController {
                                  @RequestParam(required = false) Optional<Integer> updateUsedUtilityId,
                                  @RequestParam(required = false) Optional<Boolean> updateUsedService,
                                  @RequestParam(required = false) Optional<Integer> updateUsedServiceId,
+                                 @RequestParam(required = false) Optional<Boolean> updateRoomCharge,
+                                 @RequestParam(required = false) Optional<Integer> updateRoomChargeId,
                                  @ModelAttribute("flashAttr") String flashAttr,
                                  ModelMap mm,
                                  HttpSession session) {
@@ -159,15 +160,22 @@ public class RoomController {
         if (updateUsedUtility.isPresent() && updateUsedUtilityId.isPresent()) {
             if (updateUsedUtility.get()) {
                 UsedUtility usedUtility = usedUtilityRepository.findById(updateUsedUtilityId.get())
-                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiện ích sử dụng"));
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiền phòng sử dụng"));
                 mm.put("usedUtility", usedUtility);
             }
         }
         if (updateUsedService.isPresent() && updateUsedServiceId.isPresent()) {
             if (updateUsedService.get()) {
                 UsedService usedService = usedServiceRepository.findById(updateUsedServiceId.get())
-                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy dịch vụ sử dụng"));
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiền phòng sử dụng"));
                 mm.put("usedService", usedService);
+            }
+        }
+        if (updateRoomCharge.isPresent() && updateRoomChargeId.isPresent()) {
+            if (updateRoomCharge.get()) {
+                RoomCharge roomCharge = roomChargeRepository.findById(updateRoomChargeId.get())
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy tiền phòng sử dụng"));
+                mm.put("roomCharge", roomCharge);
             }
         }
 
