@@ -142,9 +142,6 @@ public class ServiceController {
 
     }
 
-
-
-
     @PostMapping(value = "update-service-type")
     public String updateServiceType(HttpSession session,
                                     @RequestParam int serviceTypeId,

@@ -38,7 +38,7 @@ public class Contracts {
     private int roomId;
     @Basic
     @Column(name = "contractStatus")
-    private boolean contractStatus;
+    private Boolean contractStatus;
     @Basic
     @Column(name = "depositPaymentStatus")
     private Boolean depositPaymentStatus;

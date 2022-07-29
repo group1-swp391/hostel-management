@@ -54,78 +54,80 @@ public class ContractController {
     @PostMapping(value = "createContract")
     public String createContract(@RequestParam("startDate") java.sql.Date startDate,
                                  @RequestParam("endDate") java.sql.Date endDate,
-                                 @RequestParam("userId") int userId,
+                                 @RequestParam("userInfo") String userInfo,
                                  @RequestParam("roomId") int roomId,
+                                 @RequestParam("deposit") double deposit,
+                                 @RequestParam("depositPaymentStatus") boolean depositPaymentStatus,
                                  ModelMap mm, HttpSession session) {
 
         java.util.Date date = new java.util.Date();
         Timestamp ts = new Timestamp(date.getTime());
-
-        Optional<User> userOptional = userRepository.findById(userId);
+        int userId = 0;
+        User user = userRepository.findUserByEmailIgnoreCaseOrPhoneIgnoreCaseOrDocumentIdIgnoreCase(userInfo, userInfo, userInfo);
         Optional<Room> roomOptional = roomRepository.findById(roomId);
-
-        if (!userOptional.isPresent() || !userOptional.get().isUserStatus()) {
-            mm.put("message", "Not found userid!");
-        } else if (!roomOptional.isPresent() || !userOptional.get().isUserStatus()) {
-            mm.put("message", "Not found roomid!");
+        userId = user.getUserId();
+        if (userId == 0) {
+            mm.put("message", "Không tìm thấy người dùng!");
+        } else if (!roomOptional.isPresent()) {
+            mm.put("message", "Không tìm thấy phòng!");
         } else if(startDate.after(endDate)) {
-            mm.put("message", "Start date must before end date");
+            mm.put("message", "Ngày bắt đầu phải sau ngày kết thúc!");
         }else {
             Optional<RoomType> roomTypeOptional = roomTypeRepository.findById(roomOptional.get().getTypeId());
             if(roomTypeOptional.isPresent() && roomTypeOptional.get().isRoomTypeStatus()) {
                 RoomType roomType = roomTypeOptional.get();
 
                 try {
-                    double deposit = roomType.getDepositPrice();
-
                     //Contracts contract = new Contracts(startDate, endDate, deposit, userId, roomId, true, null, null, ts);
+
                     Contracts contract = Contracts.builder()
                             .startDate(startDate)
                             .endDate(endDate)
                             .deposit(deposit)
                             .userId(userId)
                             .roomId(roomId)
-                            .contractStatus(true)
+                            .contractStatus(false)
+                            .depositPaymentStatus(false)
                             .createContractTime(ts)
                             .build();
                     contract = contractRepository.save(contract);
 
-                    mm.put("message",  "Create success contract id: " + contract.getContractId());
+                    mm.put("message",  "Tạo thành công hợp đồng" + contract.getContractId());
                 } catch (Exception e) {
-                    mm.put("message", "Create contract error!");
+                    mm.put("message", "Tạo hợp đồng lỗi!");
                 }
 
             } else {
-                mm.put("message", "Not found room typeid!");
+                mm.put("message", "Không tìm thấy kiểu phòng!");
             }
         }
 
-        return getAllContract(mm, session);
+        return "redirect:/api/v1/room/"+roomId;
     }
 
     @RequestMapping(value = "deleteContract")
-    public String deleteContract(@RequestParam("contractid") int contractid, ModelMap mm, HttpSession session) {
+    public String deleteContract(@RequestParam("contractId") int contractId, ModelMap mm, HttpSession session) {
 
-        Contracts contract = contractRepository.findById(contractid).get();
-        if (contract != null && contract.isContractStatus()) {
-            contract.setContractStatus(false);
-            contract = contractRepository.save(contract);
-            if(!contract.isContractStatus())
-                mm.put("message", "Delete Success Contract ID: " + contract.getContractId());
+        Contracts contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hợp đồng có id:" + contractId));
+        if (contract != null && !contract.getContractStatus()) {
+            contractRepository.delete(contract);
+            mm.put("message", "Xoá thành công hợp đồng ID: " + contract.getContractId());
         } else {
-            mm.put("message", "Not found contract id");
+            mm.put("message", "Hợp đồng đã được xác nhận không thể xoá!");
         }
 
-        String getAllContract = getAllContract(mm, session);
-        return getAllContract;
+        int roomId = contract.getRoomId();
+        return "redirect:/api/v1/room/"+roomId;
     }
 
     @RequestMapping(value = "liquidationContract")
-    public String liquidationContract(@RequestParam("contractid") int contractid, ModelMap mm, HttpSession session) {
+    public String liquidationContract(@RequestParam("contractId") int contractId, ModelMap mm, HttpSession session) {
 
-        Contracts contract = contractRepository.findById(contractid).get();
+        Contracts contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hợp đồng có id:" + contractId));
 
-        if (contract != null && contract.isContractStatus() && contract.getContractLiquidationTime() == null) {
+        if (contract != null && contract.getContractStatus() && contract.getContractLiquidationTime()==null) {
 
             java.util.Date date = new java.util.Date();
             Timestamp ts = new Timestamp(date.getTime());
@@ -133,13 +135,13 @@ public class ContractController {
             contract.setContractLiquidationTime(ts);
             contract = contractRepository.save(contract);
             if(contract.getContractLiquidationTime() != null)
-                mm.put("message", "Liquidation Success Contract ID: " + contract.getContractId());
+                mm.put("message", "Thanh lý thành công hợp đồng : " + contract.getContractId());
         } else {
-            mm.put("message", "Not found contract id or contract was liquidation");
+            mm.put("message", "Hợp đồng đã thanh lý hoặc chưa được xác nhận");
         }
 
-        String getAllContract = getAllContract(mm, session);
-        return getAllContract;
+        int roomId = contract.getRoomId();
+        return "redirect:/api/v1/room/"+roomId;
     }
 
     @RequestMapping(value = "getContract/{contractid}")
@@ -147,8 +149,7 @@ public class ContractController {
                                     ModelMap mm, HttpSession session) {
         try {
             Contracts contract = contractRepository.findById(contractid).get();
-            if (contract.isContractStatus()) {
-
+            if (contract.getContractStatus()) {
 
                 mm.put("contract", contract);
             } else {
@@ -169,7 +170,6 @@ public class ContractController {
                                  @RequestParam int userId,
                                  @RequestParam int roomId
             ,ModelMap mm, HttpSession session) {
-
 
         String getAllContract = getAllContract(mm, session);
         return getAllContract;

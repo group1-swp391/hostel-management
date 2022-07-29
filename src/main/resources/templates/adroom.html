@@ -159,10 +159,11 @@
                                          th:src="@{${'/api/v1/room/image/'+room?.roomId}}">
                                 </td>
                                 <td>
+                                    <form>
                                     <input type="hidden" name="roomId" th:value="${room?.roomId}">
-
                                     <button type="submit" class="btn  btn-success fa-solid fa-file" title="Hoá đơn"></button>
-                                    <button type="submit"  th:formaction="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}"  class="btn btn-outline-info" title="Chi tiết phòng">Chi tiết</button>
+                                        <button type="submit"  th:formaction="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}"  class="btn btn-outline-info" title="Chi tiết phòng">Chi tiết</button>
+                                    </form>
                                 </td>
                         </tr>
                         </tbody>

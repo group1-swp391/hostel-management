@@ -29,6 +29,8 @@
         <br><script src ="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" defer></script>
         <br><script src ="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js" defer></script>
 
+
+
         <!--TIỀN PHÒNG-->
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="mb-0">Danh sách tiền phòng</h6>
@@ -63,6 +65,7 @@
             </div>
           </div>
 
+          <!--MODAL TIEN PHONG-->
           <div class="modal" id="myModal15">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -94,8 +97,10 @@
             </div>
           </div>
         </div>
+        <!--KET THUC MODAL TIEN PHONG-->
 
-        <!--        //BẢNG TIỀN PHÒNG-->
+
+        <!--BẢNG TIỀN PHÒNG-->
         <div class="table-responsive text-center">
           <table id="table5" class="table text-start align-middle table-bordered table-hover mb-0">
             <thead>
@@ -129,10 +134,10 @@
             </tbody>
           </table>
         </div>
-        <!--        //KẾT THÚC TIỀN PHÒNG-->
+        <!--//KẾT THÚC TIỀN PHÒNG-->
 
 
-<!--        //TIỆN ÍCH-->
+        <!--//TIỆN ÍCH-->
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="mb-0">Danh sách tiện ích sử dụng</h6>
           <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal1">Thêm tiện ích sử dụng</button>
@@ -176,6 +181,8 @@
               </div>
             </div>
           </div>
+
+<!--          MODEL CAP NHAT TIEN ICH-->
           <div class="modal" id="myModal2">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -220,9 +227,12 @@
               </div>
             </div>
           </div>
+
+        <!--KET THUC MODEL CAP NHAT TIEN ICH-->
         </div>
 
-<!--        //BẢNG TIỆN ÍCH-->
+
+        <!--//BẢNG TIỆN ÍCH-->
         <div class="table-responsive text-center" style="overflow: hidden; white-space: nowrap;">
             <table id="table1" class="table text-start align-middle table-bordered table-hover mb-0">
               <thead>
@@ -267,10 +277,8 @@
             </table>
         </div>
 
-
-<!--        //DỊCH VỤ-->
+          <!--//DỊCH VỤ-->
           <br><br>
-
           <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">Danh sách dịch vụ sử dụng</h6>
               <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal3">Thêm dịch vụ sử dụng</button>
@@ -302,7 +310,6 @@
                           <label>Số lượng sử dụng</label>
                           <input type="number" name="usedQuantity"  style="text-align: center; width: 100px;">
                         </div>
-
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-primary">Thêm</button>
                         </div>
@@ -395,44 +402,54 @@
             </table>
             <br><br>
           </div>
-<!--//KẾT THÚC DỊCH VỤ-->
+            <!--//KẾT THÚC DỊCH VỤ-->
 
 
-<!--        //HỢP ĐỒNG-->
 
+            <!--//HỢP ĐỒNG-->
             <div class="d-flex align-items-center justify-content-between mb-4">
               <h6 class="mb-0">Danh sách hợp đồng</h6>
-              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal6">Thêm dịch vụ sử dụng</button>
+              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal6">Tạo hợp đồng</button>
+
+
+              <!--MODEL THEM HOP DONG-->
               <div class="modal" id="myModal6">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title">Thêm hợp đồng sử dụng</h5>
+                      <h5 class="modal-title">Thêm hợp đồng </h5>
                       <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                      <form id="formInsert6" th:action="@{/api/v1/service/insert-used-service}" method="post">
-                        <label for="floatingInput">Loại dịch vụ</label>
-                        <div>
-                          <select class="form-select" name="servicetypeId" style="text-align: center; width: 100px;">
-                            <option th:each="serviceType : ${room?.roomTypeByTypeId?.hostelByHostelId?.serviceTypesByHostelId}" th:value="${serviceType?.serviceTypeId}" th:text="${serviceType?.serviceName}"></option>
-                          </select>
-                        </div>
+                      <form id="formInsert6" th:action="@{/api/v1/contract/createContract}" method="post">
                         <input type="hidden" name="roomId" th:value="${room.roomId}">
 
                         <div class="form-floating mb-4">
-                          <label>Ngày bắt đầu</label>
-                          <input type="date" name="startDate" >
+                          <label for="startDate">Ngày bắt đầu</label>
+                          <input id="startDate" type="date" name="startDate" th:value="${usedService?.startDate}">
                         </div>
 
                         <div class="form-floating mb-4">
-                          <label>Ngày kết thúc</label>
-                          <input type="date" name="endDate" >
+                          <label for="endDate">Ngày kết thúc</label>
+                          <input id="endDate" type="date" name="endDate" th:value="${usedService?.endDate}">
                         </div>
 
                         <div class="form-floating mb-4">
-                          <label>Số lượng sử dụng</label>
-                          <input type="number" name="usedQuantity"  style="text-align: center; width: 100px;">
+                          <label for="userInfo">SDT hoặc Email hoặc CMND khách hàng:</label>
+                          <input id="userInfo" type="text" name="userInfo">
+                        </div>
+
+                        <div class="form-floating mb-4">
+                          <label for="deposit">Tiền cọc</label>
+                          <input id="deposit" type="text" name="deposit" th:value="${room.roomTypeByTypeId.depositPrice}">
+                        </div>
+
+                        <label for="floatingInput8">Trạng thái tiền cọc</label>
+                        <div>
+                          <select id="floatingInput8" class="form-select" name="depositPaymentStatus" style="text-align: center; width: 100px;">
+                            <option value="false" selected>Chưa thanh toán cọc</option>
+                            <option value="true">Đã thanh toán cọc</option>
+                          </select>
                         </div>
 
                         <div class="modal-footer">
@@ -443,20 +460,21 @@
                   </div>
                 </div>
               </div>
+            <!--KET THUC MODEL THEM HOP DONG-->
             </div>
 
         <div class="modal" id="myModal5">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Cập nhật hợp đồng sử dụng</h5>
+                <h5 class="modal-title">Cập nhật hợp đồng (chưa dùng dc)</h5>
                 <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
               </div>
               <div class="modal-body">
                 <form id="formInsert4" th:action="@{/api/v1/service/update-used-service}" method="post">
-                  <label for="floatingInput">Loại dịch vụ</label>
+                  <label for="floatingInput4">Loại dịch vụ</label>
                   <div>
-                    <select class="form-select" name="servicetypeId" style="text-align: center; width: 100px;">
+                    <select id="floatingInput4" class="form-select" name="servicetypeId" style="text-align: center; width: 100px;">
                       <option th:each="serviceType : ${room?.roomTypeByTypeId?.hostelByHostelId?.serviceTypesByHostelId}" th:value="${serviceType?.serviceTypeId}" th:text="${serviceType?.serviceName}" th:selected="${serviceType?.serviceTypeId==usedService?.servicetypeId}"></option>
                     </select>
                   </div>
@@ -485,16 +503,12 @@
             </div>
           </div>
         </div>
-
-
-
-
-
-
-        <div class="table-responsive text-center"  style="overflow: hidden; white-space: nowrap;">
+        
+        <div class="table-responsive text-center">
               <table id="table3" class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                 <tr class="text-dark">
+                  <th scope="col">ID</th>
                   <th scope="col">Tên khách hàng</th>
                   <th scope="col">SĐT</th>
                   <th scope="col">Email</th>
@@ -502,7 +516,8 @@
                   <th scope="col">Ngày bắt đầu</th>
                   <th scope="col">Ngày kết thúc</th>
                   <th scope="col">Tiền cọc</th>
-                  <th scope="col">Thanh toán tiền cọc</th>
+                  <th scope="col">T/t cọc</th>
+                  <th scope="col">Trạng thái</th>
                   <th scope="col">Ngày tạo</th>
                   <th scope="col">Ngày thanh lý</th>
                   <th scope="col">Tuỳ chọn</th>
@@ -510,17 +525,29 @@
                 </thead>
                 <tbody>
                 <tr th:each="contract: ${contracts}">
+                  <td th:text="${contract?.contractId}"></td>
                   <td th:text="${contract?.usersByUserId?.fullName}"></td>
                   <td th:text="${contract?.usersByUserId?.phone}"></td>
                   <td th:text="${contract?.usersByUserId?.email}"></td>
-                  <td th:text="${contract?.usersByUserId?.fullName}"></td>
+                  <td th:text="${contract?.usersByUserId?.documentId}"></td>
                   <td th:text="${contract?.startDate}"></td>
                   <td th:text="${contract?.endDate}"></td>
                   <td th:text="${contract?.deposit}"></td>
-                  <td th:text="${contract?.depositPaymentStatus}"></td>
+                  <td th:text="${contract?.depositPaymentStatus} == true ? 'Đã đóng' : 'Chưa đóng'"></td>
+                  <td th:text="${contract?.contractStatus} == true ? 'Đã xác nhận' : 'Chờ k/h xác nhận'"></td>
                   <td th:text="${contract?.createContractTime}"></td>
-                  <td th:text="${contract?.contractLiquidationTime}"></td>
-                  <td>Test</td>
+                  <td th:text="${contract?.contractLiquidationTime} == null ? '[Chưa]' : ${contract?.contractLiquidationTime}"></td>
+
+                  <td>
+                    <form th:action="@{/api/v1/contract/liquidationContract}" method="post">
+                  <input type="hidden" name="contractId" th:value="${contract?.contractId}">
+                  <button type="submit">Thanh lý</button>
+                  </form>
+                  <form th:action="@{/api/v1/contract/deleteContract}" method="post">
+                    <input type="hidden" name="contractId" th:value="${contract?.contractId}">
+                    <button type="submit">Xoá</button>
+                  </form>
+                  </td>
                 </tr>
                 </tbody>
               </table>
