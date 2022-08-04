@@ -41,7 +41,8 @@ public class HometroController {
 
     @RequestMapping(value = "history-booking")
     public String historyBookingSite(){ return "redirect:/api/v1/booking/"; }
-
+    @RequestMapping(value = "history-invoice")
+    public String historyInvoiceSite(){ return "redirect:/api/v1/invoice/historyinvoice"; }
     @RequestMapping(value = "view-contract")
     public String getContractSite(){ return "redirect:/api/v1/contract/viewcontract"; }
 
@@ -50,6 +51,10 @@ public class HometroController {
         redirectAttributes.addFlashAttribute("contractID", id);
         return "redirect:/api/v1/contract/viewcontractdetail";
     }
+    @GetMapping("view-invoice-detail/{id}")
+    public String getDetailInvoiceSite(@PathVariable("id") int id, RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("invoiceID",id);
+        return "redirect:/api/v1/invoice/viewinvoicedetail"; }
 
 
 }

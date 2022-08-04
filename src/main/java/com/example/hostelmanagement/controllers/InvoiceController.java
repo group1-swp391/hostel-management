@@ -301,5 +301,77 @@ public class InvoiceController {
         mm.put("totalRooms", rooms.size());
         return "money";
     }
+    @RequestMapping(value = "historyinvoice")
+    public String historyInvoiceSite(ModelMap mm, HttpSession session) {return getAllHistoryInvoice(mm,session);}
+
+    @RequestMapping(value = "getAllHistoryInvoice")
+    public String getAllHistoryInvoice(ModelMap mm, HttpSession session){
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            mm.put("message", "Need login first");
+            return "login";
+        }
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        List<Invoice> invoicesByIdUser = new ArrayList<>();
+
+        for(Invoice i:invoiceList ){
+            if(i.getUserId() == accSession.getUserId()){
+                invoicesByIdUser.add(i);
+//                    i.isPaymentStatus()
+//                i
+            }
+        }
+        User u = userRepository.findOneByUserId(accSession.getUserId());
+        mm.put("invoices",invoicesByIdUser);
+        mm.put("user",u);
+        return "historybooking";
+    }
+    @RequestMapping(value = "viewinvoicedetail")
+    public String getDetailInvoiceSite(ModelMap mm,HttpSession session,@ModelAttribute("invoiceID") int invoiceid){return getDetailInvoiceBy(mm,session,invoiceid);}
+
+    @RequestMapping(value = "getDetailInvoiceBy")
+    public String getDetailInvoiceBy( ModelMap mm, HttpSession session,int invoiceID){
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            mm.put("message", "Need login first");
+            return "login";
+        }
+        Optional<Invoice> inv = invoiceRepository.findById(invoiceID);
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        List<Invoice> invoicesByIdUser = new ArrayList<>();
+        List<RoomCharge> roomchargeList = roomChargeRepository.findAll();
+        List<RoomCharge> roomchargebyinvoiceID = new ArrayList<>();
+        List<UsedUtility> usedUtilityList = usedUtilityRepository.findAll();
+        List<UsedUtility> usedUtilityByInvoiceID = new ArrayList<>();
+        List<UsedService> usedServiceList= usedServiceRepository.findAll();
+        List<UsedService> usedServiceByInvoiceID = new ArrayList<>();
+
+
+
+        for(RoomCharge r:roomchargeList ){
+            if(r.getInvoiceId() == invoiceID){
+                roomchargebyinvoiceID.add(r);
+            }
+        }
+        for(UsedUtility uu:usedUtilityList ){
+            if(uu.getInvoiceId() == invoiceID){
+                usedUtilityByInvoiceID.add(uu);
+//                        uu.getUtilityTypeByUtilityTypeId().getPricePerIndex()
+            }
+        }
+        for(UsedService us:usedServiceList ){
+            if(us.getInvoiceId() == invoiceID){
+                usedServiceByInvoiceID.add(us);
+//                        us.getUsedQuantity()
+            }
+        }
+
+        mm.put("invoicedetail",inv.get());
+        mm.put("moneyroom",roomchargebyinvoiceID);
+        mm.put("utiliti",usedUtilityByInvoiceID);
+        mm.put("service",usedServiceByInvoiceID);
+        return "invoiceuserdetail";
+    }
+
 
 }
