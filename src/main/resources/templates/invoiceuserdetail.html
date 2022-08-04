@@ -190,8 +190,11 @@
                 text-align: center;
                 text-decoration: none;
                 display: inline-block;
-                font-size: 16px;">Hóa đơn</span>
-
+                font-size: 16px;">Hóa đơn </span>
+                <p th:text="${invoicedetail?.paymentStatus} == true ? 'Đã thanh toán' : 'Chưa thanh toán'"></p>
+                <form th:action="@{/api/v1/Payment/{invoiceId}(invoiceId=${invoicedetail?.invoiceId})}">
+                    <button class="btn btn-success">Thanh Toán</button>
+                </form>
 
             </div>
             <div class="card-body">
@@ -281,6 +284,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- Footer Start -->
     <footer class="section footer-classic context-dark bg-image" style="background: #03262c;margin-top: 50px;">

@@ -311,21 +311,19 @@ public class InvoiceController {
             mm.put("message", "Need login first");
             return "login";
         }
-        List<Invoice> invoiceList = invoiceRepository.findAll();
-        List<Invoice> invoicesByIdUser = new ArrayList<>();
 
-        for(Invoice i:invoiceList ){
-            if(i.getUserId() == accSession.getUserId()){
-                invoicesByIdUser.add(i);
-//                    i.isPaymentStatus()
-//                i
-            }
-        }
-        User u = userRepository.findOneByUserId(accSession.getUserId());
+
+        User user = userRepository.findOneByUserId(accSession.getUserId());
+
+        Collection<Invoice> invoicesByIdUser = user.getInvoicesByUserId();
+
         mm.put("invoices",invoicesByIdUser);
-        mm.put("user",u);
+        mm.put("user",user);
         return "historybooking";
     }
+
+
+
     @RequestMapping(value = "viewinvoicedetail")
     public String getDetailInvoiceSite(ModelMap mm,HttpSession session,@ModelAttribute("invoiceID") int invoiceid){return getDetailInvoiceBy(mm,session,invoiceid);}
 
