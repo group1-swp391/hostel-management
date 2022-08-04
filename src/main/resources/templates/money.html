@@ -93,8 +93,8 @@
                 </div>
                 <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
-                        <h6 class="mb-4">Multiple Bar Chart</h6>
-                        <canvas id="grouped-bar-chart"></canvas>
+                        <h6 class="mb-4">Số lượng phòng trống từng nhà trọ</h6>
+                        <canvas id="empty-bar-chart"></canvas>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xl-6">
@@ -201,7 +201,7 @@ var barChart = new Chart(bc, {
     data: {
         labels: [[${amountOfHostel.keySet()}]],
         datasets: [{
-            backgroundColor: ["pur  ple","yellow","green","blue"],
+            backgroundColor: ["purple","yellow","green","blue"],
             data: [[${amountOfHostel.values()}]]
         }]
     },
@@ -214,7 +214,7 @@ var barChart = new Chart(bc, {
 });
 </script>
 <script th:inline="javascript"> //Grouped bar chart
-var bc = $("#grouped-bar-chart").get(0).getContext("2d");
+var bc = $("#empty-bar-chart").get(0).getContext("2d");
 var barChart = new Chart(bc, {
     type: 'bar',
     data: {
@@ -222,12 +222,8 @@ var barChart = new Chart(bc, {
         datasets: [
             {
                 label: "Phòng trống",
-                backgroundColor: "#3e95cd",
-                //data: [[${totalRoomTrue}]]
-            }, {
-                label: "Phòng đã được thuê",
-                backgroundColor: "#8e5ea2",
-                //data: [[${totalRoomFalse}]]
+                backgroundColor: ["purple","yellow","green","blue"],
+                data: [[${totalRoomStatus.values()}]]
             }
         ]
     },

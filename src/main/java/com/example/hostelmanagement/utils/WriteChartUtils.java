@@ -62,28 +62,17 @@ public class WriteChartUtils {
                         })));
         return usersInHostel;
     }
-    public static HashMap<String, int[]> getTotalRoomStatus() {
-        HashMap<String, int[]> totalRoomStatus = new HashMap<>();
+    public static HashMap<String, Integer> getTotalRoomStatus() {
+        HashMap<String, Integer> totalRoomStatus = new HashMap<>();
         hostel.forEach(h -> h.getRoomTypesByHostelId().
                 forEach(rt -> rt.getRoomsByTypeId().
                         forEach(r -> {
                             if (r.getUserId()==null) {
                                 if (totalRoomStatus.containsKey(h.getHostelName())){
-                                    int[] temp_arr = totalRoomStatus.get(h.getHostelName());
-                                    temp_arr[0]++;
-                                    totalRoomStatus.put(h.getHostelName(), temp_arr);
+                                    totalRoomStatus.put(h.getHostelName(), totalRoomStatus.get(h.getHostelName())+1);
                                 }
                                 else{
-                                    totalRoomStatus.put(h.getHostelName(), new int[]{0,0});
-                                }
-                            }else{
-                                if (totalRoomStatus.containsKey(h.getHostelName())){
-                                    int[] temp_arr = totalRoomStatus.get(h.getHostelName());
-                                    temp_arr[1]++;
-                                    totalRoomStatus.put(h.getHostelName(), temp_arr);
-                                }
-                                else{
-                                    totalRoomStatus.put(h.getHostelName(), new int[]{0,0});
+                                    totalRoomStatus.put(h.getHostelName(), 1);
                                 }
                             }
                         })));
