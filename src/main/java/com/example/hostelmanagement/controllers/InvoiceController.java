@@ -290,9 +290,15 @@ public class InvoiceController {
         mm.put("amountOfHostel", WriteChartUtils.getPriceOfEachHostel());
         mm.put("usersInHostel", WriteChartUtils.getTotalUserInHostel());
 
+        mm.put("totalHostel", hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(loginUser.getUserId()).size());
         mm.put("totalRoomStatus", WriteChartUtils.getTotalRoomStatus());
         mm.put("listYear", listYears);
 
+        List<Room> rooms = new ArrayList<>();
+        hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(loginUser.getUserId()).forEach(
+                h -> h.getRoomTypesByHostelId().forEach(rt -> rt.getRoomsByTypeId().forEach(r -> rooms.add(r)))
+        );
+        mm.put("totalRooms", rooms.size());
         return "money";
     }
 

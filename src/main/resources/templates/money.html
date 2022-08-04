@@ -19,11 +19,67 @@
         <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
         <!-- Navbar End -->
         <!-- Select year -->
-        <form action="/api/v1/invoice/money">
-            <select name="yearOptional" class="form-select" aria-label="Default select example">
-                <option th:each="year : ${listYear}" th:text="${year}" th:value="${year}"></option>
-            </select>
-            <input type="submit" th:value="Chon">
+        <form style="border: 2px solid red;" action="/api/v1/invoice/money">
+            <div style="margin: 10px 0px 10px 25px;">
+                <h5>Dashboard</h5>
+            </div>
+            <div class="row" style="margin: 10px;">
+
+                <div class="col-3">
+                    <div style="margin-top: 15px;">
+                        <i>Năm</i>
+                        <select name="yearOptional" style="width: 100%; border: 1px solid #00ca8e;">
+                            <option th:each="year : ${listYear}" th:text="${year}" th:value="${year}"></option>
+
+                        </select>
+                        <input type="submit" th:value="Chon">
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <i class="card-title">Tổng số nhà trọ</i>
+                                <h2 class="card-text" th:text="${totalHostel}"></h2>
+                            </div>
+                            <div class="col-4">
+                                <i class="fa-solid fa-house" style="font-size: 30px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <i class="card-title">Tổng số phòng</i>
+                                <h2 class="card-text" th:text="${totalRooms}"></h2>
+                            </div>
+                            <div class="col-4">
+                                <i class="fa-solid fa-person-booth" style="font-size: 30px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <i class="card-title">Tổng doanh thu</i>
+                                <h2 class="card-text gains" style="color: #00ca8e;" th:text="${#aggregates.sum(amountOfHostel.values())}"></h2>
+                            </div>
+
+                            <div class="col-4">
+                                <i class="fa-solid fa-money-bill" style="font-size: 30px;"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </form>
         <!-- End Select year -->
         <!-- Chart Start -->
