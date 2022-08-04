@@ -77,7 +77,7 @@
                                     <button type="button" class="btn fa-solid fa-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form th:action="@{/api/v1/room/update}" method="post">
+                                    <form th:action="@{/api/v1/room/update}" method="post" enctype="multipart/form-data">
 
                                         <input type="hidden" name="roomId" th:value="${room?.roomId}" class="form-control">
 
@@ -99,7 +99,7 @@
 
                                         <div class="form-floating mb-4">
                                             <label>Mô tả</label>
-                                            <textarea class="form-control" id="describe1" name="description" th:value="${room?.description}"></textarea>
+                                            <textarea class="form-control" id="describe1" name="description" th:utext="${room?.description}"></textarea>
                                         </div>
 
                                         <div class="modal-footer">
