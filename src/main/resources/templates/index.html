@@ -110,13 +110,11 @@
                   id="navbarCollapse"
           >
             <div class="navbar-nav mr-auto py-0">
-              <a href="/" class="nav-item nav-link active">Home</a>
-              <!-- <a href="about.html" class="nav-item nav-link">About</a> -->
-              <!-- <a href="service.html" class="nav-item nav-link">Services</a> -->
-              <a href="/api/v1/hometro/to-room" class="nav-item nav-link">Rooms</a>
+              <a href="/" class="nav-item nav-link active">Trang chủ</a>
+              <a href="/api/v1/hometro/to-room" class="nav-item nav-link">Thuê phòng</a>
             </div>
             <div class="navbar-nav mr-auto py-0">
-              <a th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'show-info':'login')}" class="nav-item nav-link" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n} : 'LOGIN'"></a>
+              <a th:href="@{/api/v1/user/{name}(name=${#session?.getAttribute('LOGIN_USER')} ? 'show-info':'login')}" class="nav-item nav-link" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n} : 'Đăng nhập'"></a>
             </div>
 
 
