@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -175,8 +176,46 @@ public class ContractController {
         return getAllContract;
     }
 
+    @RequestMapping(value = "viewcontract")
+    public String getContractSite(ModelMap mm, HttpSession session) {return getContractBy(mm,session);}
 
+    @RequestMapping(value = "getContractBy")
+    public String getContractBy(ModelMap mm, HttpSession session) {
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            mm.put("message", "Need login first");
+            return "login";
+        }
+        List<Contracts> contractList = contractRepository.findAll();
+        List<Contracts> contractsByIdUser = new ArrayList<>();
 
+        for(Contracts c:contractList ){
+            if(c.getUserId() == accSession.getUserId()){
+                contractsByIdUser.add(c);
+//                c.getDeposit()
+            }
+        }
+        User u = userRepository.findOneByUserId(accSession.getUserId());
+
+        mm.put("Contracts",contractsByIdUser);
+        mm.put("user",u);
+        return "usercontract";
+    }
+    @RequestMapping(value = "viewcontractdetail")
+    public String getDetailContractSite(ModelMap mm, HttpSession session, @ModelAttribute("contractID") int contractID) {return getDetailContract(contractID,mm,session);}
+
+    @RequestMapping (value = "getDetailContract")
+    public String getDetailContract(int contractID, ModelMap mm, HttpSession session){
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            mm.put("message", "Need login first");
+            return "login";
+        }
+        Optional<Contracts> contract = contractRepository.findById(contractID);
+
+        mm.put("contractdetail",contract.get());
+        return "contractuserdetail";
+    }
 
 
 }

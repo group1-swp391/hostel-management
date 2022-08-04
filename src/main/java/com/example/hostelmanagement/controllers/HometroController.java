@@ -1,6 +1,9 @@
 package com.example.hostelmanagement.controllers;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "api/v1/hometro")
@@ -35,7 +38,19 @@ public class HometroController {
     public String getRoomChargeSite() {
         return "redirect:/api/v1/roomcharge/";
     }
+
     @RequestMapping(value = "history-booking")
     public String historyBookingSite(){ return "redirect:/api/v1/booking/"; }
+
+    @RequestMapping(value = "view-contract")
+    public String getContractSite(){ return "redirect:/api/v1/contract/viewcontract"; }
+
+    @GetMapping(value = "view-contract-detail/{id}")
+    public String getDetailContractSite(@PathVariable("id") int id, RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("contractID", id);
+        return "redirect:/api/v1/contract/viewcontractdetail";
+    }
+
+
 }
 
