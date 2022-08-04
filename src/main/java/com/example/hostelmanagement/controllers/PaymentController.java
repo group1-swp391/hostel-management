@@ -1,5 +1,6 @@
 package com.example.hostelmanagement.controllers;
 
+import com.example.hostelmanagement.entities.Contracts;
 import com.example.hostelmanagement.entities.Invoice;
 import com.example.hostelmanagement.repositories.*;
 import com.example.hostelmanagement.utils.Momo.config.Environment;
@@ -128,6 +129,105 @@ public class PaymentController {
                 invoice.setPaymentStatus(true);
                 invoiceRepository.save(invoice);
                 mm.put("message", "Thanh toán thành công hoá đơn!");
+            }
+
+        } catch (Exception ex) {
+            mm.put("message", "Có lỗi đã xảy ra!");
+        }
+        return "test2";
+    }
+
+
+    @RequestMapping(value = "/contract/{contractId}")
+    public String createPaymentDeposit(ModelMap mm,
+                                       HttpSession session,
+                                       @PathVariable int contractId
+    ) throws Exception {
+        try {
+            LogUtils.init();
+
+            String requestId = String.valueOf(System.currentTimeMillis());
+
+            String orderId = String.valueOf(System.currentTimeMillis()) + "_ContractDepositID" + contractId;
+
+            Contracts contract = contractRepository.findById(contractId)
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hợp đồng: " + contractId));
+
+            if (contract.getDepositPaymentStatus()) {
+                mm.put("message", "Tiền cọc này đã được thanh toán thành công!!!");
+                return "test2";
+            }
+
+            long amount = (long) contract.getDeposit();
+            String orderInfo = "TienCocHopDongID" + contract.getContractId();
+
+            String returnURL = "http://localhost:8080/api/v1/Payment/contract/queryPayment";
+            String notifyURL = "http://localhost:8080/api/v1/Payment/contract/queryPayment";
+
+            //GET this from HOSTEL OWNER
+            //Exampe owner.getSecretKey
+            String partnerCode = "MOMOMWNB20210129";
+            String accessKey = "nkDyGIefYvOL9Nyg";
+            String secretKey = "YaCm3DJAJuAV9jGmwauQ0mwT6FpqYiOI";
+            String endPoint = "https://test-payment.momo.vn/v2/gateway/api";
+
+            PartnerInfo partnerInfo = new PartnerInfo(partnerCode, accessKey, secretKey);
+
+            Environment environment = Environment.selectEnv("dev");
+            environment.setPartnerInfo(partnerInfo);
+            //Payment Method- Phương thức thanh toán
+            PaymentResponse captureWalletMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId, Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.CAPTURE_WALLET);
+            //PaymentResponse captureATMMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId, Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.PAY_WITH_ATM);
+            //PaymentResponse captureCreditMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId, Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.PAY_WITH_CREDIT);
+
+            String redirectLink = captureWalletMoMoResponse.getPayUrl().toString();
+            return "redirect:" + redirectLink;
+
+        } catch (Exception ex) {
+            mm.put("messages", "Error");
+        }
+        mm.put("messages", "Error");
+        return "test2";
+    }
+
+    @RequestMapping(value = "/contract/queryPayment")
+    public String queryPayment1(ModelMap mm,
+                                HttpSession session,
+                                @RequestParam String orderId,
+                                @RequestParam String requestId
+    ) throws Exception {
+        try {
+            LogUtils.init();
+
+            //GET this from HOSTEL OWNER
+            //Exampe owner.getSecretKey
+            String partnerCode = "MOMOMWNB20210129";
+            String accessKey = "nkDyGIefYvOL9Nyg";
+            String secretKey = "YaCm3DJAJuAV9jGmwauQ0mwT6FpqYiOI";
+            String endPoint = "https://test-payment.momo.vn/v2/gateway/api";
+
+            PartnerInfo partnerInfo = new PartnerInfo(partnerCode, accessKey, secretKey);
+            Environment environment = Environment.selectEnv("dev");
+            environment.setPartnerInfo(partnerInfo);
+            QueryStatusTransactionResponse queryStatusTransactionResponse = QueryTransactionStatus.process(environment, orderId, requestId);
+
+            String check = queryStatusTransactionResponse.getMessage();
+            if (check.equalsIgnoreCase("Successful.")) {
+                String toSplit = orderId;
+
+                String result[] = toSplit.split("ID");
+                String returnValue = result[result.length - 1];
+
+                int contractId = Integer.parseInt(returnValue);
+                Contracts contract = contractRepository.findById(contractId)
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy mã hợp đồng:" + contractId));
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+                contract.setDepositPaymentStatus(true);
+
+                contractRepository.save(contract);
+
+                mm.put("message", "Thanh toán thành công tiền cọc!");
             }
 
         } catch (Exception ex) {

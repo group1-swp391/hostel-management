@@ -32,6 +32,9 @@ public class HostelContoller {
                                  ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute("LOGIN_USER");
 
+        if (user == null) {
+            return "redirect:/api/v1/user/login";
+        }
 
         List<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(user.getUserId());
         hostels.forEach(hostel -> {
@@ -60,6 +63,9 @@ public class HostelContoller {
                                @RequestParam double waterValue,
                                ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute("LOGIN_USER");
+        if (user == null) {
+            return "redirect:/api/v1/user/login";
+        }
         hostelObj.setOwnerHostelId(user.getUserId());
         hostelObj.setHostelStatus(true);
         hostelRepository.save(hostelObj);
@@ -75,7 +81,11 @@ public class HostelContoller {
     public String updateHostel(@RequestParam int hostelId,
                                @RequestParam String address,
                                @RequestParam String hostelName,
-                               ModelMap mm) {
+                               ModelMap mm, HttpSession session) {
+        User user = (User) session.getAttribute("LOGIN_USER");
+        if (user == null) {
+            return "redirect:/api/v1/user/login";
+        }
         Hostel hostel = hostelRepository.findById(hostelId).get();
         hostel.setHostelName(hostelName);
         hostel.setAddress(address);
@@ -85,7 +95,11 @@ public class HostelContoller {
     }
 
     @RequestMapping(value = "delete")
-    public String deleteHostel(@RequestParam int hostelId, ModelMap mm) {
+    public String deleteHostel(@RequestParam int hostelId, ModelMap mm, HttpSession session) {
+        User user = (User) session.getAttribute("LOGIN_USER");
+        if (user == null) {
+            return "redirect:/api/v1/user/login";
+        }
         Hostel hostel = hostelRepository.findById(hostelId).get();
         hostel.setHostelStatus(false);
         hostelRepository.save(hostel);

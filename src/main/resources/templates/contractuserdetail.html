@@ -192,9 +192,20 @@
     </div>
 
     <div style="margin-left: 1170px;margin-top: 20px;">
+        <form th:action="@{/api/v1/Payment/contract/{contractId}(contractId=${contractdetail.contractId})}" method="POST">
+            <input type="hidden" name="contractId" th:value="${contractdetail.contractId}">
         <button class="btn btn-success">Thanh Toán Tiền Cọc</button>
-        <button class="btn btn-success">Đồng ý</button>
+        </form>
+
+        <form th:action="@{/api/v1/contract/confirmContract}" method="POST">
+            <input type="hidden" name="contractId" th:value="${contractdetail.contractId}">
+        <button class="btn btn-success" type="submit">Đồng ý</button>
+        </form>
+
+        <form th:action="@{/api/v1/contract/viewcontract}" method="POST">
         <button class="btn btn-danger">Hủy</button>
+        </form>
+
     </div>
 
 

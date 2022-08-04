@@ -2,24 +2,15 @@ package com.example.hostelmanagement.controllers;
 
 import com.example.hostelmanagement.entities.*;
 import com.example.hostelmanagement.repositories.*;
-import com.example.hostelmanagement.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +42,8 @@ public class ContractController {
 
         return "contract";
     }
+
+
 
     @PostMapping(value = "createContract")
     public String createContract(@RequestParam("startDate") java.sql.Date startDate,
@@ -88,7 +81,7 @@ public class ContractController {
                             .userId(userId)
                             .roomId(roomId)
                             .contractStatus(false)
-                            .depositPaymentStatus(false)
+                            .depositPaymentStatus(depositPaymentStatus)
                             .createContractTime(ts)
                             .build();
                     contract = contractRepository.save(contract);
@@ -135,6 +128,10 @@ public class ContractController {
 
             contract.setContractLiquidationTime(ts);
             contract = contractRepository.save(contract);
+            Room room = contract.getRoomByRoomId();
+            room.setUserId(null);
+            roomRepository.save(room);
+
             if(contract.getContractLiquidationTime() != null)
                 mm.put("message", "Thanh lý thành công hợp đồng : " + contract.getContractId());
         } else {
@@ -184,7 +181,7 @@ public class ContractController {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             mm.put("message", "Need login first");
-            return "login";
+            return "redirect:/api/v1/user/login";
         }
         List<Contracts> contractList = contractRepository.findAll();
         List<Contracts> contractsByIdUser = new ArrayList<>();
@@ -201,6 +198,7 @@ public class ContractController {
         mm.put("user",u);
         return "usercontract";
     }
+
     @RequestMapping(value = "viewcontractdetail")
     public String getDetailContractSite(ModelMap mm, HttpSession session, @ModelAttribute("contractID") int contractID) {return getDetailContract(contractID,mm,session);}
 
@@ -209,13 +207,46 @@ public class ContractController {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             mm.put("message", "Need login first");
-            return "login";
+            return "redirect:/api/v1/user/login";
         }
         Optional<Contracts> contract = contractRepository.findById(contractID);
 
         mm.put("contractdetail",contract.get());
         return "contractuserdetail";
     }
+
+
+
+
+
+    @PostMapping (value = "confirmContract")
+    public String confirmContract(@RequestParam int contractId, RedirectAttributes redirectAttributes, ModelMap mm, HttpSession session){
+        User accSession = (User) session.getAttribute("LOGIN_USER");
+        if (accSession == null) {
+            mm.put("message", "Need login first");
+
+            return "redirect:/api/v1/user/login";
+        }
+
+        Contracts contract = contractRepository.findById(contractId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy hợp đồng!"));
+
+        if (contract.getUserId() == accSession.getUserId()) {
+            contract.setContractStatus(true);
+            contractRepository.save(contract);
+
+            Room room = contract.getRoomByRoomId();
+            room.setUserId(contract.getUserId());
+            roomRepository.save(room);
+        }
+
+        redirectAttributes.addFlashAttribute("flashAttr","Xác nhận hợp đồng thành công!");
+        return "redirect:/api/v1/contract/viewcontract";
+    }
+
+
+
+
 
 
 }
