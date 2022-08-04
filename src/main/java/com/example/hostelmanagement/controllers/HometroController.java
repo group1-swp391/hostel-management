@@ -18,7 +18,7 @@ public class HometroController {
 
     @RequestMapping(value = "money")
     public String moneySite() {
-        return "money";
+        return "redirect:/api/v1/invoice/money";
     }
 
     @RequestMapping(value = "info")

@@ -4,6 +4,7 @@ package com.example.hostelmanagement.controllers;
 import com.example.hostelmanagement.entities.*;
 import com.example.hostelmanagement.repositories.*;
 import com.example.hostelmanagement.utils.Utils;
+import com.example.hostelmanagement.utils.WriteChartUtils;
 import org.apache.catalina.Host;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.Year;
 import java.util.*;
 
 
@@ -271,20 +273,25 @@ public class InvoiceController {
 
     }
 
+    @RequestMapping(value = "money")
+    public String moneySite(ModelMap mm, HttpSession session, @RequestParam(required = false) Optional<Integer> yearOptional) {
+        User loginUser = (User)session.getAttribute("LOGIN_USER");
+        Calendar cal = Calendar.getInstance();
+        Set<Integer> listYears = new HashSet<>();
+        int year;
 
+        if (yearOptional.isPresent()) {
+            year = yearOptional.get();
+        } else {
+            year = cal.get(Calendar.YEAR);
+        }
+        WriteChartUtils.getHostelList(hostelRepository, loginUser);
+        mm.put("invoicesPrice", WriteChartUtils.getPricePerMonth(listYears, year, cal));
+        mm.put("amountOfHostel", WriteChartUtils.getPriceOfEachHostel());
+        mm.put("usersInHostel", WriteChartUtils.getTotalUserInHostel());
 
-
-
-
-
-
-    @RequestMapping(value="test2")
-    public String test11(ModelMap mm) {
-        Invoice invoice = invoiceRepository.findById(3).get();
-
-        mm.put("invoice", invoice);
-
-
+        mm.put("totalRoomStatus", WriteChartUtils.getTotalRoomStatus());
+        mm.put("listYear", listYears);
 
         return "money";
     }

@@ -31,6 +31,8 @@ public class HostelContoller {
                                  @RequestParam(required = false) Optional<Integer> updateHostelId,
                                  ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute("LOGIN_USER");
+
+
         List<Hostel> hostels = hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(user.getUserId());
         hostels.forEach(hostel -> {
             AtomicInteger roomNumber = new AtomicInteger();
@@ -46,6 +48,7 @@ public class HostelContoller {
                 mm.put("hostel", hostel);
             }
         }
+
         mm.put("hostels", hostels);
 
         return "hostpage";

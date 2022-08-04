@@ -62,8 +62,8 @@ public class RoomController {
         return "redirect:";
     }
 
-    @PostMapping(value = "delete")
-    public String deleteRoom(RedirectAttributes redirectAttributes, @RequestParam(value = "roomId") int roomId) {
+    @RequestMapping(value = "delete")
+    public String deleteRoom(RedirectAttributes redirectAttributes, @RequestParam int roomId) {
         //Check authorization
         //...
         Room room = roomRepository.findById(roomId)
@@ -78,7 +78,7 @@ public class RoomController {
 
     @PostMapping(value = "update")
     public String updateRoom(RedirectAttributes redirectAttributes, @RequestParam int roomId, @RequestParam int roomNumber,
-                             @RequestParam int typeId , @RequestParam Part image, @RequestParam String description) throws IOException {
+                             @RequestParam Part image, @RequestParam String description) throws IOException {
         //Check authorization here
         //...
         try{
@@ -87,7 +87,6 @@ public class RoomController {
             //Validate data here
             ///..
             room.setRoomNumber(roomNumber);
-            room.setTypeId(typeId);
             room.setDescription(description);
 
             if (image.getSize()>0) room.setImage(Utils.getByteImage(image));
@@ -100,8 +99,10 @@ public class RoomController {
         }
     }
 
-    @GetMapping(value = "/")
-    public String getAllRooms(ModelMap mm, HttpSession session) {
+    @GetMapping(value = "")
+    public String getAllRooms(ModelMap mm, HttpSession session,
+                              @RequestParam(required = false) Optional<Boolean> updateRoom,
+                              @RequestParam(required = false) Optional<Integer> updateRoomId) {
         User accSession = (User) session.getAttribute("LOGIN_USER");
         if (accSession == null) {
             mm.put("message", "Đăng nhập để tiếp tục");
@@ -111,8 +112,22 @@ public class RoomController {
         List<Room> rooms = new ArrayList<>();
         hostelRepository.findAllByOwnerHostelIdAndHostelStatusIsTrue(owner)
                 .forEach(hostel -> hostel.getRoomTypesByHostelId().forEach(roomType -> rooms.addAll(roomType.getRoomsByTypeId())));
+
+        if (updateRoom.isPresent() && updateRoomId.isPresent()) {
+            if (updateRoom.get()) {
+                Room room = roomRepository.findById(updateRoomId.get())
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy phòng!"));
+                mm.put("room", room);
+            }
+        }
+
+
+
         mm.put("rooms", rooms);
         mm.put("roomTypes", getRoomTypes(owner));
+
+
+
         return "adroom";
     }
 

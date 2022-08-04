@@ -18,21 +18,53 @@
         <!-- Navbar Start -->
         <nav th:replace="~{hostpage :: nav.navbarfrag}"></nav>
         <!-- Navbar End -->
+        <!-- Select year -->
+        <form action="/api/v1/invoice/money">
+            <select name="yearOptional" class="form-select" aria-label="Default select example">
+                <option th:each="year : ${listYear}" th:text="${year}" th:value="${year}"></option>
+            </select>
+            <input type="submit" th:value="Chon">
+        </form>
+        <!-- End Select year -->
         <!-- Chart Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
-                <div class="col-sm-12 col-xl-12">
+                <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
                         <h6 class="mb-4">Doanh thu qua các tháng trong năm</h6>
                         <canvas id="line-chart"></canvas>
                     </div>
                 </div>
-                <!-- <div class="col-sm-12 col-xl-6">
+                <div class="col-sm-12 col-xl-6">
                     <div class="bg-light rounded h-100 p-4">
-                        <h6 class="mb-4">Pie Chart</h6>
+                        <h6 class="mb-4">Multiple Bar Chart</h6>
+                        <canvas id="grouped-bar-chart"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Multiple Line Chart</h6>
+                        <canvas id="salse-revenue"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Doanh thu của các nhà trọ</h6>
+                        <canvas id="bar-chart"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Tổng số lượng người thuê ở từng nhà trọ</h6>
                         <canvas id="pie-chart"></canvas>
                     </div>
-                </div> -->
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4" th:text="${'Tổng doanh thu: '+#aggregates.sum(amountOfHostel.values())}"></h6>
+                        <canvas id="doughnut-chart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- Chart End -->
@@ -43,21 +75,19 @@
 <!-- JavaScript Libraries -->
 <th:block th:insert="~{hostpage :: script}"></th:block>
 
-<script th:inline="javascript">
-    var x = [[${invoice.totalAmount}]];
-    alert(x);
-
+<script th:inline="javascript"> //Line chart
+    var x = [[${invoicesPrice.values()}]];
+    //alert(x);
     var ctx3 = $("#line-chart").get(0).getContext("2d");
     var myChart3 = new Chart(ctx3, {
         type: "line",
         data: {
-            for:
-            labels: [6, 7, 8],
+            labels: [[${invoicesPrice.keySet()}]],
             datasets: [{
                 label: "VNĐ",
                 fill: false,
                 backgroundColor: "rgba(0, 156, 255, .3)",
-                data: [1000, 1000, 500]
+                data: x,
             }]
         },
         options: {
@@ -65,8 +95,93 @@
         }
     });
 </script>
-
-
+<script th:inline="javascript"> //Pie chart
+var pc = $("#pie-chart").get(0).getContext("2d");
+var barColors = [
+    "rgba(0,0,255,1.0)",
+    "rgba(0,0,255,0.8)",
+    "rgba(0,0,255,0.6)",
+    "rgba(0,0,255,0.4)",
+    "rgba(0,0,255,0.2)",
+];
+var barChart = new Chart(pc, {
+    type: "pie",
+    data: {
+        labels: [[${usersInHostel.keySet()}]],
+        datasets: [{
+            backgroundColor: barColors,
+            data: [[${usersInHostel.values()}]]
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+        }
+    }
+});
+</script>
+<script th:inline="javascript"> //Bar chart
+    var bc = $("#bar-chart").get(0).getContext("2d");
+    var barChart = new Chart(bc, {
+        type: "bar",
+        data: {
+            labels: [[${amountOfHostel.keySet()}]],
+            datasets: [{
+                label: "VNĐ",
+                backgroundColor: ["red","green","blue"],
+                data: [[${amountOfHostel.values()}]]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+<script th:inline="javascript"> //Doughnut chart
+var bc = $("#doughnut-chart").get(0).getContext("2d");
+var barChart = new Chart(bc, {
+    type: "doughnut",
+    data: {
+        labels: [[${amountOfHostel.keySet()}]],
+        datasets: [{
+            backgroundColor: ["pur  ple","yellow","green","blue"],
+            data: [[${amountOfHostel.values()}]]
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+        }
+    }
+});
+</script>
+<script th:inline="javascript"> //Grouped bar chart
+var bc = $("#grouped-bar-chart").get(0).getContext("2d");
+var barChart = new Chart(bc, {
+    type: 'bar',
+    data: {
+        labels: [[${totalRoomStatus.keySet()}]],
+        datasets: [
+            {
+                label: "Phòng trống",
+                backgroundColor: "#3e95cd",
+                //data: [[${totalRoomTrue}]]
+            }, {
+                label: "Phòng đã được thuê",
+                backgroundColor: "#8e5ea2",
+                //data: [[${totalRoomFalse}]]
+            }
+        ]
+    },
+    options: {
+        title: {
+            display: true,
+        }
+    }
+});
+</script>
 </body>
 
 </html>

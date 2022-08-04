@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class="container-xxl position-relative bg-white d-flex p-0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- Spinner Start -->
     <div th:replace="~{hostpage :: div#spinner}"></div>
     <!-- Spinner End -->
@@ -85,12 +86,13 @@
                                             <input type="text" th:value="${room?.roomNumber}" name="roomNumber" class="form-control" placeholder="Số phòng">
                                         </div>
 
+
                                         <div class="form-floating mb-4">
                                             <label>Hình ảnh</label>
                                             </br>
                                             <input type="file" name="image" id="inpFile1">
                                             <div class="image-preview1" id="imagePreview1">
-                                                <img src="" alt="Image Preview" class="image-preview__image1" th:src="@{${'/api/v1/room/image/'+room?.roomId}}">
+                                                <img src=""  width="50" height="50" alt="Image Preview" class="image-preview__image1" th:src="@{${'/api/v1/room/image/'+room?.roomId}}">
                                                 <span class="image-preview__default-text1" >Hình phòng</span>
                                             </div>
                                         </div>
@@ -114,8 +116,8 @@
                         $(document).ready(function(){
                             const queryString = window.location.search;
                             const urlParams = new URLSearchParams(queryString);
-                            const updateRoomType = urlParams.get('updateRoomType')
-                            if(updateRoomType === 'true'){
+                            const updateRoom = urlParams.get('updateRoom')
+                            if(updateRoom === 'true'){
                                 $("#myModal3").modal('show');
                             } else{
                             }
@@ -161,8 +163,15 @@
                                 <td>
                                     <form>
                                     <input type="hidden" name="roomId" th:value="${room?.roomId}">
-                                    <button type="submit" class="btn  btn-success fa-solid fa-file" title="Hoá đơn"></button>
-                                        <button type="submit"  th:formaction="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}"  class="btn btn-outline-info" title="Chi tiết phòng">Chi tiết</button>
+                                        <button type="submit"  th:formaction="@{/api/v1/room/{roomId}(roomId=${room?.roomId})}" class="btn btn-success fa-solid fa-file" title="Chi tiết phòng"></button>
+                                    </form>
+                                    <form th:action="@{/api/v1/room/delete}">
+                                        <input type="hidden" name="roomId" th:value="${room?.roomId}">
+                                        <button type="submit" class="btn  btn-danger fa-solid fa-trash" value="true"></button>
+                                    </form>
+                                    <form th:action="@{/api/v1/room}">
+                                        <input type="hidden" name="updateRoomId" th:value="${room?.roomId}">
+                                        <button class="btn btn-primary fa-solid fa-save" type="submit" name="updateRoom" value="true"></button>
                                     </form>
                                 </td>
                         </tr>

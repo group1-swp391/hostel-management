@@ -43,7 +43,7 @@
 
                 <a href="/api/v1/service/" class="nav-item nav-link" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/api/v1/service/') ? 'active':''}"><i class="fa-solid fa-house-signal me-2"></i>Dịch
                     vụ</a>
-                <a href="/api/v1/hometro/money" class="nav-item nav-link" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/api/v1/hometro/money') ? 'active':''}"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
+                <a href="/api/v1/hometro/money" class="nav-item nav-link" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/api/v1/hometro/money/') ? 'active':''}"><i class="fa-solid fa-sack-dollar me-2"></i>Doanh
                     thu</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" th:utext="${#session?.getAttribute('LOGIN_USER')} ? ${session.n+#session.getAttribute('LOGIN_USER').getUserName()}:${session.n+'Tài khoản'}"></a>
@@ -187,12 +187,12 @@
 
                                     <form th:action="@{/api/v1/hostel}">
                                         <input type="hidden" name="updateHostelId" th:value="${hostel?.hostelId}">
-                                        <button type="submit" name="updateHostel" value="true">Cập nhật</button>
+                                        <button type="submit" class="btn  btn-primary fa-solid fa-save" name="updateHostel" value="true"></button>
                                     </form>
 
                                     <form th:action="@{/api/v1/hostel/delete}">
                                         <input type="hidden" name="hostelId" th:value="${hostel?.hostelId}">
-                                        <button type="submit" value="true">Xoá</button>
+                                        <button type="submit" class="btn  btn-danger fa-solid fa-trash" value="true"></button>
                                     </form>
                                 </td>
                         </tr>

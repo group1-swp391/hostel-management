@@ -37,8 +37,6 @@ public class Room {
     @Column(name = "roomStatus")
     private boolean roomStatus;
     @OneToMany(mappedBy = "roomByRoomId")
-    private Collection<Booking> bookingsByRoomId;
-    @OneToMany(mappedBy = "roomByRoomId")
     private Collection<Contracts> contractsByRoomId;
     @OneToMany(mappedBy = "roomByRoomId")
     private Collection<Invoice> invoicesByRoomId;
