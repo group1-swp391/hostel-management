@@ -76,14 +76,22 @@ public class UserController {
     }
 
     @PostMapping(value = "register")
-    public String register(@RequestParam("userName") String userName, @RequestParam("password") String password,
+    public String register(@RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("confirm") String confirm,
                            @RequestParam("fullName") String fullName, @RequestParam("gender") boolean gender,
                            @RequestParam("phone") String phone, @RequestParam("email") String email, @RequestParam("documentId") String documentId,
-                           @RequestParam("roleId") int roleId, ModelMap mm) throws IOException {
-        userRepository.save(User.builder().userName(userName).password(password).fullName(fullName)
-                        .gender(gender).phone(phone).email(email).documentId(documentId).roleId(roleId).userStatus(true).build());
-        mm.put("message", "Đăng kí thành công");
-        return "login";
+                           @RequestParam("dateOfBirth") Date dateOfBirth, ModelMap mm) throws IOException {
+        try {
+            if (password.equals(confirm)) {
+                userRepository.save(User.builder().userName(userName).password(password).fullName(fullName)
+                        .gender(gender).phone(phone).email(email).documentId(documentId).dateOfBirth(dateOfBirth).roleId(3).userStatus(true).build());
+                mm.put("message", "Đăng kí thành công!");
+            }
+            return "login";
+        }catch (Exception e) {
+            mm.put("message", "Đăng kí thất bại!");
+            return "register";
+        }
+
     }
 
     @PostMapping(value = "update")
