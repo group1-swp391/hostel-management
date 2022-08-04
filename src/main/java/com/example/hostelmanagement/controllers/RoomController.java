@@ -142,9 +142,10 @@ public class RoomController {
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 
-    //DETAILS  ROOM
     @RequestMapping(value = "/{roomId}")
     public String getRoomDetails(@PathVariable("roomId") int roomId,
+                                 @RequestParam(required = false) Optional<Integer> filterMonth,
+                                 @RequestParam(required = false) Optional<Integer> filterYear,
                                  @RequestParam(required = false) Optional<Boolean> updateUsedUtility,
                                  @RequestParam(required = false) Optional<Integer> updateUsedUtilityId,
                                  @RequestParam(required = false) Optional<Boolean> updateUsedService,
@@ -154,6 +155,7 @@ public class RoomController {
                                  @ModelAttribute("flashAttr") String flashAttr,
                                  ModelMap mm,
                                  HttpSession session) {
+
 
         User accSession = (User) session.getAttribute("LOGIN_USER");
 
@@ -195,16 +197,93 @@ public class RoomController {
         }
 
         Collection<UsedUtility> usedUtilities = room.getTblUsedUtilitiesByRoomId();
-        Collection<UsedService> usedServices = room.getUsedServicesByRoomId();
-        Collection<Contracts> contracts = room.getContractsByRoomId();
-        Collection<RoomCharge> roomCharges = room.getRoomChargesByRoomId();
-        Collection<Invoice> invoices = room.getInvoicesByRoomId();
+        Collection<UsedUtility> usedUtilities1 = new ArrayList<>();
 
-        mm.put("invoices", invoices);
-        mm.put("usedUtilities", usedUtilities);
-        mm.put("usedServices", usedServices);
-        mm.put("contracts", contracts);
-        mm.put("roomCharges", roomCharges);
+        Collection<UsedService> usedServices = room.getUsedServicesByRoomId();
+        Collection<UsedService> usedServices1 = new ArrayList<>();
+
+        Collection<Contracts> contracts = room.getContractsByRoomId();
+        Collection<Contracts> contracts1 = new ArrayList<>();
+
+        Collection<RoomCharge> roomCharges = room.getRoomChargesByRoomId();
+        Collection<RoomCharge> roomCharges1 = new ArrayList<>();
+
+        Collection<Invoice> invoices = room.getInvoicesByRoomId();
+        Collection<Invoice> invoices1 = new ArrayList<>();
+
+        if (filterYear.isPresent() && filterMonth.isPresent()) {
+            for (UsedUtility item: usedUtilities) {
+                Date dat = item.getStartDate();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dat);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int year = cal.get(Calendar.YEAR);
+                if (month == filterMonth.get() && year == filterYear.get()) {
+                    usedUtilities1.add(item);
+                }
+            }
+            mm.put("usedUtilities", usedUtilities1);
+
+            for (UsedService item: usedServices) {
+                Date dat = item.getStartDate();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dat);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int year = cal.get(Calendar.YEAR);
+                if (month == filterMonth.get() && year == filterYear.get()) {
+                    usedServices1.add(item);
+                }
+            }
+            mm.put("usedServices", usedServices1);
+
+            for (Contracts item: contracts) {
+                Date dat = item.getStartDate();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dat);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int year = cal.get(Calendar.YEAR);
+                if (month == filterMonth.get() && year == filterYear.get()) {
+                    contracts1.add(item);
+                }
+            }
+            mm.put("contracts", contracts1);
+
+            for (RoomCharge item: roomCharges) {
+                Date dat = item.getStartDate();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dat);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int year = cal.get(Calendar.YEAR);
+                if (month == filterMonth.get() && year == filterYear.get()) {
+                    roomCharges1.add(item);
+                }
+            }
+            mm.put("roomCharges", roomCharges1);
+
+            for (Invoice item: invoices) {
+                Date dat = item.getInvoiceCreateDate();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dat);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int year = cal.get(Calendar.YEAR);
+                if (month == filterMonth.get() && year == filterYear.get()) {
+                    invoices1.add(item);
+                }
+            }
+            mm.put("invoices", invoices1);
+
+        } else {
+            mm.put("invoices", invoices);
+            mm.put("usedUtilities", usedUtilities);
+            mm.put("usedServices", usedServices);
+            mm.put("contracts", contracts);
+            mm.put("roomCharges", roomCharges);
+        }
+
+
+
+
+
         mm.put("room", room);
 
         mm.put("flashAttr", flashAttr+"");
